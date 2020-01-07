@@ -881,9 +881,8 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
-  updateInterval: 0.25
+  updateInterval: 0.1
   manager: {fileID: 0}
-  auth: {fileID: 0}
   statusText: {fileID: 6726456727475125406}
   accountInput: {fileID: 6726456727993771378}
   accountPasswordInput: {fileID: 6726456727173287794}
