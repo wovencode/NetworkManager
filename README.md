@@ -1,15 +1,12 @@
-# woco-network
- Wovencore Network (Mirror)
-
-WOVENCODE UNITY3d OPEN-SOURCE CLASSES
+NetworkManager (Wovencore)
 ==========================================================================================
-
 by Fhiz (Weaver)
 MIT licensed
+https://github.com/wovencode/
 
 Summary
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-A collection of common scripts that are part of my future Unity3d projects.
+A simple, generic NetworkManager & Authenticator for server based multiplayer games.
 
 Quickstart
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
@@ -21,6 +18,16 @@ Basic Usage
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 * All scripts are in the "wovencode" namespace
 * Add "using wovencode;" to your script headers.
+
+Requirements
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+* Wovencore Tools (https://github.com/wovencode/woco-tools)
+* Wocvencore UI (https://github.com/wovencode/woco-ui)
+* Wovencore Database (https://github.com/wovencode/woco-database)
+
+Contains Open-Source Code
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+* Mirror Networking for Unity (https://github.com/vis2k/Mirror)
 
 Documentation
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
