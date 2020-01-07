@@ -1,3 +1,12 @@
+// =======================================================================================
+// NetworkName
+// by Weaver (Fhiz)
+// MIT licensed
+//
+// Attach this script to any GameObject with a NetworkIdentity on it (like your player
+// prefab) to remove the (Clone) from its name when it is instantiated.
+//
+// =======================================================================================
 
 using Mirror;
 
@@ -16,3 +25,5 @@ public class NetworkName : NetworkBehaviour
     }
     
 }
+
+// =======================================================================================

@@ -37,9 +37,13 @@ namespace wovencode
 		public string msgRegisterFailure 	= "Registration failed!";
 		public string msgDeleteSuccess 		= "Delete successful!";
 		public string msgDeleteFailure 		= "Delete failed!";
+		public string msgVersionMismatch	= "Client out of date!";
 		
 		[Header("Security")]
     	public string accountNameSalt 		= "at_least_16_byte";
+    	
+    	[Header("Settings")]
+		public bool checkApplicationVersion = true;
 		
 		[HideInInspector]public string accountName 						= "";
         [HideInInspector]public string accountPassword					= "";
@@ -100,7 +104,8 @@ namespace wovencode
             {
                 authUsername 	= accountName,
                 authPassword 	= GenerateHash(),
-                authAction 		= accountAction
+                authAction 		= accountAction,
+                authVersion		= Application.version
             };
 
             NetworkClient.Send(authRequestMessage);
@@ -119,59 +124,77 @@ namespace wovencode
 				text			 	= "",
 				causesDisconnect 	= false
 			};
-						
-			// ------ Login to existing Account
-            if (msg.authAction == NetworkActionLoginLocal || msg.authAction == NetworkActionLoginRemote)
-            {
-            	if (Database.singleton.TryLogin(msg.authUsername, msg.authPassword))
-            	{
-            		authResponseMessage.text = msgLoginSuccess;
-            		onLoginEvent.Invoke(msg.authUsername);
-            	}
-            	else
-            	{
-            		authResponseMessage.text = msgLoginFailure;
-            		authResponseMessage.code++;
-            	}
-            	
-            	authResponseMessage.causesDisconnect = false; // does not cause disconnect
-            	
-            }
 			
-			// ------ Register new Account
-			if (msg.authAction == NetworkActionRegisterLocal || msg.authAction == NetworkActionRegisterRemote)
+			// ------ Check version
+			if (checkApplicationVersion && msg.authVersion != Application.version)
 			{
-				if (Database.singleton.TryRegister(msg.authUsername, msg.authPassword))
+				authResponseMessage.text = msgVersionMismatch;
+            	authResponseMessage.code++;
+			}
+			else
+			{
+			
+				// ------ Login to existing Account
+				if (msg.authAction == NetworkActionLoginLocal || msg.authAction == NetworkActionLoginRemote)
 				{
-					authResponseMessage.text = msgRegisterSuccess;
-                	onRegisterEvent.Invoke(msg.authUsername);
-            	}
-            	else
-            	{
-            		authResponseMessage.text = msgRegisterFailure;
-            		authResponseMessage.code++;
-            	}
-            	
-            	authResponseMessage.causesDisconnect = true; // causes disconnect
+					if (Database.singleton.TryLogin(msg.authUsername, msg.authPassword))
+					{
+						authResponseMessage.text = msgLoginSuccess;
+						onLoginEvent.Invoke(msg.authUsername);
+					}
+					else
+					{
+						authResponseMessage.text = msgLoginFailure;
+						authResponseMessage.code++;
+					}
+				
+					authResponseMessage.causesDisconnect = false; // does not cause disconnect
+				
+				}
+			
+				// ------ Register new Account
+				if (msg.authAction == NetworkActionRegisterLocal || msg.authAction == NetworkActionRegisterRemote)
+				{
+					if (Database.singleton.TryRegister(msg.authUsername, msg.authPassword))
+					{
+						authResponseMessage.text = msgRegisterSuccess;
+						onRegisterEvent.Invoke(msg.authUsername);
+					}
+					else
+					{
+						authResponseMessage.text = msgRegisterFailure;
+						authResponseMessage.code++;
+					}
+				
+					authResponseMessage.causesDisconnect = true; // causes disconnect
+				}
+			
+				// ------ Delete existing Account
+				if (msg.authAction == NetworkActionDeleteLocal || msg.authAction == NetworkActionDeleteRemote)
+				{
+					if (Database.singleton.TryDelete(msg.authUsername, msg.authPassword))
+					{
+						authResponseMessage.text = msgDeleteSuccess;
+						onDeleteEvent.Invoke(msg.authUsername);
+					}
+					else
+					{
+						authResponseMessage.text = msgDeleteFailure;
+						authResponseMessage.code++;
+					}
+				
+					authResponseMessage.causesDisconnect = true; // causes disconnect
+				}
+			
+				/*
+					...
+					add more cases here (like confirm account, change password etc.)
+					...
+				*/
+			
             }
             
-            // ------ Delete existing Account
-            if (msg.authAction == NetworkActionDeleteLocal || msg.authAction == NetworkActionDeleteRemote)
-            {
-            	if (Database.singleton.TryDelete(msg.authUsername, msg.authPassword))
-            	{
-            		authResponseMessage.text = msgDeleteSuccess;
-            		onDeleteEvent.Invoke(msg.authUsername);
-            	}
-            	else
-            	{
-            		authResponseMessage.text = msgDeleteFailure;
-            		authResponseMessage.code++;
-            	}
-            	
-            	authResponseMessage.causesDisconnect = true; // causes disconnect
-            }
-            
+            // ------ Authenticate & Response Message
             if (authResponseMessage.code == 100)
             	base.OnServerAuthenticated.Invoke(conn);
             

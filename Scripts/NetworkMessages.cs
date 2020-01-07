@@ -29,6 +29,7 @@ namespace wovencode
 		public string authUsername;
 		public string authPassword;
 		public byte authAction;
+		public string authVersion;
 	}
 
 	// -------------------------------------------------------------------------------
