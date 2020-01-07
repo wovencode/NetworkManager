@@ -56,7 +56,7 @@ MonoBehaviour:
   networkAddress: localhost
   maxConnections: 500
   authenticator: {fileID: 3252435991396032038}
-  playerPrefab: {fileID: 7930793167279634983, guid: 3d9a7edd4cf1e4770a927af357620f5a,
+  playerPrefab: {fileID: 7930793167279634983, guid: 6fbf7df69c5a745d5995ad5e12def5b1,
     type: 3}
   autoCreatePlayer: 1
   playerSpawnMethod: 0
@@ -100,6 +100,8 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  msgClientDisconnected: Disconnected.
+  msgAccountAlreadyOnline: Account is already online!
 --- !u!114 &3252435991396032036
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -182,7 +184,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 3252435991396032039}
         m_MethodName: EventCreatePlayer
-        m_Mode: 5
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -209,7 +211,9 @@ MonoBehaviour:
   msgRegisterFailure: Registration failed!
   msgDeleteSuccess: Delete successful!
   msgDeleteFailure: Delete failed!
+  msgVersionMismatch: Client out of date!
   accountNameSalt: at_least_16_byte
+  checkApplicationVersion: 1
   accountName: 
   accountPassword: 
-  accountAction: 
+  accountAction: 0
