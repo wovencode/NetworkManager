@@ -6,7 +6,6 @@
 
 using wovencode;
 using System;
-using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -65,7 +64,10 @@ namespace wovencode
 		// -------------------------------------------------------------------------------
 		public bool AccountLoggedIn(string _name)
 		{
-			return onlinePlayers.Values.Any(x => x.name == _name);
+			foreach (KeyValuePair<string, GameObject> player in onlinePlayers)
+				if (player.Value.name == _name) return true;
+			
+			return false;
 		}
 		
 		// -------------------------------------------------------------------------------
