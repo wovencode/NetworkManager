@@ -82,7 +82,7 @@ namespace wovencode
 		{
 			
 			if (!String.IsNullOrWhiteSpace(message.text))
-				UIPopupConfirm.singleton.Setup(message.text);
+				UIPopupConfirm.singleton.Init(message.text);
 			
 			if (message.causesDisconnect)
 			{
@@ -176,7 +176,7 @@ namespace wovencode
 		{
 			base.OnClientDisconnect(conn);
 			state = NetworkState.Offline;
-			UIPopupConfirm.singleton.Setup(msgClientDisconnected);
+			UIPopupConfirm.singleton.Init(msgClientDisconnected);
 			this.InvokeInstanceDevExtMethods("OnClientDisconnect");
 		}
 		

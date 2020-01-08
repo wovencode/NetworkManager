@@ -216,7 +216,7 @@ namespace wovencode
         {
         
         	if (!String.IsNullOrWhiteSpace(msg.text))
-               	UIPopupConfirm.singleton.Setup(msg.text);
+               	UIPopupConfirm.singleton.Init(msg.text);
             
             if (msg.code == 100 && !msg.causesDisconnect)
             {
