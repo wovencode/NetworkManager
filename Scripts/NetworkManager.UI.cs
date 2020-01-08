@@ -2,13 +2,18 @@
 // NetworkManager UI
 // by Weaver (Fhiz)
 // MIT licensed
+//
+// This part of the NetworkManager contains all UI related functions. That comprises all
+// methods that are called on the NetworkManager from UI elements in order to check for
+// an action or perform an action (like "Can we register an account with password X and
+// name Y?" or "Now register an account with password X and name Y"). All methods in this
+// part are considered to be public.
+//
 // =======================================================================================
 
 using wovencode;
 using System;
-//using System.Linq;
 using System.Collections.Generic;
-using System.Text.RegularExpressions;
 using UnityEngine;
 using Mirror;
 #if UNITY_EDITOR
@@ -154,13 +159,6 @@ namespace wovencode
 				Tools.IsAllowedName(_name) && 
 				Tools.IsAllowedPassword(_password) &&
 				!IsConnecting();
-		}
-	
-		// -------------------------------------------------------------------------------
-		public void TryHostAndPlay(string _name, string _password)
-		{
-			//((wovencode.NetworkAuthenticator)authenticator).accountAction = "HOSTANDPLAY";
-			//StartHost();
 		}
 	
 		// -------------------------------------------------------------------------------
