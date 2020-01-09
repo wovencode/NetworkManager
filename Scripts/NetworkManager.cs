@@ -40,7 +40,7 @@ namespace wovencode
 		
 		[Header("Message Texts")]
 		public string msgClientDisconnected 	= "Disconnected.";
-		public string msgAccountAlreadyOnline	= "Account is already online!";
+		public string msgUserAlreadyOnline		= "User is already online!";
 		
 		// -------------------------------------------------------------------------------
 		public override void Awake()
@@ -140,7 +140,7 @@ namespace wovencode
 				state = NetworkState.Game;
 			}
 			else
-				ServerSendError(conn, msgAccountAlreadyOnline, true);
+				ServerSendError(conn, msgUserAlreadyOnline, true);
 		}
 		
 		// -------------------------------------------------------------------------------

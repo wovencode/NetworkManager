@@ -40,13 +40,13 @@ namespace wovencode
 		public string msgVersionMismatch	= "Client out of date!";
 		
 		[Header("Security")]
-    	public string accountNameSalt 		= "at_least_16_byte";
+    	public string userNameSalt 		= "at_least_16_byte";
     	
     	[Header("Settings")]
 		public bool checkApplicationVersion = true;
 		
-		[HideInInspector]public string accountName 						= "";
-        [HideInInspector]public string accountPassword					= "";
+		[HideInInspector]public string userName 						= "";
+        [HideInInspector]public string userPassword						= "";
 		[HideInInspector]public byte accountAction 						= 0;
 		
 		[HideInInspector]public const byte NetworkActionRegisterLocal 	= 10;
@@ -58,11 +58,11 @@ namespace wovencode
 		
 		// -------------------------------------------------------------------------------
 		// GenerateHash
-		// Helper function to generate a hash from the current accountName, salt & account name
+		// Helper function to generate a hash from the current userName, salt & account name
 		// -------------------------------------------------------------------------------
 		protected string GenerateHash()
 		{
-			return Tools.PBKDF2Hash(accountPassword, accountNameSalt + accountName);
+			return Tools.PBKDF2Hash(userPassword, userNameSalt + userName);
 		}
 		
 		// -------------------------------------------------------------------------------
@@ -102,7 +102,7 @@ namespace wovencode
         
             AuthRequestMessage authRequestMessage = new AuthRequestMessage
             {
-                authUsername 	= accountName,
+                authUsername 	= userName,
                 authPassword 	= GenerateHash(),
                 authAction 		= accountAction,
                 authVersion		= Application.version
@@ -222,7 +222,7 @@ namespace wovencode
             {
                	base.OnClientAuthenticated.Invoke(conn);
                	ClientScene.Ready(conn);
-               	conn.Send(new LoginMessage{ authUsername = accountName, authPassword = GenerateHash() });
+               	conn.Send(new LoginMessage{ authUsername = userName, authPassword = GenerateHash() });
             }
             
             if (msg.code != 100 || msg.causesDisconnect)

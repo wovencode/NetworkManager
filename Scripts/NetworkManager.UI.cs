@@ -85,8 +85,8 @@ namespace wovencode
 		public void TryLoginAccount(string _name, string _password, bool hostMode=false)
 		{
 			
-			((wovencode.NetworkAuthenticator)authenticator).accountName = _name;
-			((wovencode.NetworkAuthenticator)authenticator).accountPassword = _password;
+			((wovencode.NetworkAuthenticator)authenticator).userName = _name;
+			((wovencode.NetworkAuthenticator)authenticator).userPassword = _password;
 			
 			if (hostMode)
 			{
@@ -104,8 +104,8 @@ namespace wovencode
 		public void TryRegisterAccount(string _name, string _password, bool hostMode=false)
 		{
 			
-			((wovencode.NetworkAuthenticator)authenticator).accountName = _name;
-			((wovencode.NetworkAuthenticator)authenticator).accountPassword = _password;
+			((wovencode.NetworkAuthenticator)authenticator).userName = _name;
+			((wovencode.NetworkAuthenticator)authenticator).userPassword = _password;
 			
 			if (hostMode)
 			{
@@ -123,8 +123,8 @@ namespace wovencode
 		public void TryDeleteAccount(string _name, string _password, bool hostMode=false)
 		{
 			
-			((wovencode.NetworkAuthenticator)authenticator).accountName = _name;
-			((wovencode.NetworkAuthenticator)authenticator).accountPassword = _password;
+			((wovencode.NetworkAuthenticator)authenticator).userName = _name;
+			((wovencode.NetworkAuthenticator)authenticator).userPassword = _password;
 			
 			if (hostMode)
 			{
