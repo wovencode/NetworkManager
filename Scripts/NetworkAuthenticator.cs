@@ -172,7 +172,7 @@ namespace wovencode
 				// ------ Delete existing Account
 				if (msg.authAction == NetworkActionDeleteLocal || msg.authAction == NetworkActionDeleteRemote)
 				{
-					if (Database.singleton.TryDelete(msg.authUsername, msg.authPassword))
+					if (Database.singleton.TrySoftDelete(msg.authUsername, msg.authPassword))
 					{
 						authResponseMessage.text = msgDeleteSuccess;
 						onDeleteEvent.Invoke(msg.authUsername);
