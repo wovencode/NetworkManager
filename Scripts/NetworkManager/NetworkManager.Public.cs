@@ -108,19 +108,15 @@ namespace wovencode
 		public void TryLoginAccount(string _name, string _password, bool hostMode=false)
 		{
 			
-			((wovencode.NetworkAuthenticator)authenticator).userName = _name;
-			((wovencode.NetworkAuthenticator)authenticator).userPassword = _password;
+			((wovencode.NetworkAuthenticator)authenticator).userName 		= _name;
+			((wovencode.NetworkAuthenticator)authenticator).userPassword 	= _password;
+			((wovencode.NetworkAuthenticator)authenticator).accountAction 	= NetworkAuthenticator.NetworkActionLogin;
 			
 			if (hostMode)
-			{
-				((wovencode.NetworkAuthenticator)authenticator).accountAction = NetworkAuthenticator.NetworkActionLoginLocal;
 				StartHost();
-			}
 			else
-			{
-				((wovencode.NetworkAuthenticator)authenticator).accountAction = NetworkAuthenticator.NetworkActionLoginRemote;
 				StartClient();
-			}
+			
 		}
 		
 		// -------------------------------------------------------------------------------
@@ -130,19 +126,15 @@ namespace wovencode
 		public void TryRegisterAccount(string _name, string _password, bool hostMode=false)
 		{
 			
-			((wovencode.NetworkAuthenticator)authenticator).userName = _name;
-			((wovencode.NetworkAuthenticator)authenticator).userPassword = _password;
+			((wovencode.NetworkAuthenticator)authenticator).userName 		= _name;
+			((wovencode.NetworkAuthenticator)authenticator).userPassword 	= _password;
+			((wovencode.NetworkAuthenticator)authenticator).accountAction 	= NetworkAuthenticator.NetworkActionRegister;
 			
 			if (hostMode)
-			{
-				((wovencode.NetworkAuthenticator)authenticator).accountAction = NetworkAuthenticator.NetworkActionRegisterLocal;
 				StartHost();
-			}
 			else
-			{
-				((wovencode.NetworkAuthenticator)authenticator).accountAction = NetworkAuthenticator.NetworkActionRegisterRemote;
 				StartClient();
-			}
+			
 		}
 		
 		// -------------------------------------------------------------------------------
@@ -152,21 +144,35 @@ namespace wovencode
 		public void TryDeleteAccount(string _name, string _password, bool hostMode=false)
 		{
 			
-			((wovencode.NetworkAuthenticator)authenticator).userName = _name;
-			((wovencode.NetworkAuthenticator)authenticator).userPassword = _password;
+			((wovencode.NetworkAuthenticator)authenticator).userName 		= _name;
+			((wovencode.NetworkAuthenticator)authenticator).userPassword 	= _password;
+			((wovencode.NetworkAuthenticator)authenticator).accountAction 	= NetworkAuthenticator.NetworkActionDelete;
 			
 			if (hostMode)
-			{
-				((wovencode.NetworkAuthenticator)authenticator).accountAction = NetworkAuthenticator.NetworkActionDeleteLocal;
 				StartHost();
-			}
 			else
-			{
-				((wovencode.NetworkAuthenticator)authenticator).accountAction = NetworkAuthenticator.NetworkActionDeleteRemote;
 				StartClient();
-			}
-		}
 
+		}
+		
+		// -------------------------------------------------------------------------------
+   		// TryConfirmAccount
+   		// we try to confirm an existing account according to its name and password
+   		// -------------------------------------------------------------------------------
+		public void TryConfirmAccount(string _name, string _password, bool hostMode=false)
+		{
+			
+			((wovencode.NetworkAuthenticator)authenticator).userName 		= _name;
+			((wovencode.NetworkAuthenticator)authenticator).userPassword 	= _password;
+			((wovencode.NetworkAuthenticator)authenticator).accountAction 	= NetworkAuthenticator.NetworkActionConfirm;
+			
+			if (hostMode)
+				StartHost();
+			else
+				StartClient();
+
+		}
+		
 		// -------------------------------------------------------------------------------
    		// TryStartServer
    		// we try to start a server (host only) if possible
