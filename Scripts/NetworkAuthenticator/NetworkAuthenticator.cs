@@ -167,7 +167,7 @@ namespace wovencode
 				causesDisconnect 	= false
 			};
 			
-			if (Database.singleton.TryLogin(msg.username, msg.password))
+			if (DatabaseManager.singleton.TryLogin(msg.username, msg.password))
 			{
 				manager.LoginPlayer(conn, msg.username);
 				message.text = msgLoginSuccess;
@@ -197,7 +197,7 @@ namespace wovencode
 				causesDisconnect 	= true
 			};
         	
-        	if (Database.singleton.TryRegister(msg.username, msg.password))
+        	if (DatabaseManager.singleton.TryRegister(msg.username, msg.password))
 			{
 				message.text = msgRegisterSuccess;
 				onRegisterEvent.Invoke(msg.username);
@@ -226,7 +226,7 @@ namespace wovencode
 				causesDisconnect 	= false
 			};
         	
-        	if (Database.singleton.TrySoftDelete(msg.username, msg.password))
+        	if (DatabaseManager.singleton.TrySoftDelete(msg.username, msg.password))
 			{
 				message.text = msgDeleteSuccess;
 				onDeleteEvent.Invoke(msg.username);
@@ -255,7 +255,7 @@ namespace wovencode
 				causesDisconnect 	= false
 			};
         	
-        	if (Database.singleton.TryConfirm(msg.username, msg.password))
+        	if (DatabaseManager.singleton.TryConfirm(msg.username, msg.password))
 			{
 				message.text = msgConfirmSuccess;
 				onConfirmEvent.Invoke(msg.username);
@@ -284,7 +284,7 @@ namespace wovencode
 				causesDisconnect 	= false
 			};
         	
-        	if (Database.singleton.TrySwitchServer(msg.username, msg.token))
+        	if (DatabaseManager.singleton.TrySwitchServer(msg.username, msg.token))
 			{
 				message.text = msgSwitchServerSuccess;
 				onSwitchServerEvent.Invoke(msg.username);

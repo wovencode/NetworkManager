@@ -135,7 +135,7 @@ namespace wovencode
 		{
 			if (!AccountLoggedIn(_name))
 			{
-				GameObject player = Database.singleton.LoadData(playerPrefab, _name);
+				GameObject player = DatabaseManager.singleton.LoadData(playerPrefab, _name);
 				NetworkServer.AddPlayerForConnection(conn, player);
 				state = NetworkState.Game;
 			}
@@ -161,7 +161,7 @@ namespace wovencode
 
 			if (conn.identity != null)
 			{
-				Database.singleton.SaveData(conn.identity.gameObject, false);
+				DatabaseManager.singleton.SaveData(conn.identity.gameObject, false);
 				Debug.Log("[NetworkManager] Saved player: " + conn.identity.name);
 			}
 
@@ -203,8 +203,8 @@ namespace wovencode
 		{
 			GameObject player = Instantiate(playerPrefab);
 			player.name = _name;
-			Database.singleton.CreateDefaultData(player);
-			Database.singleton.SaveData(player, false);
+			DatabaseManager.singleton.CreateDefaultData(player);
+			DatabaseManager.singleton.SaveData(player, false);
 			Destroy(player);
 		}
 		
