@@ -34,6 +34,9 @@ namespace wovencode
 		public Button cancelButton;
 		public Button backButton;
 		
+		[Header("Labels")]
+		public string popupDescription = "Do you really want to delete this account?";
+		
 		protected const string _accountName = "AccountName";
 		protected const string _accountPass = "AccountPass";
 		
@@ -50,14 +53,14 @@ namespace wovencode
 			else
 				statusText.text = "";
 			
-			accountInput.readOnly = manager.CanInput();
-			accountPasswordInput.readOnly = manager.CanInput();
+			accountInput.readOnly = !manager.CanInput();
+			accountPasswordInput.readOnly = !manager.CanInput();
 			
 			deleteButton.interactable = manager.CanDeleteAccount(accountInput.text, accountPasswordInput.text);
-			deleteButton.onClick.SetListener(() => { manager.TryDeleteAccount(accountInput.text, accountPasswordInput.text, false); });
+			deleteButton.onClick.SetListener(() => { InitPopupDelete(false); });
 			
 			hostButton.interactable = manager.CanDeleteAccount(accountInput.text, accountPasswordInput.text);
-			hostButton.onClick.SetListener(() => { manager.TryDeleteAccount(accountInput.text, accountPasswordInput.text, true); });
+			hostButton.onClick.SetListener(() => { InitPopupDelete(true); });
 		
 			cancelButton.gameObject.SetActive(manager.CanCancel());
 			cancelButton.onClick.SetListener(() => { manager.TryCancel(); });
@@ -65,7 +68,35 @@ namespace wovencode
 			backButton.onClick.SetListener(() => { Hide(); });
 				
 		}
-	
+		
+		// -------------------------------------------------------------------------------
+		// InitPopupDelete
+		// -------------------------------------------------------------------------------
+		protected void InitPopupDelete(bool hostMode=false)
+		{
+			//TODO: Improve
+			if (hostMode)
+				UIPopupPrompt.singleton.Init(popupDescription, "", "", onConfirmDeleteLocal);
+			else
+				UIPopupPrompt.singleton.Init(popupDescription, "", "", onConfirmDeleteRemote);
+		}
+		
+		// -------------------------------------------------------------------------------
+		// onConfirmDeleteLocal
+		// -------------------------------------------------------------------------------
+		public void onConfirmDeleteLocal()
+		{
+			manager.TryDeleteAccount(accountInput.text, accountPasswordInput.text, true);
+		}
+		
+		// -------------------------------------------------------------------------------
+		// onConfirmDeleteRemote
+		// -------------------------------------------------------------------------------
+		public void onConfirmDeleteRemote()
+		{
+			manager.TryDeleteAccount(accountInput.text, accountPasswordInput.text, false);
+		}
+		
 		// -------------------------------------------------------------------------------
 		
 	}

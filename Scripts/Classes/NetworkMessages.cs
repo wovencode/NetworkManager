@@ -1,5 +1,5 @@
 // =======================================================================================
-// NetworkMessages
+// Wovencore
 // by Weaver (Fhiz)
 // MIT licensed
 // =======================================================================================
@@ -82,6 +82,7 @@ namespace wovencode
 	public partial class SwitchServerRequestMessage : MessageBase
 	{
 		public string username;
+		public string zonename;
 		public int token;
 	}
 	
