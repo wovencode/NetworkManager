@@ -26,40 +26,57 @@ namespace wovencode
 		public wovencode.NetworkManager manager;
 		
 		[Header("Events")]
-		public UnityEventString onRegisterEvent;
-		public UnityEventString onLoginEvent;
-		public UnityEventString onDeleteEvent;
-		public UnityEventString onConfirmEvent;
-		public UnityEventString onSwitchServerEvent;
+		public UnityEventString onUserRegister;
+		public UnityEventString onUserLogin;
+		public UnityEventString onUserDelete;
+		public UnityEventString onUserConfirm;
+		public UnityEventString onPlayerRegister;
+		public UnityEventString onPlayerLogin;
+		public UnityEventString onPlayerDelete;
+		public UnityEventString onPlayerConfirm;
+		public UnityEventString onPlayerSwitchServer;
 		
 		[Header("Message Texts")]
-		public string msgLoginSuccess 			= ""; // no message here as it would display a popup on every login
-		public string msgLoginFailure 			= "Login failed!";
-		public string msgRegisterSuccess 		= "Registration successful!";
-		public string msgRegisterFailure 		= "Registration failed!";
-		public string msgDeleteSuccess 			= "Delete successful!";
-		public string msgDeleteFailure 			= "Delete failed!";
-		public string msgConfirmSuccess 		= "Account confirmed!";
-		public string msgConfirmFailure 		= "Confirm failed!";
-		public string msgSwitchServerSuccess 	= "Server switch successful!";
-		public string msgSwitchServerFailure 	= "Server switch failed!";
-		public string msgVersionMismatch		= "Client out of date!";
+		public string msgVersionMismatch			= "Client out of date!";
+		public string msgUserLoginSuccess 			= ""; // no message here as it would display a popup on every login
+		public string msgUserLoginFailure 			= "Account Login failed!";
+		public string msgUserRegisterSuccess 		= "Account Registration successful!";
+		public string msgUserRegisterFailure 		= "Account Registration failed!";
+		public string msgUserChangePasswordSuccess	= "Change Password successful!";
+		public string msgUserChangePasswordFailure	= "Change Password failed!";
+		public string msgUserDeleteSuccess 			= "Delete Account successful!";
+		public string msgUserDeleteFailure 			= "Delete Account failed!";
+		public string msgUserConfirmSuccess 		= "Account confirmed!";
+		public string msgUserConfirmFailure 		= "Confirm failed!";
+		public string msgPlayerLoginSuccess 		= ""; // no message here as it would display a popup on every login
+		public string msgPlayerLoginFailure 		= "Player Login failed!";
+		public string msgPlayerRegisterSuccess 		= "Create player successful!";
+		public string msgPlayerRegisterFailure 		= "Create player failed!";
+		public string msgPlayerDeleteSuccess 		= "Delete player successful!";
+		public string msgPlayerDeleteFailure 		= "Delete player failed!";
+		public string msgPlayerSwitchServerSuccess 	= "Server switch successful!";
+		public string msgPlayerSwitchServerFailure 	= "Server switch failed!";
 		
 		[Header("Security")]
-    	public string userNameSalt 				= "at_least_16_byte";
+    	public string userNameSalt 					= "at_least_16_byte";
     	
     	[Header("Settings")]
-		public bool checkApplicationVersion 	= true;
+		public bool checkApplicationVersion 		= true;
 		
-		[HideInInspector]public string userName 						= "";
-        [HideInInspector]public string userPassword						= "";
-		[HideInInspector]public byte accountAction 						= 0;
+		[HideInInspector]public string 	userName 							= "";
+        [HideInInspector]public string 	userPassword						= "";
+        [HideInInspector]public string 	newPassword							= "";
+		[HideInInspector]public byte 	userAction 							= 0;
 		
-		[HideInInspector]public const byte NetworkActionRegister 		= 10;
-		[HideInInspector]public const byte NetworkActionLogin 			= 20;
-		[HideInInspector]public const byte NetworkActionDelete 			= 30;
-		[HideInInspector]public const byte NetworkActionConfirm 		= 40;
-		[HideInInspector]public const byte NetworkActionSwitchServer 	= 50;
+		[HideInInspector]public const byte NetworkActionRegisterUser 		= 10;
+		[HideInInspector]public const byte NetworkActionLoginUser 			= 20;
+		[HideInInspector]public const byte NetworkActionDeleteUser 			= 30;
+		[HideInInspector]public const byte NetworkActionConfirmUser 		= 40;
+		[HideInInspector]public const byte NetworkActionChangePasswordUser  = 50;
+		[HideInInspector]public const byte NetworkActionRegisterPlayer 		= 60;
+		[HideInInspector]public const byte NetworkActionLoginPlayer 		= 70;
+		[HideInInspector]public const byte NetworkActionDeletePlayer 		= 80;
+		[HideInInspector]public const byte NetworkActionSwitchServerPlayer 	= 90;
 		
 		protected const byte successCode 	= 100;
 		protected const byte errorCode 		= 200;
@@ -68,9 +85,9 @@ namespace wovencode
 		// GenerateHash
 		// Helper function to generate a hash from the current userName, salt & account name
 		// -------------------------------------------------------------------------------
-		protected string GenerateHash()
+		protected string GenerateHash(string encryptText, string saltText)
 		{
-			return Tools.PBKDF2Hash(userPassword, userNameSalt + userName);
+			return Tools.PBKDF2Hash(encryptText, userNameSalt + saltText);
 		}
 		
 		// -------------------------------------------------------------------------------
@@ -80,11 +97,19 @@ namespace wovencode
         public override void OnStartServer()
         {
             NetworkServer.RegisterHandler<AuthRequestMessage>(OnAuthRequestMessage, false);
-            NetworkServer.RegisterHandler<LoginRequestMessage>(OnLoginRequestMessage, true);
-            NetworkServer.RegisterHandler<RegisterRequestMessage>(OnRegisterRequestMessage, true);
-            NetworkServer.RegisterHandler<DeleteRequestMessage>(OnDeleteRequestMessage, true);
-            NetworkServer.RegisterHandler<ConfirmRequestMessage>(OnConfirmRequestMessage, true);
-            NetworkServer.RegisterHandler<SwitchServerRequestMessage>(OnSwitchServerRequestMessage, true);
+            
+            // User
+            NetworkServer.RegisterHandler<UserLoginRequestMessage>(OnUserLoginRequestMessage, true);
+            NetworkServer.RegisterHandler<UserRegisterRequestMessage>(OnUserRegisterRequestMessage, true);
+            NetworkServer.RegisterHandler<UserDeleteRequestMessage>(OnUserDeleteRequestMessage, true);
+            NetworkServer.RegisterHandler<UserChangePasswordRequestMessage>(OnUserChangePasswordRequestMessage, true);
+            NetworkServer.RegisterHandler<UserConfirmRequestMessage>(OnUserConfirmRequestMessage, true);
+            
+            // Player
+            NetworkServer.RegisterHandler<PlayerLoginRequestMessage>(OnPlayerLoginRequestMessage, true);
+            NetworkServer.RegisterHandler<PlayerRegisterRequestMessage>(OnPlayerRegisterRequestMessage, true);
+            NetworkServer.RegisterHandler<PlayerDeleteRequestMessage>(OnPlayerDeleteRequestMessage, true);
+            NetworkServer.RegisterHandler<PlayerSwitchServerRequestMessage>(OnPlayerSwitchServerRequestMessage, true);
         }
         
         // -------------------------------------------------------------------------------
@@ -153,11 +178,13 @@ namespace wovencode
 		
 		}
         
+        // ========================== MESSAGE HANDLERS - USER ============================
+        
         // -------------------------------------------------------------------------------
-        // OnLoginRequestMessage
+        // OnUserLoginRequestMessage
         // @Client -> @Server
 		// -------------------------------------------------------------------------------      
-        void OnLoginRequestMessage(NetworkConnection conn, LoginRequestMessage msg)
+        void OnUserLoginRequestMessage(NetworkConnection conn, UserLoginRequestMessage msg)
 		{
 			
 			ServerResponseMessage message = new ServerResponseMessage
@@ -167,15 +194,15 @@ namespace wovencode
 				causesDisconnect 	= false
 			};
 			
-			if (DatabaseManager.singleton.TryLogin(msg.username, msg.password))
+			if (DatabaseManager.singleton.TryLoginUser(msg.username, msg.password))
 			{
 				manager.LoginPlayer(conn, msg.username);
-				message.text = msgLoginSuccess;
-				onLoginEvent.Invoke(msg.username);
+				message.text = msgUserLoginSuccess;
+				onUserLogin.Invoke(msg.username);
 			}
 			else
 			{
-				message.text = msgLoginFailure;
+				message.text = msgUserLoginFailure;
 				message.code = errorCode;
 			}
 					
@@ -184,10 +211,10 @@ namespace wovencode
 		}
 		
        	// -------------------------------------------------------------------------------
-        // OnRegisterRequestMessage
+        // OnUserRegisterRequestMessage
         // @Client -> @Server
 		// -------------------------------------------------------------------------------    
-        void OnRegisterRequestMessage(NetworkConnection conn, RegisterRequestMessage msg)
+        void OnUserRegisterRequestMessage(NetworkConnection conn, UserRegisterRequestMessage msg)
         {
         	
         	ServerResponseMessage message = new ServerResponseMessage
@@ -197,14 +224,14 @@ namespace wovencode
 				causesDisconnect 	= true
 			};
         	
-        	if (DatabaseManager.singleton.TryRegister(msg.username, msg.password))
+        	if (DatabaseManager.singleton.TryRegisterUser(msg.username, msg.password))
 			{
-				message.text = msgRegisterSuccess;
-				onRegisterEvent.Invoke(msg.username);
+				message.text = msgUserRegisterSuccess;
+				onUserRegister.Invoke(msg.username);
 			}
 			else
 			{
-				message.text = msgRegisterFailure;
+				message.text = msgUserRegisterFailure;
 				message.code = errorCode;
 			}
 					
@@ -213,10 +240,10 @@ namespace wovencode
         }
         
         // -------------------------------------------------------------------------------
-        // OnDeleteRequestMessage
+        // OnUserDeleteRequestMessage
         // @Client -> @Server
 		// -------------------------------------------------------------------------------    
-        void OnDeleteRequestMessage(NetworkConnection conn, DeleteRequestMessage msg)
+        void OnUserDeleteRequestMessage(NetworkConnection conn, UserDeleteRequestMessage msg)
         {
         	
         	ServerResponseMessage message = new ServerResponseMessage
@@ -226,14 +253,14 @@ namespace wovencode
 				causesDisconnect 	= true
 			};
         	
-        	if (DatabaseManager.singleton.TrySoftDelete(msg.username, msg.password))
+        	if (DatabaseManager.singleton.TrySoftDeleteUser(msg.username, msg.password))
 			{
-				message.text = msgDeleteSuccess;
-				onDeleteEvent.Invoke(msg.username);
+				message.text = msgUserDeleteSuccess;
+				onUserDelete.Invoke(msg.username);
 			}
 			else
 			{
-				message.text = msgDeleteFailure;
+				message.text = msgUserDeleteFailure;
 				message.code = errorCode;
 			}
 					
@@ -242,10 +269,38 @@ namespace wovencode
         }
         
         // -------------------------------------------------------------------------------
-        // OnConfirmRequestMessage
+        // OnUserChangePasswordRequestMessage
         // @Client -> @Server
 		// -------------------------------------------------------------------------------    
-        void OnConfirmRequestMessage(NetworkConnection conn, ConfirmRequestMessage msg)
+        void OnUserChangePasswordRequestMessage(NetworkConnection conn, UserChangePasswordRequestMessage msg)
+        {
+        	
+        	ServerResponseMessage message = new ServerResponseMessage
+			{
+				code 				= successCode,
+				text			 	= "",
+				causesDisconnect 	= true
+			};
+        	
+        	if (DatabaseManager.singleton.TryChangePasswordUser(msg.username, msg.oldPassword, msg.newPassword))
+			{
+				message.text = msgUserChangePasswordSuccess;
+			}
+			else
+			{
+				message.text = msgUserChangePasswordFailure;
+				message.code = errorCode;
+			}
+					
+        	conn.Send(message);
+        	
+        }
+        
+        // -------------------------------------------------------------------------------
+        // OnUserConfirmRequestMessage
+        // @Client -> @Server
+		// -------------------------------------------------------------------------------    
+        void OnUserConfirmRequestMessage(NetworkConnection conn, UserConfirmRequestMessage msg)
         {
         	
         	ServerResponseMessage message = new ServerResponseMessage
@@ -255,14 +310,77 @@ namespace wovencode
 				causesDisconnect 	= false
 			};
         	
-        	if (DatabaseManager.singleton.TryConfirm(msg.username, msg.password))
+        	if (DatabaseManager.singleton.TryConfirmUser(msg.username, msg.password))
 			{
-				message.text = msgConfirmSuccess;
-				onConfirmEvent.Invoke(msg.username);
+				message.text = msgUserConfirmSuccess;
+				onUserConfirm.Invoke(msg.username);
 			}
 			else
 			{
-				message.text = msgConfirmFailure;
+				message.text = msgUserConfirmFailure;
+				message.code = errorCode;
+			}
+					
+        	conn.Send(message);
+        	
+        }
+        
+        // ========================= MESSAGE HANDLERS - PLAYER ============================
+        
+        
+        
+        // -------------------------------------------------------------------------------
+        // OnPlayerLoginRequestMessage
+        // @Client -> @Server
+		// -------------------------------------------------------------------------------      
+        void OnPlayerLoginRequestMessage(NetworkConnection conn, PlayerLoginRequestMessage msg)
+		{
+			
+			ServerResponseMessage message = new ServerResponseMessage
+			{
+				code 				= successCode,
+				text			 	= "",
+				causesDisconnect 	= false
+			};
+			
+			if (DatabaseManager.singleton.TryLoginPlayer(msg.playername, msg.username))
+			{
+				manager.LoginPlayer(conn, msg.playername);
+				message.text = msgPlayerLoginSuccess;
+				onPlayerLogin.Invoke(msg.playername);
+			}
+			else
+			{
+				message.text = msgPlayerLoginFailure;
+				message.code = errorCode;
+			}
+					
+			conn.Send(message);
+			
+		}
+		
+       	// -------------------------------------------------------------------------------
+        // OnPlayerRegisterRequestMessage
+        // @Client -> @Server
+		// -------------------------------------------------------------------------------    
+        void OnPlayerRegisterRequestMessage(NetworkConnection conn, PlayerRegisterRequestMessage msg)
+        {
+        	
+        	ServerResponseMessage message = new ServerResponseMessage
+			{
+				code 				= successCode,
+				text			 	= "",
+				causesDisconnect 	= true
+			};
+        	
+        	if (DatabaseManager.singleton.TryRegisterPlayer(msg.playername, msg.username))
+			{
+				message.text = msgPlayerRegisterSuccess;
+				onPlayerRegister.Invoke(msg.playername);
+			}
+			else
+			{
+				message.text = msgPlayerRegisterFailure;
 				message.code = errorCode;
 			}
 					
@@ -271,10 +389,40 @@ namespace wovencode
         }
         
         // -------------------------------------------------------------------------------
-        // OnSwitchServerRequestMessage
+        // OnPlayerDeleteRequestMessage
         // @Client -> @Server
 		// -------------------------------------------------------------------------------    
-       	void OnSwitchServerRequestMessage(NetworkConnection conn, SwitchServerRequestMessage msg)
+        void OnPlayerDeleteRequestMessage(NetworkConnection conn, PlayerDeleteRequestMessage msg)
+        {
+        	
+        	ServerResponseMessage message = new ServerResponseMessage
+			{
+				code 				= successCode,
+				text			 	= "",
+				causesDisconnect 	= true
+			};
+        	
+        	if (DatabaseManager.singleton.TrySoftDeletePlayer(msg.playername, msg.username))
+			{
+				message.text = msgPlayerDeleteSuccess;
+				onPlayerDelete.Invoke(msg.playername);
+			}
+			else
+			{
+				message.text = msgPlayerDeleteFailure;
+				message.code = errorCode;
+			}
+					
+        	conn.Send(message);
+        	
+        }
+        
+        
+        // -------------------------------------------------------------------------------
+        // OnPlayerSwitchServerRequestMessage
+        // @Client -> @Server
+		// -------------------------------------------------------------------------------    
+       	void OnPlayerSwitchServerRequestMessage(NetworkConnection conn, PlayerSwitchServerRequestMessage msg)
         {
         	
         	ServerResponseMessage message = new ServerResponseMessage
@@ -284,14 +432,14 @@ namespace wovencode
 				causesDisconnect 	= false
 			};
         	
-        	if (DatabaseManager.singleton.TrySwitchServer(msg.username, msg.token))
+        	if (DatabaseManager.singleton.TrySwitchServerPlayer(msg.username, msg.token))
 			{
-				message.text = msgSwitchServerSuccess;
-				onSwitchServerEvent.Invoke(msg.username);
+				message.text = msgPlayerSwitchServerSuccess;
+				onPlayerSwitchServer.Invoke(msg.username);
 			}
 			else
 			{
-				message.text = msgSwitchServerFailure;
+				message.text = msgPlayerSwitchServerFailure;
 				message.code = errorCode;
 			}
 			
@@ -316,27 +464,44 @@ namespace wovencode
                	
                	base.OnClientAuthenticated.Invoke(conn);
                	
-				switch (accountAction)
+				switch (userAction)
 				{
-					case NetworkActionLogin:
-						if (RequestLogin(conn, userName, userPassword))
+					
+					// User
+					case NetworkActionLoginUser:
+						if (RequestLoginUser(conn, userName, userPassword))
 							ClientScene.Ready(conn);
 						break;
-					case NetworkActionRegister:
-						RequestRegister(conn, userName, userPassword);
+					case NetworkActionRegisterUser:
+						RequestRegisterUser(conn, userName, userPassword);
 						break;
-					case NetworkActionDelete:
-						RequestSoftDelete(conn, userName, userPassword);
+					case NetworkActionDeleteUser:
+						RequestSoftDeleteUser(conn, userName, userPassword);
 						break;
-					case NetworkActionConfirm:
-						RequestConfirm(conn, userName, userPassword);
+					case NetworkActionChangePasswordUser:
+						RequestChangePasswordUser(conn, userName, userPassword, newPassword);
 						break;
-					case NetworkActionSwitchServer:
-						RequestSwitchServer(conn, userName);
+					case NetworkActionConfirmUser:
+						RequestConfirmUser(conn, userName, userPassword);
+						break;
+					
+					// Player
+					case NetworkActionLoginPlayer:
+						if (RequestLoginPlayer(conn, userName))
+							ClientScene.Ready(conn);
+						break;
+					case NetworkActionRegisterPlayer:
+						RequestRegisterPlayer(conn, userName);
+						break;
+					case NetworkActionDeletePlayer:
+						RequestSoftDeletePlayer(conn, userName);
+						break;
+					case NetworkActionSwitchServerPlayer:
+						RequestSwitchServerPlayer(conn, userName);
 						break;
 				}
 			  	
-			  	accountAction = 0;
+			  	userAction = 0;
                	
             }
             

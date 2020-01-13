@@ -1,5 +1,5 @@
 ﻿// =======================================================================================
-// NetworkManager Enums
+// Wovencore
 // by Weaver (Fhiz)
 // MIT licensed
 // =======================================================================================
@@ -9,5 +9,5 @@ using System;
 
 namespace wovencode
 {
-	public enum NetworkState 	{Offline,Game}
+	public enum NetworkState 	{Offline,Lobby,Game}
 }

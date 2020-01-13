@@ -55,38 +55,51 @@ namespace wovencode
 		}
    		
 		// -------------------------------------------------------------------------------
-   		// CanLoginAccount
-   		// can we login into an existing account with the provided name and password?
+   		// CanLoginUser
+   		// can we login into an existing user with the provided name and password?
    		// -------------------------------------------------------------------------------
-		public bool CanLoginAccount(string _name, string _password)
+		public bool CanLoginUser(string name, string password)
 		{
 			return !isNetworkActive && 
-				Tools.IsAllowedName(_name) && 
-				Tools.IsAllowedPassword(_password) &&
+				Tools.IsAllowedName(name) && 
+				Tools.IsAllowedPassword(password) &&
 				!IsConnecting();
 		}
 
 		// -------------------------------------------------------------------------------
-   		// CanRegisterAccount
-   		// can we register a new account with the provided name and password?
+   		// CanRegisterUser
+   		// can we register a new user with the provided name and password?
    		// -------------------------------------------------------------------------------
-		public bool CanRegisterAccount(string _name, string _password)
+		public bool CanRegisterUser(string name, string password)
 		{
 			return !isNetworkActive &&
-				Tools.IsAllowedName(_name) && 
-				Tools.IsAllowedPassword(_password) &&
+				Tools.IsAllowedName(name) && 
+				Tools.IsAllowedPassword(password) &&
 				!IsConnecting();
 		}
 
 		// -------------------------------------------------------------------------------
-   		// CanDeleteAccount
-   		// can we delete an account with the provided name and password?
+   		// CanDeleteUser
+   		// can we delete an user with the provided name and password?
    		// -------------------------------------------------------------------------------
-		public bool CanDeleteAccount(string _name, string _password)
+		public bool CanDeleteUser(string name, string password)
 		{
 			return !isNetworkActive &&
-				Tools.IsAllowedName(_name) && 
-				Tools.IsAllowedPassword(_password) &&
+				Tools.IsAllowedName(name) && 
+				Tools.IsAllowedPassword(password) &&
+				!IsConnecting();
+		}
+		
+		// -------------------------------------------------------------------------------
+   		// CanChangePasswordUser
+   		// can we change the provided users password?
+   		// -------------------------------------------------------------------------------
+		public bool CanChangePasswordUser(string name, string oldpassword, string newpassword)
+		{
+			return !isNetworkActive &&
+				Tools.IsAllowedName(name) && 
+				Tools.IsAllowedPassword(oldpassword) &&
+				Tools.IsAllowedPassword(newpassword) &&
 				!IsConnecting();
 		}
 		
@@ -102,15 +115,15 @@ namespace wovencode
 		}
 
 		// -------------------------------------------------------------------------------
-   		// TryLoginAccount
-   		// we try to login into an existing account using name and password provided
+   		// TryLoginUser
+   		// we try to login into an existing user using name and password provided
    		// -------------------------------------------------------------------------------
-		public void TryLoginAccount(string _name, string _password, bool hostMode=false)
+		public void TryLoginUser(string name, string password, bool hostMode=false)
 		{
 			
-			((wovencode.NetworkAuthenticator)authenticator).userName 		= _name;
-			((wovencode.NetworkAuthenticator)authenticator).userPassword 	= _password;
-			((wovencode.NetworkAuthenticator)authenticator).accountAction 	= NetworkAuthenticator.NetworkActionLogin;
+			((wovencode.NetworkAuthenticator)authenticator).userName 		= name;
+			((wovencode.NetworkAuthenticator)authenticator).userPassword 	= password;
+			((wovencode.NetworkAuthenticator)authenticator).userAction 		= NetworkAuthenticator.NetworkActionLoginUser;
 			
 			if (hostMode)
 				StartHost();
@@ -120,15 +133,15 @@ namespace wovencode
 		}
 		
 		// -------------------------------------------------------------------------------
-   		// TryRegisterAccount
-   		// we try to register a new account with name and password provided
+   		// TryRegisterUser
+   		// we try to register a new User with name and password provided
    		// -------------------------------------------------------------------------------
-		public void TryRegisterAccount(string _name, string _password, bool hostMode=false)
+		public void TryRegisterUser(string name, string password, bool hostMode=false)
 		{
 			
-			((wovencode.NetworkAuthenticator)authenticator).userName 		= _name;
-			((wovencode.NetworkAuthenticator)authenticator).userPassword 	= _password;
-			((wovencode.NetworkAuthenticator)authenticator).accountAction 	= NetworkAuthenticator.NetworkActionRegister;
+			((wovencode.NetworkAuthenticator)authenticator).userName 		= name;
+			((wovencode.NetworkAuthenticator)authenticator).userPassword 	= password;
+			((wovencode.NetworkAuthenticator)authenticator).userAction 		= NetworkAuthenticator.NetworkActionRegisterUser;
 			
 			if (hostMode)
 				StartHost();
@@ -138,15 +151,15 @@ namespace wovencode
 		}
 		
 		// -------------------------------------------------------------------------------
-   		// TryDeleteAccount
-   		// we try to delete an existing account according to its name and password
+   		// TryDeleteUser
+   		// we try to delete an existing User according to its name and password
    		// -------------------------------------------------------------------------------
-		public void TryDeleteAccount(string _name, string _password, bool hostMode=false)
+		public void TryDeleteUser(string name, string password, bool hostMode=false)
 		{
 			
-			((wovencode.NetworkAuthenticator)authenticator).userName 		= _name;
-			((wovencode.NetworkAuthenticator)authenticator).userPassword 	= _password;
-			((wovencode.NetworkAuthenticator)authenticator).accountAction 	= NetworkAuthenticator.NetworkActionDelete;
+			((wovencode.NetworkAuthenticator)authenticator).userName 		= name;
+			((wovencode.NetworkAuthenticator)authenticator).userPassword 	= password;
+			((wovencode.NetworkAuthenticator)authenticator).userAction 		= NetworkAuthenticator.NetworkActionDeleteUser;
 			
 			if (hostMode)
 				StartHost();
@@ -156,15 +169,34 @@ namespace wovencode
 		}
 		
 		// -------------------------------------------------------------------------------
-   		// TryConfirmAccount
-   		// we try to confirm an existing account according to its name and password
+   		// TryChangePasswordUser
+   		// we try to delete an existing User according to its name and password
    		// -------------------------------------------------------------------------------
-		public void TryConfirmAccount(string _name, string _password, bool hostMode=false)
+		public void TryChangePasswordUser(string name, string oldpassword, string newpassword, bool hostMode=false)
 		{
 			
-			((wovencode.NetworkAuthenticator)authenticator).userName 		= _name;
-			((wovencode.NetworkAuthenticator)authenticator).userPassword 	= _password;
-			((wovencode.NetworkAuthenticator)authenticator).accountAction 	= NetworkAuthenticator.NetworkActionConfirm;
+			((wovencode.NetworkAuthenticator)authenticator).userName 		= name;
+			((wovencode.NetworkAuthenticator)authenticator).userPassword 	= oldpassword;
+			((wovencode.NetworkAuthenticator)authenticator).newPassword 	= newpassword;
+			((wovencode.NetworkAuthenticator)authenticator).userAction 		= NetworkAuthenticator.NetworkActionChangePasswordUser;
+			
+			if (hostMode)
+				StartHost();
+			else
+				StartClient();
+
+		}
+		
+		// -------------------------------------------------------------------------------
+   		// TryConfirmUser
+   		// we try to confirm an existing User according to its name and password
+   		// -------------------------------------------------------------------------------
+		public void TryConfirmUser(string name, string password, bool hostMode=false)
+		{
+			
+			((wovencode.NetworkAuthenticator)authenticator).userName 		= name;
+			((wovencode.NetworkAuthenticator)authenticator).userPassword 	= password;
+			((wovencode.NetworkAuthenticator)authenticator).userAction 		= NetworkAuthenticator.NetworkActionConfirmUser;
 			
 			if (hostMode)
 				StartHost();
@@ -196,12 +228,13 @@ namespace wovencode
    		// CanHostAndPlay
    		// can we host and play on the same machine right now?
    		// -------------------------------------------------------------------------------
-		public bool CanHostAndPlay(string _name, string _password)
+		public bool CanHostAndPlay(string name, string password, string newpassword="")
 		{
 			return Application.platform != RuntimePlatform.WebGLPlayer && 
 				!isNetworkActive && 
-				Tools.IsAllowedName(_name) && 
-				Tools.IsAllowedPassword(_password) &&
+				Tools.IsAllowedName(name) && 
+				Tools.IsAllowedPassword(password) &&
+				(String.IsNullOrWhiteSpace(newpassword) || Tools.IsAllowedPassword(newpassword)) &&
 				!IsConnecting();
 		}
 	

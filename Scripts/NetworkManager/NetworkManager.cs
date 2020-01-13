@@ -194,22 +194,26 @@ namespace wovencode
 		// -------------------------------------------------------------------------------
 		public static void Quit()
 		{
-	#if UNITY_EDITOR
+#if UNITY_EDITOR
 			EditorApplication.isPlaying = false;
-	#else
+#else
 			Application.Quit();
-	#endif
+#endif
 		}
 	
 		// ======================== PUBLIC EVENT METHODS =================================
 		
 		// -------------------------------------------------------------------------------
-		// EventCreatePlayer
-		// Invoked when the NetworkAuthenticator sucessfully registers a new player
+		// EventCreateUser
+		// Invoked when the NetworkAuthenticator sucessfully registers a new user
 		// -------------------------------------------------------------------------------
-		public void EventCreatePlayer(string _name)
+		public void EventCreateUser(string _name)
 		{
 			GameObject player = Instantiate(playerPrefab);
+#if WOCO_PLAYER
+			PlayerComponent playerComponent = player.GetComponent<PlayerComponent>();
+			playerComponent.username = _name;
+#endif
 			player.name = _name;
 			DatabaseManager.singleton.CreateDefaultData(player);
 			DatabaseManager.singleton.SaveData(player, false);

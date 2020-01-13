@@ -1,5 +1,5 @@
 ﻿// =======================================================================================
-// UIWindowMain
+// Wovencore
 // by Weaver (Fhiz)
 // MIT licensed
 // =======================================================================================
@@ -22,9 +22,10 @@ namespace wovencode
 		public wovencode.NetworkManager manager;
 		
 		[Header("Windows")]
-		public UIWindowLogin loginWindow;
-		public UIWindowRegister registerWindow;
-		public UIWindowDelete deleteWindow;
+		public UIWindowLoginUser 			loginWindow;
+		public UIWindowRegisterUser 		registerWindow;
+		public UIWindowChangePasswordUser 	changePasswordWindow;
+		public UIWindowDeleteUser 			deleteWindow;
 		
 		[Header("Dropdown")]
 		public Dropdown serverDropdown;
@@ -32,6 +33,7 @@ namespace wovencode
 		[Header("Buttons")]
 		public Button loginButton;
 		public Button registerButton;
+		public Button changePasswordButton;
 		public Button deleteButton;
 		public Button serverButton;
 		public Button quitButton;
@@ -78,6 +80,9 @@ namespace wovencode
 				
 				registerButton.interactable = manager.CanClick();
 				registerButton.onClick.SetListener(() => { registerWindow.Show(); });
+				
+				changePasswordButton.interactable = manager.CanClick();
+				changePasswordButton.onClick.SetListener(() => { changePasswordWindow.Show(); });
 				
 				deleteButton.interactable = manager.CanClick();
 				deleteButton.onClick.SetListener(() => { deleteWindow.Show(); });

@@ -2,8 +2,6 @@
 // Wovencore
 // by Weaver (Fhiz)
 // MIT licensed
-//
-//
 // =======================================================================================
 
 using System;
@@ -21,11 +19,18 @@ namespace wovencode
 	public interface IRequestableManager
 	{
 		
-		bool RequestLogin(NetworkConnection _conn, string _name, string _password);
-		bool RequestRegister(NetworkConnection _conn, string _name, string _password);
-		bool RequestSoftDelete(NetworkConnection _conn, string _name, string _password, int _action=1);
-		bool RequestConfirm(NetworkConnection _conn, string _name, string _password, int _action=1);
-		bool RequestSwitchServer(NetworkConnection _conn, string _name, int _token=0);
+		// User
+		bool RequestLoginUser(NetworkConnection conn, string name, string password);
+		bool RequestRegisterUser(NetworkConnection conn, string name, string password);
+		bool RequestSoftDeleteUser(NetworkConnection conn, string name, string password, int action=1);
+		bool RequestChangePasswordUser(NetworkConnection conn, string name, string oldpassword, string newpassword);
+		bool RequestConfirmUser(NetworkConnection conn, string name, string password, int action=1);
+		
+		// Player
+		bool RequestLoginPlayer(NetworkConnection conn, string name);
+		bool RequestRegisterPlayer(NetworkConnection conn, string name);
+		bool RequestSoftDeletePlayer(NetworkConnection conn, string name, int action=1);
+		bool RequestSwitchServerPlayer(NetworkConnection conn, string name, int token=0);
 		
 	}
 		

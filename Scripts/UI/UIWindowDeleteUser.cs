@@ -1,5 +1,5 @@
 ﻿// =======================================================================================
-// UIWindowDelete
+// Wovencore
 // by Weaver (Fhiz)
 // MIT licensed
 // =======================================================================================
@@ -13,9 +13,9 @@ namespace wovencode
 {
 
 	// ===================================================================================
-	// UIWindowDelete
+	// UIWindowDeleteUser
 	// ===================================================================================
-	public partial class UIWindowDelete : UIRoot
+	public partial class UIWindowDeleteUser : UIRoot
 	{
 	
 		[Header("Network")]
@@ -25,8 +25,8 @@ namespace wovencode
 		public Text statusText;
 		
 		[Header("Input Fields")]
-		public InputField accountInput;
-		public InputField accountPasswordInput;
+		public InputField usernameInput;
+		public InputField userpassInput;
 		
 		[Header("Buttons")]
 		public Button deleteButton;
@@ -37,8 +37,8 @@ namespace wovencode
 		[Header("Labels")]
 		public string popupDescription = "Do you really want to delete this account?";
 		
-		protected const string _accountName = "AccountName";
-		protected const string _accountPass = "AccountPass";
+		protected const string _userName = "UserName";
+		protected const string _userPass = "UserPass";
 		
 		// -------------------------------------------------------------------------------
 		// ThrottledUpdate
@@ -48,18 +48,18 @@ namespace wovencode
 						
 			if (manager.IsConnecting())
 				statusText.text = "Connecting...";
-			else if (!Tools.IsAllowedName(accountInput.text) || !Tools.IsAllowedPassword(accountPasswordInput.text))
+			else if (!Tools.IsAllowedName(usernameInput.text) || !Tools.IsAllowedPassword(userpassInput.text))
 				statusText.text = "Check Name/Password";
 			else
 				statusText.text = "";
 			
-			accountInput.readOnly = !manager.CanInput();
-			accountPasswordInput.readOnly = !manager.CanInput();
+			usernameInput.readOnly = !manager.CanInput();
+			userpassInput.readOnly = !manager.CanInput();
 			
-			deleteButton.interactable = manager.CanDeleteAccount(accountInput.text, accountPasswordInput.text);
+			deleteButton.interactable = manager.CanDeleteUser(usernameInput.text, userpassInput.text);
 			deleteButton.onClick.SetListener(() => { InitPopupDelete(false); });
 			
-			hostButton.interactable = manager.CanDeleteAccount(accountInput.text, accountPasswordInput.text);
+			hostButton.interactable = manager.CanDeleteUser(usernameInput.text, userpassInput.text);
 			hostButton.onClick.SetListener(() => { InitPopupDelete(true); });
 		
 			cancelButton.gameObject.SetActive(manager.CanCancel());
@@ -86,7 +86,7 @@ namespace wovencode
 		// -------------------------------------------------------------------------------
 		public void onConfirmDeleteLocal()
 		{
-			manager.TryDeleteAccount(accountInput.text, accountPasswordInput.text, true);
+			manager.TryDeleteUser(usernameInput.text, userpassInput.text, true);
 		}
 		
 		// -------------------------------------------------------------------------------
@@ -94,7 +94,7 @@ namespace wovencode
 		// -------------------------------------------------------------------------------
 		public void onConfirmDeleteRemote()
 		{
-			manager.TryDeleteAccount(accountInput.text, accountPasswordInput.text, false);
+			manager.TryDeleteUser(usernameInput.text, userpassInput.text, false);
 		}
 		
 		// -------------------------------------------------------------------------------

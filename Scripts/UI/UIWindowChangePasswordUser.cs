@@ -1,5 +1,5 @@
 ﻿// =======================================================================================
-// UIWindowLogin
+// Wovencore
 // by Weaver (Fhiz)
 // MIT licensed
 // =======================================================================================
@@ -13,9 +13,9 @@ namespace wovencode
 {
 
 	// ===================================================================================
-	// UIWindowRegister
+	// UIWindowChangePasswordUser
 	// ===================================================================================
-	public partial class UIWindowRegister : UIRoot
+	public partial class UIWindowChangePasswordUser : UIRoot
 	{
 	
 		[Header("Network")]
@@ -25,40 +25,45 @@ namespace wovencode
 		public Text statusText;
 		
 		[Header("Input Fields")]
-		public InputField accountInput;
-		public InputField passwordInput;
+		public InputField usernameInput;
+		public InputField oldUserPassInput;
+		public InputField newUserPassInput;
 		
 		[Header("Buttons")]
-		public Button registerButton;
+		public Button changeButton;
 		public Button hostButton;
 		public Button cancelButton;
 		public Button backButton;
-		
-		protected const string _accountName = "AccountName";
-		protected const string _accountPass = "AccountPass";
 		
 		// -------------------------------------------------------------------------------
 		// ThrottledUpdate
 		// -------------------------------------------------------------------------------
 		protected override void ThrottledUpdate()
 		{
-
+			
+			if (manager.state == NetworkState.Game)
+			{
+				Hide();
+				return;
+			}
+			
 			if (manager.IsConnecting())
 				statusText.text = "Connecting...";
-			else if (!Tools.IsAllowedName(accountInput.text) || !Tools.IsAllowedPassword(passwordInput.text))
+			else if (!Tools.IsAllowedName(usernameInput.text) || !Tools.IsAllowedPassword(oldUserPassInput.text) || !Tools.IsAllowedPassword(newUserPassInput.text))
 				statusText.text = "Check Name/Password";
 			else
 				statusText.text = "";
 			
-			accountInput.readOnly = !manager.CanInput();
-			passwordInput.readOnly = !manager.CanInput();
+			usernameInput.readOnly = !manager.CanInput();
+			oldUserPassInput.readOnly = !manager.CanInput();
+			newUserPassInput.readOnly = !manager.CanInput();
 			
-			registerButton.interactable = manager.CanRegisterAccount(accountInput.text, passwordInput.text);
-			registerButton.onClick.SetListener(() => { manager.TryRegisterAccount(accountInput.text, passwordInput.text, false); });
+			changeButton.interactable = manager.CanChangePasswordUser(usernameInput.text, oldUserPassInput.text, newUserPassInput.text);
+			changeButton.onClick.SetListener(() => { manager.TryChangePasswordUser(usernameInput.text, oldUserPassInput.text, newUserPassInput.text, false); });
+
+			hostButton.interactable = manager.CanHostAndPlay(usernameInput.text, oldUserPassInput.text, newUserPassInput.text);
+			hostButton.onClick.SetListener(() => { manager.TryChangePasswordUser(usernameInput.text, oldUserPassInput.text, newUserPassInput.text, true); });
 		
-			hostButton.interactable = manager.CanHostAndPlay(accountInput.text, passwordInput.text);
-			hostButton.onClick.SetListener(() => { manager.TryRegisterAccount(accountInput.text, passwordInput.text, true); });
-			
 			cancelButton.gameObject.SetActive(manager.CanCancel());
 			cancelButton.onClick.SetListener(() => { manager.TryCancel(); });
 		

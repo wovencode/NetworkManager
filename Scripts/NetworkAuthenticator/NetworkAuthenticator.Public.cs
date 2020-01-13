@@ -19,95 +19,182 @@ namespace wovencode
 	// ===================================================================================
     public partial class NetworkAuthenticator
     {
-    
+    	
+    	// ======================= PUBLIC METHODS - USER =================================
+    	
         // -------------------------------------------------------------------------------
-        // OnAuthRequestMessage
-        // @Client -> @Server
+        // RequestLoginUser
 		// -------------------------------------------------------------------------------
-
-		// -------------------------------------------------------------------------------
-		public override bool RequestLogin(NetworkConnection _conn, string _name, string _password)
+		public override bool RequestLoginUser(NetworkConnection conn, string name, string password)
 		{
-			if (!base.RequestLogin(_conn, _name, _password)) return false;
+			if (!base.RequestLoginUser(conn, name, password)) return false;
 			
-			LoginRequestMessage message = new LoginRequestMessage
+			UserLoginRequestMessage message = new UserLoginRequestMessage
 			{
-				username = userName,
-				password = GenerateHash()
+				username = name,
+				password = GenerateHash(name, password)
 			};
 			
-			_conn.Send(message);
+			conn.Send(message);
 			
 			return true;
 			
 		}
 		
 		// -------------------------------------------------------------------------------
-		public override bool RequestRegister(NetworkConnection _conn, string _name, string _password)
+        // RequestRegisterUser
+		// -------------------------------------------------------------------------------
+		public override bool RequestRegisterUser(NetworkConnection conn, string name, string password)
 		{
-			if (!base.RequestRegister(_conn, _name, _password)) return false;
+			if (!base.RequestRegisterUser(conn, name, password)) return false;
 			
-			RegisterRequestMessage message = new RegisterRequestMessage
+			UserRegisterRequestMessage message = new UserRegisterRequestMessage
 			{
-				username = userName,
-				password = GenerateHash()
+				username = name,
+				password = GenerateHash(name, password)
 			};
 			
-			_conn.Send(message);
+			conn.Send(message);
 			
 			return true;
 			
 		}
 		
 		// -------------------------------------------------------------------------------
-		public override bool RequestSoftDelete(NetworkConnection _conn, string _name, string _password, int _action=1)
+        // RequestSoftDeleteUser
+		// -------------------------------------------------------------------------------
+		public override bool RequestSoftDeleteUser(NetworkConnection conn, string name, string password, int _action=1)
 		{
-			if (!base.RequestSoftDelete(_conn, _name, _password)) return false;
+			if (!base.RequestSoftDeleteUser(conn, name, password)) return false;
 			
-			DeleteRequestMessage message = new DeleteRequestMessage
+			UserDeleteRequestMessage message = new UserDeleteRequestMessage
 			{
-				username = userName,
-				password = GenerateHash()
+				username = name,
+				password = GenerateHash(name, password)
 			};
 			
-			_conn.Send(message);
+			conn.Send(message);
 			
 			return true;
 			
 		}
 		
 		// -------------------------------------------------------------------------------
-		public override bool RequestConfirm(NetworkConnection _conn, string _name, string _password, int _action=1)
+        // RequestChangePasswordUser
+		// -------------------------------------------------------------------------------
+		public override bool RequestChangePasswordUser(NetworkConnection conn, string name, string oldpassword, string newpassword)
 		{
-			if (!base.RequestConfirm(_conn, _name, _password)) return false;
+			if (!base.RequestChangePasswordUser(conn, name, oldpassword, newpassword)) return false;
 			
-			ConfirmRequestMessage message = new ConfirmRequestMessage
+			UserChangePasswordRequestMessage message = new UserChangePasswordRequestMessage
 			{
-				username = userName,
-				password = GenerateHash()
+				username = name,
+				oldPassword = GenerateHash(name, oldpassword),
+				newPassword = GenerateHash(name, newpassword)
 			};
 			
-			_conn.Send(message);
+			// reset player prefs on password change
+			PlayerPrefs.SetString(Constants.PlayerPrefsPassword, "");
+			
+			conn.Send(message);
 			
 			return true;
 			
 		}
 		
 		// -------------------------------------------------------------------------------
-		public override bool RequestSwitchServer(NetworkConnection _conn, string _name, int _token=0)
+        // RequestConfirmUser
+		// -------------------------------------------------------------------------------
+		public override bool RequestConfirmUser(NetworkConnection conn, string name, string password, int _action=1)
+		{
+			if (!base.RequestConfirmUser(conn, name, password)) return false;
+			
+			UserConfirmRequestMessage message = new UserConfirmRequestMessage
+			{
+				username = name,
+				password = GenerateHash(name, password)
+			};
+			
+			conn.Send(message);
+			
+			return true;
+			
+		}
+		
+		// ======================= PUBLIC METHODS - PLAYER ================================
+		
+		
+        // -------------------------------------------------------------------------------
+        // RequestLoginPlayer
+		// -------------------------------------------------------------------------------
+		public override bool RequestLoginPlayer(NetworkConnection conn, string name)
+		{
+			if (!base.RequestLoginPlayer(conn, name)) return false;
+			
+			PlayerLoginRequestMessage message = new PlayerLoginRequestMessage
+			{
+				playername = name
+			};
+			
+			conn.Send(message);
+			
+			return true;
+			
+		}
+		
+		// -------------------------------------------------------------------------------
+        // RequestRegisterPlayer
+		// -------------------------------------------------------------------------------
+		public override bool RequestRegisterPlayer(NetworkConnection conn, string name)
+		{
+			if (!base.RequestRegisterPlayer(conn, name)) return false;
+			
+			PlayerRegisterRequestMessage message = new PlayerRegisterRequestMessage
+			{
+				playername = name
+			};
+			
+			conn.Send(message);
+			
+			return true;
+			
+		}
+		
+		// -------------------------------------------------------------------------------
+        // RequestSoftDeletePlayer
+		// -------------------------------------------------------------------------------
+		public override bool RequestSoftDeletePlayer(NetworkConnection conn, string name, int _action=1)
+		{
+			if (!base.RequestSoftDeletePlayer(conn, name)) return false;
+			
+			PlayerDeleteRequestMessage message = new PlayerDeleteRequestMessage
+			{
+				playername = name
+			};
+			
+			conn.Send(message);
+			
+			return true;
+			
+		}
+		
+		// -------------------------------------------------------------------------------
+        // RequestSwitchServerPlayer
+		// -------------------------------------------------------------------------------
+		public override bool RequestSwitchServerPlayer(NetworkConnection conn, string name, int _token=0)
 		{
 			
 			_token = Tools.GenerateToken();
 			
-			if (!base.RequestSwitchServer(_conn, _name, _token)) return false;
+			if (!base.RequestSwitchServerPlayer(conn, name, _token)) return false;
 			
-			SwitchServerRequestMessage message = new SwitchServerRequestMessage
+			PlayerSwitchServerRequestMessage message = new PlayerSwitchServerRequestMessage
 			{
-				username = userName,
+				username = name,
 				token = _token
 			};
 			
-			_conn.Send(message);
+			conn.Send(message);
 			
 			return true;
 			

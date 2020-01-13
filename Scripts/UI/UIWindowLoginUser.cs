@@ -1,5 +1,5 @@
 ﻿// =======================================================================================
-// UIWindowLogin
+// Wovencore
 // by Weaver (Fhiz)
 // MIT licensed
 // =======================================================================================
@@ -13,9 +13,9 @@ namespace wovencode
 {
 
 	// ===================================================================================
-	// UIWindowLogin
+	// UIWindowLoginUser
 	// ===================================================================================
-	public partial class UIWindowLogin : UIRoot
+	public partial class UIWindowLoginUser : UIRoot
 	{
 	
 		[Header("Network")]
@@ -25,8 +25,8 @@ namespace wovencode
 		public Text statusText;
 		
 		[Header("Input Fields")]
-		public InputField accountInput;
-		public InputField accountPasswordInput;
+		public InputField usernameInput;
+		public InputField userpassInput;
 		
 		[Header("Buttons")]
 		public Button loginButton;
@@ -45,9 +45,9 @@ namespace wovencode
 			if (!rememberCredentials) return;
 			
 			if (PlayerPrefs.HasKey(Constants.PlayerPrefsUserName))
-				accountInput.text = PlayerPrefs.GetString(Constants.PlayerPrefsUserName, "");
+				usernameInput.text = PlayerPrefs.GetString(Constants.PlayerPrefsUserName, "");
 			if (PlayerPrefs.HasKey(Constants.PlayerPrefsPassword))
-				accountPasswordInput.text = PlayerPrefs.GetString(Constants.PlayerPrefsPassword, "");
+				userpassInput.text = PlayerPrefs.GetString(Constants.PlayerPrefsPassword, "");
 		}
 		
 		// -------------------------------------------------------------------------------
@@ -58,8 +58,8 @@ namespace wovencode
 			
 			if (!rememberCredentials) return;
 			
-			PlayerPrefs.SetString(Constants.PlayerPrefsUserName, accountInput.text);
-			PlayerPrefs.SetString(Constants.PlayerPrefsPassword, accountPasswordInput.text);
+			PlayerPrefs.SetString(Constants.PlayerPrefsUserName, usernameInput.text);
+			PlayerPrefs.SetString(Constants.PlayerPrefsPassword, userpassInput.text);
 		}
 		
 		// -------------------------------------------------------------------------------
@@ -76,19 +76,19 @@ namespace wovencode
 			
 			if (manager.IsConnecting())
 				statusText.text = "Connecting...";
-			else if (!Tools.IsAllowedName(accountInput.text) || !Tools.IsAllowedPassword(accountPasswordInput.text))
+			else if (!Tools.IsAllowedName(usernameInput.text) || !Tools.IsAllowedPassword(userpassInput.text))
 				statusText.text = "Check Name/Password";
 			else
 				statusText.text = "";
 			
-			accountInput.readOnly = !manager.CanInput();
-			accountPasswordInput.readOnly = !manager.CanInput();
+			usernameInput.readOnly = !manager.CanInput();
+			userpassInput.readOnly = !manager.CanInput();
 			
-			loginButton.interactable = manager.CanLoginAccount(accountInput.text, accountPasswordInput.text);
-			loginButton.onClick.SetListener(() => { manager.TryLoginAccount(accountInput.text, accountPasswordInput.text, false); });
+			loginButton.interactable = manager.CanLoginUser(usernameInput.text, userpassInput.text);
+			loginButton.onClick.SetListener(() => { manager.TryLoginUser(usernameInput.text, userpassInput.text, false); });
 		
-			hostButton.interactable = manager.CanHostAndPlay(accountInput.text, accountPasswordInput.text);
-			hostButton.onClick.SetListener(() => { manager.TryLoginAccount(accountInput.text, accountPasswordInput.text, true); });
+			hostButton.interactable = manager.CanHostAndPlay(usernameInput.text, userpassInput.text);
+			hostButton.onClick.SetListener(() => { manager.TryLoginUser(usernameInput.text, userpassInput.text, true); });
 		
 			cancelButton.gameObject.SetActive(manager.CanCancel());
 			cancelButton.onClick.SetListener(() => { manager.TryCancel(); });

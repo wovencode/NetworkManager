@@ -30,61 +30,113 @@ namespace wovencode
 		public string clientVersion;
 	}
 	
+	// ================================= MESSAGES USER ===================================
+	
 	// -----------------------------------------------------------------------------------
-	// LoginRequestMessage
+	// UserLoginRequestMessage
 	// Requires Authorization
 	// @Client -> @Server
 	// -----------------------------------------------------------------------------------
-	public partial class LoginRequestMessage : MessageBase
+	public partial class UserLoginRequestMessage : MessageBase
 	{
 		public string username;
 		public string password;
 	}
 	
 	// -----------------------------------------------------------------------------------
-	// RegisterRequestMessage
+	// UserRegisterRequestMessage
 	// Requires Authorization
 	// @Client -> @Server
 	// -----------------------------------------------------------------------------------
-	public partial class RegisterRequestMessage : MessageBase
+	public partial class UserRegisterRequestMessage : MessageBase
 	{
 		public string username;
 		public string password;
 	}
 	
 	// -----------------------------------------------------------------------------------
-	// DeleteRequestMessage
+	// UserDeleteRequestMessage
 	// Requires Authorization
 	// @Client -> @Server
 	// -----------------------------------------------------------------------------------
-	public partial class DeleteRequestMessage : MessageBase
+	public partial class UserDeleteRequestMessage : MessageBase
 	{
 		public string username;
 		public string password;
 	}
 	
 	// -----------------------------------------------------------------------------------
-	// ConfirmRequestMessage
+	// UserChangePasswordRequestMessage
 	// Requires Authorization
 	// @Client -> @Server
 	// -----------------------------------------------------------------------------------
-	public partial class ConfirmRequestMessage : MessageBase
+	public partial class UserChangePasswordRequestMessage : MessageBase
+	{
+		public string username;
+		public string oldPassword;
+		public string newPassword;
+	}
+	
+	// -----------------------------------------------------------------------------------
+	// UserConfirmRequestMessage
+	// Requires Authorization
+	// @Client -> @Server
+	// -----------------------------------------------------------------------------------
+	public partial class UserConfirmRequestMessage : MessageBase
 	{
 		public string username;
 		public string password;
 	}
 	
+	// ================================ MESSAGES PLAYER ==================================
+	
 	// -----------------------------------------------------------------------------------
-	// SwitchServerRequestMessage
+	// PlayerLoginRequestMessage
 	// Requires Authorization
 	// @Client -> @Server
 	// -----------------------------------------------------------------------------------
-	public partial class SwitchServerRequestMessage : MessageBase
+	public partial class PlayerLoginRequestMessage : MessageBase
 	{
 		public string username;
-		public string zonename;
+		public string playername;
+	}
+	
+	// -----------------------------------------------------------------------------------
+	// PlayerRegisterRequestMessage
+	// Requires Authorization
+	// @Client -> @Server
+	// -----------------------------------------------------------------------------------
+	public partial class PlayerRegisterRequestMessage : MessageBase
+	{
+		public string username;
+		public string playername;
+	}
+	
+	// -----------------------------------------------------------------------------------
+	// PlayerDeleteRequestMessage
+	// Requires Authorization
+	// @Client -> @Server
+	// -----------------------------------------------------------------------------------
+	public partial class PlayerDeleteRequestMessage : MessageBase
+	{
+		public string username;
+		public string playername;
+	}
+	
+	// -----------------------------------------------------------------------------------
+	// PlayerSwitchServerRequestMessage
+	// Requires Authorization
+	// @Client -> @Server
+	// -----------------------------------------------------------------------------------
+	public partial class PlayerSwitchServerRequestMessage : MessageBase
+	{
+		public string username;
+		public string playername;
+		public int zoneIndex;
 		public int token;
 	}
+	
+	// ================================ MESSAGES SERVER ==================================
 	
 	// -----------------------------------------------------------------------------------
 	// ServerResponseMessage
@@ -97,8 +149,6 @@ namespace wovencode
 		public bool causesDisconnect;
 	}
 
-	
-	
 	// -------------------------------------------------------------------------------
 	
 }
