@@ -35,22 +35,19 @@ namespace wovencode
 		public Button backButton;
 		
 		[Header("Settings")]
-		public bool rememberData;
-		
-		protected const string _accountName = "AccountName";
-		protected const string _accountPass = "AccountPass";
+		public bool rememberCredentials;
 		
 		// -------------------------------------------------------------------------------
 		// Start
 		// -------------------------------------------------------------------------------
 		void Start()
 		{
-			if (!rememberData) return;
+			if (!rememberCredentials) return;
 			
-			if (PlayerPrefs.HasKey(_accountName))
-				accountInput.text = PlayerPrefs.GetString(_accountName, "");
-			if (PlayerPrefs.HasKey(_accountPass))
-				accountPasswordInput.text = PlayerPrefs.GetString(_accountPass, "");
+			if (PlayerPrefs.HasKey(Constants.PP_USERNAME))
+				accountInput.text = PlayerPrefs.GetString(Constants.PP_USERNAME, "");
+			if (PlayerPrefs.HasKey(Constants.PP_PASSWORD))
+				accountPasswordInput.text = PlayerPrefs.GetString(Constants.PP_PASSWORD, "");
 		}
 		
 		// -------------------------------------------------------------------------------
@@ -59,10 +56,10 @@ namespace wovencode
 		void OnDestroy()
 		{
 			
-			if (!rememberData) return;
+			if (!rememberCredentials) return;
 			
-			PlayerPrefs.SetString(_accountName, accountInput.text);
-			PlayerPrefs.SetString(_accountPass, accountPasswordInput.text);
+			PlayerPrefs.SetString(Constants.PP_USERNAME, accountInput.text);
+			PlayerPrefs.SetString(Constants.PP_PASSWORD, accountPasswordInput.text);
 		}
 		
 		// -------------------------------------------------------------------------------

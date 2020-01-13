@@ -33,11 +33,18 @@ namespace wovencode
 		[Tooltip("Set a delay here to make players stay around for a little longer, even after they disconnect.")]
 		public float disconnectDelay = 1;
 		
+		[Header("Servers")]
+		public List<ServerInfo> serverList = new List<ServerInfo>()
+		{
+        	new ServerInfo{name="Local", ip="localhost"}
+    	};
+		
 		[Header("Events")]
 		public UnityEvent onStartServer;
-		public UnityEvent onStartClient;
 		public UnityEvent onStopServer;
-		
+		public UnityEventGameObject onStartClient;
+		public UnityEventGameObject onStopClient;
+				
 		[Header("Message Texts")]
 		public string msgClientDisconnected 	= "Disconnected.";
 		public string msgUserAlreadyOnline		= "User is already online!";
@@ -94,7 +101,6 @@ namespace wovencode
 		// -------------------------------------------------------------------------------
 		public override void OnStartClient()
 		{
-			onStartClient.Invoke();
 			this.InvokeInstanceDevExtMethods("OnStartClient");
 		}
 		
@@ -137,6 +143,7 @@ namespace wovencode
 			{
 				GameObject player = DatabaseManager.singleton.LoadData(playerPrefab, _name);
 				NetworkServer.AddPlayerForConnection(conn, player);
+				onStartClient.Invoke(ClientScene.localPlayer.gameObject);
 				state = NetworkState.Game;
 			}
 			else
@@ -163,6 +170,7 @@ namespace wovencode
 			{
 				DatabaseManager.singleton.SaveData(conn.identity.gameObject, false);
 				Debug.Log("[NetworkManager] Saved player: " + conn.identity.name);
+				onStopClient.Invoke(conn.identity.gameObject);
 			}
 
 			base.OnServerDisconnect(conn);
@@ -214,7 +222,7 @@ namespace wovencode
 		// -------------------------------------------------------------------------------
 		public void EventStartPlayer(GameObject player)
 		{
-			onlinePlayers[player.name] = player.gameObject;
+			onlinePlayers[player.name] = player;
 			this.InvokeInstanceDevExtMethods("EventStartPlayer");
 		}
 	
@@ -227,7 +235,7 @@ namespace wovencode
 			onlinePlayers.Remove(player.name);
 			this.InvokeInstanceDevExtMethods("EventDestroyPlayer");
 		}
-	
+			
 		// -------------------------------------------------------------------------------
 
 	}

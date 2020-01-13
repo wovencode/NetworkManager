@@ -63,6 +63,9 @@ MonoBehaviour:
   spawnPrefabs: []
   state: 0
   disconnectDelay: 1
+  serverList:
+  - name: Local
+    ip: localhost
   onStartServer:
     m_PersistentCalls:
       m_Calls:
@@ -77,11 +80,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  onStartClient:
-    m_PersistentCalls:
-      m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   onStopServer:
@@ -100,8 +98,40 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  onStartClient:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 3252435991396032039}
+        m_MethodName: EventStartPlayer
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_TypeName: wovencode.UnityEventGameObject, Assembly-CSharp, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  onStopClient:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 3252435991396032039}
+        m_MethodName: EventDestroyPlayer
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_TypeName: wovencode.UnityEventGameObject, Assembly-CSharp, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   msgClientDisconnected: Disconnected.
-  msgAccountAlreadyOnline: Account is already online!
+  msgUserAlreadyOnline: User is already online!
 --- !u!114 &3252435991396032036
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -205,15 +235,29 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: wovencode.UnityEventString, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
+  onConfirmEvent:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: wovencode.UnityEventString, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  onSwitchServerEvent:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: wovencode.UnityEventString, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
   msgLoginSuccess: 
   msgLoginFailure: Login failed!
   msgRegisterSuccess: Registration successful!
   msgRegisterFailure: Registration failed!
   msgDeleteSuccess: Delete successful!
   msgDeleteFailure: Delete failed!
+  msgConfirmSuccess: Account confirmed!
+  msgConfirmFailure: Confirm failed!
+  msgSwitchServerSuccess: Server switch successful!
+  msgSwitchServerFailure: Server switch failed!
   msgVersionMismatch: Client out of date!
-  accountNameSalt: at_least_16_byte
+  userNameSalt: at_least_16_byte
   checkApplicationVersion: 1
-  accountName: 
-  accountPassword: 
+  userName: 
+  userPassword: 
   accountAction: 0

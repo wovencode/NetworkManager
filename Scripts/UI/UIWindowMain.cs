@@ -26,12 +26,42 @@ namespace wovencode
 		public UIWindowRegister registerWindow;
 		public UIWindowDelete deleteWindow;
 		
+		[Header("Dropdown")]
+		public Dropdown serverDropdown;
+		
 		[Header("Buttons")]
 		public Button loginButton;
 		public Button registerButton;
 		public Button deleteButton;
 		public Button serverButton;
 		public Button quitButton;
+		
+		[Header("Settings")]
+		public bool rememberServer;
+		
+		// -------------------------------------------------------------------------------
+		// Start
+		// -------------------------------------------------------------------------------
+		void Start()
+		{
+			if (!rememberServer) return;
+			
+			if (PlayerPrefs.HasKey(Constants.PP_LASTSERVER))
+			{
+				string lastServer = PlayerPrefs.GetString(Constants.PP_LASTSERVER, "");
+				serverDropdown.value = manager.serverList.FindIndex(s => s.name == lastServer);
+			}
+			
+		}
+		
+		// -------------------------------------------------------------------------------
+		// OnDestroy
+		// -------------------------------------------------------------------------------
+		void OnDestroy()
+		{
+			if (!rememberServer) return;
+			PlayerPrefs.SetString(Constants.PP_LASTSERVER, serverDropdown.captionText.text);
+		}
 		
 		// -------------------------------------------------------------------------------
 		// ThrottledUpdate
@@ -57,7 +87,10 @@ namespace wovencode
 			
 				quitButton.onClick.SetListener(() => { wovencode.NetworkManager.Quit(); });
 
-
+            	serverDropdown.interactable = manager.CanInput();
+            	serverDropdown.options = manager.serverList.Select(x => new Dropdown.OptionData(x.name)).ToList();
+            	manager.networkAddress = manager.serverList[serverDropdown.value].ip;
+            
 			}
 			else Hide();
 		}

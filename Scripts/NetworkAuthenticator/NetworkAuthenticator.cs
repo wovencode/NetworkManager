@@ -125,7 +125,7 @@ namespace wovencode
 		// -------------------------------------------------------------------------------      
         void OnAuthRequestMessage(NetworkConnection conn, AuthRequestMessage msg)
 		{
-		
+
 			ServerResponseMessage message = new ServerResponseMessage
 			{
 				code 				= successCode,
@@ -223,7 +223,7 @@ namespace wovencode
 			{
 				code 				= successCode,
 				text			 	= "",
-				causesDisconnect 	= false
+				causesDisconnect 	= true
 			};
         	
         	if (DatabaseManager.singleton.TrySoftDelete(msg.username, msg.password))
@@ -314,6 +314,7 @@ namespace wovencode
             if (msg.code == successCode && !msg.causesDisconnect)
             {
                	
+               	base.OnClientAuthenticated.Invoke(conn);
                	
 				switch (accountAction)
 				{
@@ -332,9 +333,6 @@ namespace wovencode
 						break;
 					case NetworkActionSwitchServer:
 						RequestSwitchServer(conn, userName);
-						break;
-					default:
-						base.OnClientAuthenticated.Invoke(conn);
 						break;
 				}
 			  	
