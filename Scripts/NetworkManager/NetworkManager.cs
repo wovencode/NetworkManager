@@ -101,21 +101,21 @@ namespace wovencode
 		// -------------------------------------------------------------------------------
 		public override void OnStartClient()
 		{
-			this.InvokeInstanceDevExtMethods("OnStartClient");
+			this.InvokeInstanceDevExtMethods(nameof(OnStartClient));
 		}
 		
 		// -------------------------------------------------------------------------------
 		public override void OnStartServer()
 		{
 			onStartServer.Invoke();
-			this.InvokeInstanceDevExtMethods("OnStartServer");
+			this.InvokeInstanceDevExtMethods(nameof(OnStartServer));
 		}
 		
 		// -------------------------------------------------------------------------------
 		public override void OnStopServer()
 		{
 			onStopServer.Invoke();
-			this.InvokeInstanceDevExtMethods("OnStopServer");
+			this.InvokeInstanceDevExtMethods(nameof(OnStopServer));
 		}
 		
 		// -------------------------------------------------------------------------------
@@ -123,17 +123,17 @@ namespace wovencode
 		
 		// -------------------------------------------------------------------------------
 		public override void OnClientConnect(NetworkConnection conn) {
-			this.InvokeInstanceDevExtMethods("OnClientConnect");
+			this.InvokeInstanceDevExtMethods(nameof(OnClientConnect));
 		}
 		
 		// -------------------------------------------------------------------------------
 		public override void OnServerConnect(NetworkConnection conn) {
-			this.InvokeInstanceDevExtMethods("OnServerConnect");
+			this.InvokeInstanceDevExtMethods(nameof(OnServerConnect));
 		}
 		
 		// -------------------------------------------------------------------------------
 		public override void OnClientSceneChanged(NetworkConnection conn) {
-			this.InvokeInstanceDevExtMethods("OnClientSceneChanged");
+			this.InvokeInstanceDevExtMethods(nameof(OnClientSceneChanged));
 		}
 
 		// -------------------------------------------------------------------------------
@@ -158,7 +158,7 @@ namespace wovencode
 		public override void OnServerDisconnect(NetworkConnection conn)
 		{
 			StartCoroutine(DoServerDisconnect(conn, disconnectDelay));
-			this.InvokeInstanceDevExtMethods("OnServerDisconnect");
+			this.InvokeInstanceDevExtMethods(nameof(OnServerDisconnect));
 		}
 		
 		// -------------------------------------------------------------------------------
@@ -185,7 +185,7 @@ namespace wovencode
 			base.OnClientDisconnect(conn);
 			state = NetworkState.Offline;
 			UIPopupConfirm.singleton.Init(msgClientDisconnected);
-			this.InvokeInstanceDevExtMethods("OnClientDisconnect");
+			this.InvokeInstanceDevExtMethods(nameof(OnClientDisconnect));
 		}
 		
 		// -------------------------------------------------------------------------------
@@ -227,7 +227,7 @@ namespace wovencode
 		public void EventStartPlayer(GameObject player)
 		{
 			onlinePlayers[player.name] = player;
-			this.InvokeInstanceDevExtMethods("EventStartPlayer");
+			this.InvokeInstanceDevExtMethods(nameof(EventStartPlayer));
 		}
 	
 		// -------------------------------------------------------------------------------
@@ -237,7 +237,7 @@ namespace wovencode
 		public void EventDestroyPlayer(GameObject player)
 		{
 			onlinePlayers.Remove(player.name);
-			this.InvokeInstanceDevExtMethods("EventDestroyPlayer");
+			this.InvokeInstanceDevExtMethods(nameof(EventDestroyPlayer));
 		}
 			
 		// -------------------------------------------------------------------------------
