@@ -46,9 +46,9 @@ namespace wovencode
 		{
 			if (!rememberServer) return;
 			
-			if (PlayerPrefs.HasKey(Constants.PP_LASTSERVER))
+			if (PlayerPrefs.HasKey(Constants.PlayerPrefsLastServer))
 			{
-				string lastServer = PlayerPrefs.GetString(Constants.PP_LASTSERVER, "");
+				string lastServer = PlayerPrefs.GetString(Constants.PlayerPrefsLastServer, "");
 				serverDropdown.value = manager.serverList.FindIndex(s => s.name == lastServer);
 			}
 			
@@ -60,7 +60,7 @@ namespace wovencode
 		void OnDestroy()
 		{
 			if (!rememberServer) return;
-			PlayerPrefs.SetString(Constants.PP_LASTSERVER, serverDropdown.captionText.text);
+			PlayerPrefs.SetString(Constants.PlayerPrefsLastServer, serverDropdown.captionText.text);
 		}
 		
 		// -------------------------------------------------------------------------------

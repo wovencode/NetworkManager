@@ -44,10 +44,10 @@ namespace wovencode
 		{
 			if (!rememberCredentials) return;
 			
-			if (PlayerPrefs.HasKey(Constants.PP_USERNAME))
-				accountInput.text = PlayerPrefs.GetString(Constants.PP_USERNAME, "");
-			if (PlayerPrefs.HasKey(Constants.PP_PASSWORD))
-				accountPasswordInput.text = PlayerPrefs.GetString(Constants.PP_PASSWORD, "");
+			if (PlayerPrefs.HasKey(Constants.PlayerPrefsUserName))
+				accountInput.text = PlayerPrefs.GetString(Constants.PlayerPrefsUserName, "");
+			if (PlayerPrefs.HasKey(Constants.PlayerPrefsPassword))
+				accountPasswordInput.text = PlayerPrefs.GetString(Constants.PlayerPrefsPassword, "");
 		}
 		
 		// -------------------------------------------------------------------------------
@@ -58,8 +58,8 @@ namespace wovencode
 			
 			if (!rememberCredentials) return;
 			
-			PlayerPrefs.SetString(Constants.PP_USERNAME, accountInput.text);
-			PlayerPrefs.SetString(Constants.PP_PASSWORD, accountPasswordInput.text);
+			PlayerPrefs.SetString(Constants.PlayerPrefsUserName, accountInput.text);
+			PlayerPrefs.SetString(Constants.PlayerPrefsPassword, accountPasswordInput.text);
 		}
 		
 		// -------------------------------------------------------------------------------
