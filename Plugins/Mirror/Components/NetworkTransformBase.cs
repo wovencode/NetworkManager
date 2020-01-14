@@ -32,6 +32,13 @@ namespace Mirror
         [SerializeField] Compression compressRotation = Compression.Much;
         public enum Compression { None, Much, Lots, NoRotation }; // easily understandable and funny
 
+        [Tooltip("Set to true if moves come from owner client, set to false if moves always come from server")]
+        public bool clientAuthority;
+
+        // Is this a client with authority over this transform?
+        // This component could be on the player object or any object that has been assigned authority to this client.
+        bool isClientWithAuthority => hasAuthority && clientAuthority;
+
         // server
         Vector3 lastPosition;
         Quaternion lastRotation;
@@ -364,7 +371,7 @@ namespace Mirror
             {
                 // send to server if we have local authority (and aren't the server)
                 // -> only if connectionToServer has been initialized yet too
-                if (!isServer && hasAuthority)
+                if (!isServer && isClientWithAuthority)
                 {
                     // check only each 'syncInterval'
                     if (Time.time - lastClientSendTime >= syncInterval)
@@ -373,11 +380,12 @@ namespace Mirror
                         {
                             // serialize
                             // local position/rotation for VR support
-                            NetworkWriter writer = new NetworkWriter();
+                            NetworkWriter writer = NetworkWriterPool.GetWriter();
                             SerializeIntoWriter(writer, targetComponent.transform.localPosition, targetComponent.transform.localRotation, compressRotation, targetComponent.transform.localScale);
 
                             // send to server
                             CmdClientToServerSync(writer.ToArray());
+                            NetworkWriterPool.Recycle(writer);
                         }
                         lastClientSendTime = Time.time;
                     }
@@ -386,7 +394,7 @@ namespace Mirror
                 // apply interpolation on client for all players
                 // unless this client has authority over the object. could be
                 // himself or another object that he was assigned authority over
-                if (!hasAuthority)
+                if (!isClientWithAuthority)
                 {
                     // received one yet? (initialized?)
                     if (goal != null)
@@ -396,6 +404,10 @@ namespace Mirror
                         {
                             // local position/rotation for VR support
                             ApplyPositionRotationScale(goal.localPosition, goal.localRotation, goal.localScale);
+
+                            // reset data points so we don't keep interpolating
+                            start = null;
+                            goal = null;
                         }
                         else
                         {

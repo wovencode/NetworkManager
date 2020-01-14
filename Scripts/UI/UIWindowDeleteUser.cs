@@ -34,7 +34,7 @@ namespace wovencode
 		public Button cancelButton;
 		public Button backButton;
 		
-		[Header("Labels")]
+		[Header("System Texts")]
 		public string popupDescription = "Do you really want to delete this account?";
 		
 		protected const string _userName = "UserName";

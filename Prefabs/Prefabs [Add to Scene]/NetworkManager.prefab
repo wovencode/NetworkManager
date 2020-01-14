@@ -61,77 +61,35 @@ MonoBehaviour:
   autoCreatePlayer: 1
   playerSpawnMethod: 0
   spawnPrefabs: []
-  state: 0
-  disconnectDelay: 1
+  debugMode: 0
   serverList:
   - name: Local
     ip: localhost
-  onStartServer:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: EventStartServer
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  onStopServer:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: EventStopServer
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  onStartClient:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 3252435991396032039}
-        m_MethodName: EventStartPlayer
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_TypeName: wovencode.UnityEventGameObject, Assembly-CSharp, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  onStopClient:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 3252435991396032039}
-        m_MethodName: EventDestroyPlayer
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_TypeName: wovencode.UnityEventGameObject, Assembly-CSharp, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  msgClientDisconnected: Disconnected.
-  msgUserAlreadyOnline: User is already online!
+  systemText:
+    clientDisconnected: Disconnected.
+    userAlreadyOnline: User is already online!
+  eventListener:
+    onStartServer:
+      m_PersistentCalls:
+        m_Calls: []
+      m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+    onStopServer:
+      m_PersistentCalls:
+        m_Calls: []
+      m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+    onStartClient:
+      m_PersistentCalls:
+        m_Calls: []
+      m_TypeName: wovencode.UnityEventGameObject, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+    onLogoutClient:
+      m_PersistentCalls:
+        m_Calls: []
+      m_TypeName: wovencode.UnityEventConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+  state: 0
 --- !u!114 &3252435991396032036
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -208,56 +166,72 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Mirror.UnityEventNetworkConnection, Mirror, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
-  manager: {fileID: 3252435991396032039}
-  onRegisterEvent:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 3252435991396032039}
-        m_MethodName: EventCreatePlayer
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_TypeName: wovencode.UnityEventString, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
-  onLoginEvent:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: wovencode.UnityEventString, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
-  onDeleteEvent:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: wovencode.UnityEventString, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
-  onConfirmEvent:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: wovencode.UnityEventString, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
-  onSwitchServerEvent:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: wovencode.UnityEventString, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
-  msgLoginSuccess: 
-  msgLoginFailure: Login failed!
-  msgRegisterSuccess: Registration successful!
-  msgRegisterFailure: Registration failed!
-  msgDeleteSuccess: Delete successful!
-  msgDeleteFailure: Delete failed!
-  msgConfirmSuccess: Account confirmed!
-  msgConfirmFailure: Confirm failed!
-  msgSwitchServerSuccess: Server switch successful!
-  msgSwitchServerFailure: Server switch failed!
-  msgVersionMismatch: Client out of date!
+  debugMode: 0
+  networkManager: {fileID: 3252435991396032039}
   userNameSalt: at_least_16_byte
   checkApplicationVersion: 1
+  systemText:
+    versionMismatch: Client out of date!
+    userLoginSuccess: 
+    userLoginFailure: Account Login failed!
+    userRegisterSuccess: Account Registration successful!
+    userRegisterFailure: Account Registration failed!
+    userChangePasswordSuccess: Change Password successful!
+    userChangePasswordFailure: Change Password failed!
+    userDeleteSuccess: Delete Account successful!
+    userDeleteFailure: Delete Account failed!
+    userConfirmSuccess: Account confirmed!
+    userConfirmFailure: Confirm failed!
+    playerLoginSuccess: 
+    playerLoginFailure: Player Login failed!
+    playerRegisterSuccess: Create player successful!
+    playerRegisterFailure: Create player failed!
+    playerDeleteSuccess: Delete player successful!
+    playerDeleteFailure: Delete player failed!
+    playerSwitchServerSuccess: Server switch successful!
+    playerSwitchServerFailure: Server switch failed!
+  eventListener:
+    onUserRegister:
+      m_PersistentCalls:
+        m_Calls: []
+      m_TypeName: wovencode.UnityEventString, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+    onUserLogin:
+      m_PersistentCalls:
+        m_Calls: []
+      m_TypeName: wovencode.UnityEventConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+    onUserDelete:
+      m_PersistentCalls:
+        m_Calls: []
+      m_TypeName: wovencode.UnityEventString, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+    onUserConfirm:
+      m_PersistentCalls:
+        m_Calls: []
+      m_TypeName: wovencode.UnityEventString, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+    onPlayerRegister:
+      m_PersistentCalls:
+        m_Calls: []
+      m_TypeName: wovencode.UnityEventString, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+    onPlayerLogin:
+      m_PersistentCalls:
+        m_Calls: []
+      m_TypeName: wovencode.UnityEventGameObject, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+    onPlayerDelete:
+      m_PersistentCalls:
+        m_Calls: []
+      m_TypeName: wovencode.UnityEventString, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+    onPlayerSwitchServer:
+      m_PersistentCalls:
+        m_Calls: []
+      m_TypeName: wovencode.UnityEventString, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
   userName: 
   userPassword: 
-  accountAction: 0
+  newPassword: 
+  userAction: 0

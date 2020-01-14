@@ -19,6 +19,9 @@ namespace wovencode
 	public abstract partial class BaseNetworkAuthenticator : Mirror.NetworkAuthenticator, IRequestableManager
 	{
 		
+		[Header("Debug Mode")]
+		public bool debugMode;
+		
     	// ======================= PUBLIC METHODS - USER =================================
     	
 		// -------------------------------------------------------------------------------

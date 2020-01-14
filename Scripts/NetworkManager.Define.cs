@@ -19,7 +19,7 @@ namespace wovencode
 		[DevExtMethods("Constructor")]
 		public static void Constructor_NetworkManager()
 		{
-			EditorTools.AddScriptingDefine("WOCO_NETWORK");
+			EditorTools.AddScriptingDefine("wNETWORK");
 		}
 
 	}

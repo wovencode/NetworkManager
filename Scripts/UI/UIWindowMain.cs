@@ -71,7 +71,7 @@ namespace wovencode
 		protected override void ThrottledUpdate()
 		{
 			
-			if (manager.state != NetworkState.Game)
+			if (manager.state == NetworkState.Offline)
 			{
 				Show();
 				

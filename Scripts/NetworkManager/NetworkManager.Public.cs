@@ -123,7 +123,7 @@ namespace wovencode
 			
 			((wovencode.NetworkAuthenticator)authenticator).userName 		= name;
 			((wovencode.NetworkAuthenticator)authenticator).userPassword 	= password;
-			((wovencode.NetworkAuthenticator)authenticator).userAction 		= NetworkAuthenticator.NetworkActionLoginUser;
+			((wovencode.NetworkAuthenticator)authenticator).userAction 		= NetworkAction.LoginUser;
 			
 			if (hostMode)
 				StartHost();
@@ -141,7 +141,7 @@ namespace wovencode
 			
 			((wovencode.NetworkAuthenticator)authenticator).userName 		= name;
 			((wovencode.NetworkAuthenticator)authenticator).userPassword 	= password;
-			((wovencode.NetworkAuthenticator)authenticator).userAction 		= NetworkAuthenticator.NetworkActionRegisterUser;
+			((wovencode.NetworkAuthenticator)authenticator).userAction 		= NetworkAction.RegisterUser;
 			
 			if (hostMode)
 				StartHost();
@@ -159,7 +159,7 @@ namespace wovencode
 			
 			((wovencode.NetworkAuthenticator)authenticator).userName 		= name;
 			((wovencode.NetworkAuthenticator)authenticator).userPassword 	= password;
-			((wovencode.NetworkAuthenticator)authenticator).userAction 		= NetworkAuthenticator.NetworkActionDeleteUser;
+			((wovencode.NetworkAuthenticator)authenticator).userAction 		= NetworkAction.DeleteUser;
 			
 			if (hostMode)
 				StartHost();
@@ -178,7 +178,7 @@ namespace wovencode
 			((wovencode.NetworkAuthenticator)authenticator).userName 		= name;
 			((wovencode.NetworkAuthenticator)authenticator).userPassword 	= oldpassword;
 			((wovencode.NetworkAuthenticator)authenticator).newPassword 	= newpassword;
-			((wovencode.NetworkAuthenticator)authenticator).userAction 		= NetworkAuthenticator.NetworkActionChangePasswordUser;
+			((wovencode.NetworkAuthenticator)authenticator).userAction 		= NetworkAction.ChangePasswordUser;
 			
 			if (hostMode)
 				StartHost();
@@ -196,7 +196,7 @@ namespace wovencode
 			
 			((wovencode.NetworkAuthenticator)authenticator).userName 		= name;
 			((wovencode.NetworkAuthenticator)authenticator).userPassword 	= password;
-			((wovencode.NetworkAuthenticator)authenticator).userAction 		= NetworkAuthenticator.NetworkActionConfirmUser;
+			((wovencode.NetworkAuthenticator)authenticator).userAction 		= NetworkAction.ConfirmUser;
 			
 			if (hostMode)
 				StartHost();

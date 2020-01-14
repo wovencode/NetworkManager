@@ -22,16 +22,8 @@ namespace wovencode
 	// ===================================================================================
 	[RequireComponent(typeof(wovencode.NetworkAuthenticator))]
 	[DisallowMultipleComponent]
-	public partial class NetworkManager : Mirror.NetworkManager
+	public partial class NetworkManager : BaseNetworkManager
 	{
-	
-		public static Dictionary<string, GameObject> onlinePlayers = new Dictionary<string, GameObject>();
-	
-		[HideInInspector]public NetworkState state = NetworkState.Offline;
-		
-		[Header("Settings")]
-		[Tooltip("Set a delay here to make players stay around for a little longer, even after they disconnect.")]
-		public float disconnectDelay = 1;
 		
 		[Header("Servers")]
 		public List<ServerInfo> serverList = new List<ServerInfo>()
@@ -39,15 +31,17 @@ namespace wovencode
         	new ServerInfo{name="Local", ip="localhost"}
     	};
 		
-		[Header("Events")]
-		public UnityEvent onStartServer;
-		public UnityEvent onStopServer;
-		public UnityEventGameObject onStartClient;
-		public UnityEventGameObject onStopClient;
-				
-		[Header("Message Texts")]
-		public string msgClientDisconnected 	= "Disconnected.";
-		public string msgUserAlreadyOnline		= "User is already online!";
+		[Header("System Texts")]
+		public NetworkManager_Lang systemText;
+		
+		[Header("Event Listeners")]
+		public NetworkManager_EventListeners eventListener;
+		
+		
+		public static Dictionary<string, GameObject> onlinePlayers = new Dictionary<string, GameObject>();
+		protected Dictionary<NetworkConnection, string> onlineUsers = new Dictionary<NetworkConnection, string>();
+		
+		[HideInInspector]public NetworkState state = NetworkState.Offline;
 		
 		// -------------------------------------------------------------------------------
 		public override void Awake()
@@ -79,6 +73,16 @@ namespace wovencode
 		}
 		
 		// -------------------------------------------------------------------------------
+		public string UserName(NetworkConnection conn)
+		{
+			foreach (KeyValuePair<NetworkConnection, string> user in onlineUsers)
+				if (user.Key == conn) return user.Value;
+			
+			return "";
+
+		}
+		
+		// -------------------------------------------------------------------------------
 		public void ServerSendError(NetworkConnection conn, string error, bool disconnect)
 		{
 			conn.Send(new ErrorMsg{text=error, causesDisconnect=disconnect});
@@ -107,14 +111,20 @@ namespace wovencode
 		// -------------------------------------------------------------------------------
 		public override void OnStartServer()
 		{
-			onStartServer.Invoke();
+#if wDB
+			DatabaseManager.singleton.Init();
+#endif
+			eventListener.onStartServer.Invoke();
 			this.InvokeInstanceDevExtMethods(nameof(OnStartServer));
 		}
 		
 		// -------------------------------------------------------------------------------
 		public override void OnStopServer()
 		{
-			onStopServer.Invoke();
+#if wDB
+			DatabaseManager.singleton.Destruct();
+#endif
+			eventListener.onStopServer.Invoke();
 			this.InvokeInstanceDevExtMethods(nameof(OnStopServer));
 		}
 		
@@ -137,43 +147,37 @@ namespace wovencode
 		}
 
 		// -------------------------------------------------------------------------------
-		public void LoginPlayer(NetworkConnection conn, string _name)
-		{
-			if (!AccountLoggedIn(_name))
-			{
-				GameObject player = DatabaseManager.singleton.LoadData(playerPrefab, _name);
-				NetworkServer.AddPlayerForConnection(conn, player);
-				onStartClient.Invoke(ClientScene.localPlayer.gameObject);
-				state = NetworkState.Game;
-			}
-			else
-				ServerSendError(conn, msgUserAlreadyOnline, true);
-		}
-		
-		// -------------------------------------------------------------------------------
 		public override void OnServerAddPlayer(NetworkConnection conn) {}
 	
-		
 		// -------------------------------------------------------------------------------
 		public override void OnServerDisconnect(NetworkConnection conn)
 		{
-			StartCoroutine(DoServerDisconnect(conn, disconnectDelay));
-			this.InvokeInstanceDevExtMethods(nameof(OnServerDisconnect));
-		}
-		
-		// -------------------------------------------------------------------------------
-		IEnumerator<WaitForSeconds> DoServerDisconnect(NetworkConnection conn, float delay)
-		{
-			yield return new WaitForSeconds(delay);
 
+#if wDB
+			DatabaseManager.singleton.LogoutUser(UserName(conn));
+#endif
 			if (conn.identity != null)
 			{
-				DatabaseManager.singleton.SaveData(conn.identity.gameObject, false);
+			
+				eventListener.onLogoutClient.Invoke(conn);
+			
 				Debug.Log("[NetworkManager] Saved player: " + conn.identity.name);
-				onStopClient.Invoke(conn.identity.gameObject);
+				
+				if (conn.identity.gameObject != null)
+				{
+					string name = conn.identity.gameObject.name;
+#if wPLAYER
+					PlayerComponent playerComponent = conn.identity.gameObject.GetComponent<PlayerComponent>();
+					name = playerComponent.name;
+#endif
+					onlinePlayers.Remove(name);
+				}
+					
 			}
-
+			
+			onlineUsers.Remove(conn);
 			base.OnServerDisconnect(conn);
+			
 		}
 		
 		// -------------------------------------------------------------------------------
@@ -184,7 +188,7 @@ namespace wovencode
 		{
 			base.OnClientDisconnect(conn);
 			state = NetworkState.Offline;
-			UIPopupConfirm.singleton.Init(msgClientDisconnected);
+			UIPopupConfirm.singleton.Init(systemText.clientDisconnected);
 			this.InvokeInstanceDevExtMethods(nameof(OnClientDisconnect));
 		}
 		
@@ -200,46 +204,7 @@ namespace wovencode
 			Application.Quit();
 #endif
 		}
-	
-		// ======================== PUBLIC EVENT METHODS =================================
-		
-		// -------------------------------------------------------------------------------
-		// EventCreateUser
-		// Invoked when the NetworkAuthenticator sucessfully registers a new user
-		// -------------------------------------------------------------------------------
-		public void EventCreateUser(string _name)
-		{
-			GameObject player = Instantiate(playerPrefab);
-#if WOCO_PLAYER
-			PlayerComponent playerComponent = player.GetComponent<PlayerComponent>();
-			playerComponent.username = _name;
-#endif
-			player.name = _name;
-			DatabaseManager.singleton.CreateDefaultData(player);
-			DatabaseManager.singleton.SaveData(player, false);
-			Destroy(player);
-		}
-		
-		// -------------------------------------------------------------------------------
-		// EventStartPlayer
-		// Invoked when the clients player enters the scene
-		// -------------------------------------------------------------------------------
-		public void EventStartPlayer(GameObject player)
-		{
-			onlinePlayers[player.name] = player;
-			this.InvokeInstanceDevExtMethods(nameof(EventStartPlayer));
-		}
-	
-		// -------------------------------------------------------------------------------
-		// EventDestroyPlayer
-		// Invoked when the clients player is destroyed / client disconnects
-		// -------------------------------------------------------------------------------
-		public void EventDestroyPlayer(GameObject player)
-		{
-			onlinePlayers.Remove(player.name);
-			this.InvokeInstanceDevExtMethods(nameof(EventDestroyPlayer));
-		}
-			
+
 		// -------------------------------------------------------------------------------
 
 	}

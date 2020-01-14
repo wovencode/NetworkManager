@@ -63,7 +63,7 @@ namespace wovencode
 		// -------------------------------------------------------------------------------
         // RequestSoftDeleteUser
 		// -------------------------------------------------------------------------------
-		public override bool RequestSoftDeleteUser(NetworkConnection conn, string name, string password, int _action=1)
+		public override bool RequestSoftDeleteUser(NetworkConnection conn, string name, string password, int action=1)
 		{
 			if (!base.RequestSoftDeleteUser(conn, name, password)) return false;
 			
@@ -105,7 +105,7 @@ namespace wovencode
 		// -------------------------------------------------------------------------------
         // RequestConfirmUser
 		// -------------------------------------------------------------------------------
-		public override bool RequestConfirmUser(NetworkConnection conn, string name, string password, int _action=1)
+		public override bool RequestConfirmUser(NetworkConnection conn, string name, string password, int action=1)
 		{
 			if (!base.RequestConfirmUser(conn, name, password)) return false;
 			
@@ -163,7 +163,7 @@ namespace wovencode
 		// -------------------------------------------------------------------------------
         // RequestSoftDeletePlayer
 		// -------------------------------------------------------------------------------
-		public override bool RequestSoftDeletePlayer(NetworkConnection conn, string name, int _action=1)
+		public override bool RequestSoftDeletePlayer(NetworkConnection conn, string name, int action=1)
 		{
 			if (!base.RequestSoftDeletePlayer(conn, name)) return false;
 			

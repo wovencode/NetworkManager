@@ -23,60 +23,24 @@ namespace wovencode
     {
     
         [Header("NetworkManager")]
-		public wovencode.NetworkManager manager;
-		
-		[Header("Events")]
-		public UnityEventString onUserRegister;
-		public UnityEventString onUserLogin;
-		public UnityEventString onUserDelete;
-		public UnityEventString onUserConfirm;
-		public UnityEventString onPlayerRegister;
-		public UnityEventString onPlayerLogin;
-		public UnityEventString onPlayerDelete;
-		public UnityEventString onPlayerConfirm;
-		public UnityEventString onPlayerSwitchServer;
-		
-		[Header("Message Texts")]
-		public string msgVersionMismatch			= "Client out of date!";
-		public string msgUserLoginSuccess 			= ""; // no message here as it would display a popup on every login
-		public string msgUserLoginFailure 			= "Account Login failed!";
-		public string msgUserRegisterSuccess 		= "Account Registration successful!";
-		public string msgUserRegisterFailure 		= "Account Registration failed!";
-		public string msgUserChangePasswordSuccess	= "Change Password successful!";
-		public string msgUserChangePasswordFailure	= "Change Password failed!";
-		public string msgUserDeleteSuccess 			= "Delete Account successful!";
-		public string msgUserDeleteFailure 			= "Delete Account failed!";
-		public string msgUserConfirmSuccess 		= "Account confirmed!";
-		public string msgUserConfirmFailure 		= "Confirm failed!";
-		public string msgPlayerLoginSuccess 		= ""; // no message here as it would display a popup on every login
-		public string msgPlayerLoginFailure 		= "Player Login failed!";
-		public string msgPlayerRegisterSuccess 		= "Create player successful!";
-		public string msgPlayerRegisterFailure 		= "Create player failed!";
-		public string msgPlayerDeleteSuccess 		= "Delete player successful!";
-		public string msgPlayerDeleteFailure 		= "Delete player failed!";
-		public string msgPlayerSwitchServerSuccess 	= "Server switch successful!";
-		public string msgPlayerSwitchServerFailure 	= "Server switch failed!";
+		public wovencode.NetworkManager networkManager;
 		
 		[Header("Security")]
-    	public string userNameSalt 					= "at_least_16_byte";
+    	public string userNameSalt 							= "at_least_16_byte";
     	
     	[Header("Settings")]
-		public bool checkApplicationVersion 		= true;
+		public bool checkApplicationVersion 				= true;
 		
-		[HideInInspector]public string 	userName 							= "";
-        [HideInInspector]public string 	userPassword						= "";
-        [HideInInspector]public string 	newPassword							= "";
-		[HideInInspector]public byte 	userAction 							= 0;
+		[Header("System Texts")]
+		public NetworkAuthenticator_Lang 					systemText;
 		
-		[HideInInspector]public const byte NetworkActionRegisterUser 		= 10;
-		[HideInInspector]public const byte NetworkActionLoginUser 			= 20;
-		[HideInInspector]public const byte NetworkActionDeleteUser 			= 30;
-		[HideInInspector]public const byte NetworkActionConfirmUser 		= 40;
-		[HideInInspector]public const byte NetworkActionChangePasswordUser  = 50;
-		[HideInInspector]public const byte NetworkActionRegisterPlayer 		= 60;
-		[HideInInspector]public const byte NetworkActionLoginPlayer 		= 70;
-		[HideInInspector]public const byte NetworkActionDeletePlayer 		= 80;
-		[HideInInspector]public const byte NetworkActionSwitchServerPlayer 	= 90;
+		[Header("Event Listeners")]
+		public NetworkAuthenticator_EventListeners 			eventListener;
+		
+		[HideInInspector]public string userName 			= "";
+        [HideInInspector]public string userPassword			= "";
+        [HideInInspector]public string newPassword			= "";
+		[HideInInspector]public NetworkAction userAction 	= NetworkAction.None;
 		
 		protected const byte successCode 	= 100;
 		protected const byte errorCode 		= 200;
@@ -160,7 +124,7 @@ namespace wovencode
 			
 			if (checkApplicationVersion && msg.clientVersion != Application.version)
 			{
-				message.text = msgVersionMismatch;
+				message.text = systemText.versionMismatch;
             	message.code = errorCode;
 			}
 			else
@@ -196,13 +160,13 @@ namespace wovencode
 			
 			if (DatabaseManager.singleton.TryLoginUser(msg.username, msg.password))
 			{
-				manager.LoginPlayer(conn, msg.username);
-				message.text = msgUserLoginSuccess;
-				onUserLogin.Invoke(msg.username);
+				networkManager.LoginUser(conn, msg.username);
+				eventListener.onUserLogin.Invoke(conn);
+				message.text = systemText.userLoginSuccess;
 			}
 			else
 			{
-				message.text = msgUserLoginFailure;
+				message.text = systemText.userLoginFailure;
 				message.code = errorCode;
 			}
 					
@@ -226,15 +190,16 @@ namespace wovencode
         	
         	if (DatabaseManager.singleton.TryRegisterUser(msg.username, msg.password))
 			{
-				message.text = msgUserRegisterSuccess;
-				onUserRegister.Invoke(msg.username);
+				networkManager.RegisterUser(msg.username);
+				eventListener.onUserRegister.Invoke(msg.username);
+				message.text = systemText.userRegisterSuccess;
 			}
 			else
 			{
-				message.text = msgUserRegisterFailure;
+				message.text = systemText.userRegisterFailure;
 				message.code = errorCode;
 			}
-					
+
         	conn.Send(message);
         	
         }
@@ -255,12 +220,12 @@ namespace wovencode
         	
         	if (DatabaseManager.singleton.TrySoftDeleteUser(msg.username, msg.password))
 			{
-				message.text = msgUserDeleteSuccess;
-				onUserDelete.Invoke(msg.username);
+				message.text = systemText.userDeleteSuccess;
+				eventListener.onUserDelete.Invoke(msg.username);
 			}
 			else
 			{
-				message.text = msgUserDeleteFailure;
+				message.text = systemText.userDeleteFailure;
 				message.code = errorCode;
 			}
 					
@@ -284,11 +249,11 @@ namespace wovencode
         	
         	if (DatabaseManager.singleton.TryChangePasswordUser(msg.username, msg.oldPassword, msg.newPassword))
 			{
-				message.text = msgUserChangePasswordSuccess;
+				message.text = systemText.userChangePasswordSuccess;
 			}
 			else
 			{
-				message.text = msgUserChangePasswordFailure;
+				message.text = systemText.userChangePasswordFailure;
 				message.code = errorCode;
 			}
 					
@@ -312,12 +277,12 @@ namespace wovencode
         	
         	if (DatabaseManager.singleton.TryConfirmUser(msg.username, msg.password))
 			{
-				message.text = msgUserConfirmSuccess;
-				onUserConfirm.Invoke(msg.username);
+				message.text = systemText.userConfirmSuccess;
+				eventListener.onUserConfirm.Invoke(msg.username);
 			}
 			else
 			{
-				message.text = msgUserConfirmFailure;
+				message.text = systemText.userConfirmFailure;
 				message.code = errorCode;
 			}
 					
@@ -326,8 +291,6 @@ namespace wovencode
         }
         
         // ========================= MESSAGE HANDLERS - PLAYER ============================
-        
-        
         
         // -------------------------------------------------------------------------------
         // OnPlayerLoginRequestMessage
@@ -345,13 +308,14 @@ namespace wovencode
 			
 			if (DatabaseManager.singleton.TryLoginPlayer(msg.playername, msg.username))
 			{
-				manager.LoginPlayer(conn, msg.playername);
-				message.text = msgPlayerLoginSuccess;
-				onPlayerLogin.Invoke(msg.playername);
+				networkManager.LoginPlayer(conn, msg.playername);
+				
+				message.text = systemText.playerLoginSuccess;
+				eventListener.onPlayerLogin.Invoke(conn.identity.gameObject);
 			}
 			else
 			{
-				message.text = msgPlayerLoginFailure;
+				message.text = systemText.playerLoginFailure;
 				message.code = errorCode;
 			}
 					
@@ -375,12 +339,14 @@ namespace wovencode
         	
         	if (DatabaseManager.singleton.TryRegisterPlayer(msg.playername, msg.username))
 			{
-				message.text = msgPlayerRegisterSuccess;
-				onPlayerRegister.Invoke(msg.playername);
+				networkManager.RegisterPlayer(msg.playername);
+				
+				message.text = systemText.playerRegisterSuccess;
+				eventListener.onPlayerRegister.Invoke(msg.playername);
 			}
 			else
 			{
-				message.text = msgPlayerRegisterFailure;
+				message.text = systemText.playerRegisterFailure;
 				message.code = errorCode;
 			}
 					
@@ -404,12 +370,12 @@ namespace wovencode
         	
         	if (DatabaseManager.singleton.TrySoftDeletePlayer(msg.playername, msg.username))
 			{
-				message.text = msgPlayerDeleteSuccess;
-				onPlayerDelete.Invoke(msg.playername);
+				message.text = systemText.playerDeleteSuccess;
+				eventListener.onPlayerDelete.Invoke(msg.playername);
 			}
 			else
 			{
-				message.text = msgPlayerDeleteFailure;
+				message.text = systemText.playerDeleteFailure;
 				message.code = errorCode;
 			}
 					
@@ -434,12 +400,12 @@ namespace wovencode
         	
         	if (DatabaseManager.singleton.TrySwitchServerPlayer(msg.username, msg.token))
 			{
-				message.text = msgPlayerSwitchServerSuccess;
-				onPlayerSwitchServer.Invoke(msg.username);
+				message.text = systemText.playerSwitchServerSuccess;
+				eventListener.onPlayerSwitchServer.Invoke(msg.username);
 			}
 			else
 			{
-				message.text = msgPlayerSwitchServerFailure;
+				message.text = systemText.playerSwitchServerFailure;
 				message.code = errorCode;
 			}
 			
@@ -468,35 +434,35 @@ namespace wovencode
 				{
 					
 					// User
-					case NetworkActionLoginUser:
+					case NetworkAction.LoginUser:
 						if (RequestLoginUser(conn, userName, userPassword))
 							ClientScene.Ready(conn);
 						break;
-					case NetworkActionRegisterUser:
+					case NetworkAction.RegisterUser:
 						RequestRegisterUser(conn, userName, userPassword);
 						break;
-					case NetworkActionDeleteUser:
+					case NetworkAction.DeleteUser:
 						RequestSoftDeleteUser(conn, userName, userPassword);
 						break;
-					case NetworkActionChangePasswordUser:
+					case NetworkAction.ChangePasswordUser:
 						RequestChangePasswordUser(conn, userName, userPassword, newPassword);
 						break;
-					case NetworkActionConfirmUser:
+					case NetworkAction.ConfirmUser:
 						RequestConfirmUser(conn, userName, userPassword);
 						break;
 					
 					// Player
-					case NetworkActionLoginPlayer:
+					case NetworkAction.LoginPlayer:
 						if (RequestLoginPlayer(conn, userName))
 							ClientScene.Ready(conn);
 						break;
-					case NetworkActionRegisterPlayer:
+					case NetworkAction.RegisterPlayer:
 						RequestRegisterPlayer(conn, userName);
 						break;
-					case NetworkActionDeletePlayer:
+					case NetworkAction.DeletePlayer:
 						RequestSoftDeletePlayer(conn, userName);
 						break;
-					case NetworkActionSwitchServerPlayer:
+					case NetworkAction.SwitchServerPlayer:
 						RequestSwitchServerPlayer(conn, userName);
 						break;
 				}
@@ -510,7 +476,7 @@ namespace wovencode
             {
                 conn.isAuthenticated = false;
                 conn.Disconnect();
-                manager.StopClient();
+                networkManager.StopClient();
             }
             
         }
