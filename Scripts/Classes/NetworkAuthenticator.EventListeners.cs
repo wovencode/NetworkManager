@@ -19,24 +19,16 @@ namespace wovencode
 	{
 		
 		// User
-		[Tooltip("NetworkManager -> EventRegisterUser")]
-		public UnityEventString onUserRegister;
-		[Tooltip("NetworkManager -> EventLoginUser / DatabaseManager -> EventLoginUser")]
-		public UnityEventConnection onUserLogin;
-		[Tooltip("NetworkManager -> EventLogoutUser / DatabaseManager -> EventLogoutUser")]
-		public UnityEventString onUserDelete;
-		[Tooltip("")]
-		public UnityEventString onUserConfirm;
+		public UnityEventString         onUserRegister;
+		public UnityEventConnection     onUserLogin;
+		public UnityEventString         onUserDelete;
+		public UnityEventString         onUserConfirm;
 		
 		// Player
-		[Tooltip("")]
-		public UnityEventString onPlayerRegister;
-		[Tooltip("NetworkManager -> EventLoginPlayer")]
-		public UnityEventGameObject onPlayerLogin;
-		[Tooltip("")]
-		public UnityEventString onPlayerDelete;
-		[Tooltip("")]
-		public UnityEventString onPlayerSwitchServer;
+		public UnityEventString         onPlayerRegister;
+		public UnityEventGameObject     onPlayerLogin;
+		public UnityEventString         onPlayerDelete;
+		public UnityEventString         onPlayerSwitchServer;
 		
 	}
 	

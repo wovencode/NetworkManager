@@ -18,16 +18,10 @@ namespace wovencode
 	[System.Serializable]
 	public partial class NetworkManager_EventListeners
 	{
-	
-		[Tooltip("DatabaseManager -> EventStartServer")]
 		public UnityEvent onStartServer;
-		[Tooltip("DatabaseManager -> EventStopServer")]
-		public UnityEvent onStopServer;
-		[Tooltip("DatabaseManager -> EventStartClient")]
+        public UnityEvent onStopServer;
 		public UnityEventGameObject onStartClient;
-		[Tooltip("DatabaseManager -> EventLogout")]
 		public UnityEventConnection onLogoutClient;
-		
 	}
 	
 }
