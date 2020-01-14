@@ -30,7 +30,6 @@ namespace wovencode
 		
 		[Header("Buttons")]
 		public Button deleteButton;
-		public Button hostButton;
 		public Button cancelButton;
 		public Button backButton;
 		
@@ -57,11 +56,8 @@ namespace wovencode
 			userpassInput.readOnly = !manager.CanInput();
 			
 			deleteButton.interactable = manager.CanDeleteUser(usernameInput.text, userpassInput.text);
-			deleteButton.onClick.SetListener(() => { InitPopupDelete(false); });
-			
-			hostButton.interactable = manager.CanDeleteUser(usernameInput.text, userpassInput.text);
-			hostButton.onClick.SetListener(() => { InitPopupDelete(true); });
-		
+			deleteButton.onClick.SetListener(() => { InitPopupDelete(); });
+					
 			cancelButton.gameObject.SetActive(manager.CanCancel());
 			cancelButton.onClick.SetListener(() => { manager.TryCancel(); });
 			
@@ -72,29 +68,17 @@ namespace wovencode
 		// -------------------------------------------------------------------------------
 		// InitPopupDelete
 		// -------------------------------------------------------------------------------
-		protected void InitPopupDelete(bool hostMode=false)
+		protected void InitPopupDelete()
 		{
-			//TODO: Improve
-			if (hostMode)
-				UIPopupPrompt.singleton.Init(popupDescription, "", "", onConfirmDeleteLocal);
-			else
-				UIPopupPrompt.singleton.Init(popupDescription, "", "", onConfirmDeleteRemote);
+			UIPopupPrompt.singleton.Init(popupDescription, "", "", onConfirmDelete);
 		}
 		
 		// -------------------------------------------------------------------------------
-		// onConfirmDeleteLocal
+		// onConfirmDelete
 		// -------------------------------------------------------------------------------
-		public void onConfirmDeleteLocal()
+		public void onConfirmDelete()
 		{
-			manager.TryDeleteUser(usernameInput.text, userpassInput.text, true);
-		}
-		
-		// -------------------------------------------------------------------------------
-		// onConfirmDeleteRemote
-		// -------------------------------------------------------------------------------
-		public void onConfirmDeleteRemote()
-		{
-			manager.TryDeleteUser(usernameInput.text, userpassInput.text, false);
+			manager.TryDeleteUser(usernameInput.text, userpassInput.text);
 		}
 		
 		// -------------------------------------------------------------------------------

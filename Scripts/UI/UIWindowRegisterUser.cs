@@ -30,7 +30,6 @@ namespace wovencode
 		
 		[Header("Buttons")]
 		public Button registerButton;
-		public Button hostButton;
 		public Button cancelButton;
 		public Button backButton;
 		
@@ -54,11 +53,8 @@ namespace wovencode
 			userpassInput.readOnly = !manager.CanInput();
 			
 			registerButton.interactable = manager.CanRegisterUser(usernameInput.text, userpassInput.text);
-			registerButton.onClick.SetListener(() => { manager.TryRegisterUser(usernameInput.text, userpassInput.text, false); });
-		
-			hostButton.interactable = manager.CanHostAndPlay(usernameInput.text, userpassInput.text);
-			hostButton.onClick.SetListener(() => { manager.TryRegisterUser(usernameInput.text, userpassInput.text, true); });
-			
+			registerButton.onClick.SetListener(() => { manager.TryRegisterUser(usernameInput.text, userpassInput.text); });
+					
 			cancelButton.gameObject.SetActive(manager.CanCancel());
 			cancelButton.onClick.SetListener(() => { manager.TryCancel(); });
 		

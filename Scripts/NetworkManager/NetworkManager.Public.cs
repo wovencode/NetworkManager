@@ -118,14 +118,14 @@ namespace wovencode
    		// TryLoginUser
    		// we try to login into an existing user using name and password provided
    		// -------------------------------------------------------------------------------
-		public void TryLoginUser(string name, string password, bool hostMode=false)
+		public void TryLoginUser(string name, string password)
 		{
 			
 			((wovencode.NetworkAuthenticator)authenticator).userName 		= name;
 			((wovencode.NetworkAuthenticator)authenticator).userPassword 	= password;
 			((wovencode.NetworkAuthenticator)authenticator).userAction 		= NetworkAction.LoginUser;
 			
-			if (hostMode)
+			if (localHostAndPlay)
 				StartHost();
 			else
 				StartClient();
@@ -136,14 +136,14 @@ namespace wovencode
    		// TryRegisterUser
    		// we try to register a new User with name and password provided
    		// -------------------------------------------------------------------------------
-		public void TryRegisterUser(string name, string password, bool hostMode=false)
+		public void TryRegisterUser(string name, string password)
 		{
 			
 			((wovencode.NetworkAuthenticator)authenticator).userName 		= name;
 			((wovencode.NetworkAuthenticator)authenticator).userPassword 	= password;
 			((wovencode.NetworkAuthenticator)authenticator).userAction 		= NetworkAction.RegisterUser;
 			
-			if (hostMode)
+			if (localHostAndPlay)
 				StartHost();
 			else
 				StartClient();
@@ -154,14 +154,14 @@ namespace wovencode
    		// TryDeleteUser
    		// we try to delete an existing User according to its name and password
    		// -------------------------------------------------------------------------------
-		public void TryDeleteUser(string name, string password, bool hostMode=false)
+		public void TryDeleteUser(string name, string password)
 		{
 			
 			((wovencode.NetworkAuthenticator)authenticator).userName 		= name;
 			((wovencode.NetworkAuthenticator)authenticator).userPassword 	= password;
 			((wovencode.NetworkAuthenticator)authenticator).userAction 		= NetworkAction.DeleteUser;
 			
-			if (hostMode)
+			if (localHostAndPlay)
 				StartHost();
 			else
 				StartClient();
@@ -172,7 +172,7 @@ namespace wovencode
    		// TryChangePasswordUser
    		// we try to delete an existing User according to its name and password
    		// -------------------------------------------------------------------------------
-		public void TryChangePasswordUser(string name, string oldpassword, string newpassword, bool hostMode=false)
+		public void TryChangePasswordUser(string name, string oldpassword, string newpassword)
 		{
 			
 			((wovencode.NetworkAuthenticator)authenticator).userName 		= name;
@@ -180,7 +180,7 @@ namespace wovencode
 			((wovencode.NetworkAuthenticator)authenticator).newPassword 	= newpassword;
 			((wovencode.NetworkAuthenticator)authenticator).userAction 		= NetworkAction.ChangePasswordUser;
 			
-			if (hostMode)
+			if (localHostAndPlay)
 				StartHost();
 			else
 				StartClient();
@@ -191,14 +191,14 @@ namespace wovencode
    		// TryConfirmUser
    		// we try to confirm an existing User according to its name and password
    		// -------------------------------------------------------------------------------
-		public void TryConfirmUser(string name, string password, bool hostMode=false)
+		public void TryConfirmUser(string name, string password)
 		{
 			
 			((wovencode.NetworkAuthenticator)authenticator).userName 		= name;
 			((wovencode.NetworkAuthenticator)authenticator).userPassword 	= password;
 			((wovencode.NetworkAuthenticator)authenticator).userAction 		= NetworkAction.ConfirmUser;
 			
-			if (hostMode)
+			if (localHostAndPlay)
 				StartHost();
 			else
 				StartClient();
@@ -222,20 +222,6 @@ namespace wovencode
 		public void TryCancel()
 		{
 			StopClient();
-		}
-	
-		// -------------------------------------------------------------------------------
-   		// CanHostAndPlay
-   		// can we host and play on the same machine right now?
-   		// -------------------------------------------------------------------------------
-		public bool CanHostAndPlay(string name, string password, string newpassword="")
-		{
-			return Application.platform != RuntimePlatform.WebGLPlayer && 
-				!isNetworkActive && 
-				Tools.IsAllowedName(name) && 
-				Tools.IsAllowedPassword(password) &&
-				(String.IsNullOrWhiteSpace(newpassword) || Tools.IsAllowedPassword(newpassword)) &&
-				!IsConnecting();
 		}
 	
 		// -------------------------------------------------------------------------------

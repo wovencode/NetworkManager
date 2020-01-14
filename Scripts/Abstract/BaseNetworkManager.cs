@@ -21,6 +21,7 @@ namespace wovencode
 	
 		[Header("Debug Mode")]
 		public bool debugMode;
+		public bool localHostAndPlay = true;
 		
 		// -------------------------------------------------------------------------------
 

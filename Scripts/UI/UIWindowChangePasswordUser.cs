@@ -31,7 +31,6 @@ namespace wovencode
 		
 		[Header("Buttons")]
 		public Button changeButton;
-		public Button hostButton;
 		public Button cancelButton;
 		public Button backButton;
 		
@@ -59,10 +58,7 @@ namespace wovencode
 			newUserPassInput.readOnly = !manager.CanInput();
 			
 			changeButton.interactable = manager.CanChangePasswordUser(usernameInput.text, oldUserPassInput.text, newUserPassInput.text);
-			changeButton.onClick.SetListener(() => { manager.TryChangePasswordUser(usernameInput.text, oldUserPassInput.text, newUserPassInput.text, false); });
-
-			hostButton.interactable = manager.CanHostAndPlay(usernameInput.text, oldUserPassInput.text, newUserPassInput.text);
-			hostButton.onClick.SetListener(() => { manager.TryChangePasswordUser(usernameInput.text, oldUserPassInput.text, newUserPassInput.text, true); });
+			changeButton.onClick.SetListener(() => { manager.TryChangePasswordUser(usernameInput.text, oldUserPassInput.text, newUserPassInput.text); });
 		
 			cancelButton.gameObject.SetActive(manager.CanCancel());
 			cancelButton.onClick.SetListener(() => { manager.TryCancel(); });
