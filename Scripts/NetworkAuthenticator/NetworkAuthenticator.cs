@@ -83,6 +83,7 @@ namespace wovencode
         public override void OnStartClient()
         {
             NetworkClient.RegisterHandler<ServerResponseMessage>(OnServerResponseMessage, false);
+            NetworkClient.RegisterHandler<ServerPlayerListMessage>(OnServerPlayerListMessage, true);
         }
         
         // -------------------------------------------------------------------------------
@@ -151,6 +152,12 @@ namespace wovencode
         void OnUserLoginRequestMessage(NetworkConnection conn, UserLoginRequestMessage msg)
 		{
 			
+			/*
+			TODO: 
+			
+			ServerPlayerListMessage
+			*/
+			
 			ServerResponseMessage message = new ServerResponseMessage
 			{
 				code 				= successCode,
@@ -190,7 +197,7 @@ namespace wovencode
         	
         	if (DatabaseManager.singleton.TryRegisterUser(msg.username, msg.password))
 			{
-				networkManager.RegisterUser(msg.username);
+				DatabaseManager.singleton.SaveDataUser(msg.username, false);
 				eventListener.onUserRegister.Invoke(msg.username);
 				message.text = systemText.userRegisterSuccess;
 			}
@@ -340,7 +347,6 @@ namespace wovencode
         	if (DatabaseManager.singleton.TryRegisterPlayer(msg.playername, msg.username))
 			{
 				networkManager.RegisterPlayer(msg.playername);
-				
 				message.text = systemText.playerRegisterSuccess;
 				eventListener.onPlayerRegister.Invoke(msg.playername);
 			}
@@ -433,10 +439,9 @@ namespace wovencode
 				switch (userAction)
 				{
 					
-					// User
+					// -- User
 					case NetworkAction.LoginUser:
-						if (RequestLoginUser(conn, userName, userPassword))
-							ClientScene.Ready(conn);
+						RequestLoginUser(conn, userName, userPassword);
 						break;
 					case NetworkAction.RegisterUser:
 						RequestRegisterUser(conn, userName, userPassword);
@@ -451,7 +456,7 @@ namespace wovencode
 						RequestConfirmUser(conn, userName, userPassword);
 						break;
 					
-					// Player
+					// -- Player
 					case NetworkAction.LoginPlayer:
 						if (RequestLoginPlayer(conn, userName))
 							ClientScene.Ready(conn);
@@ -480,6 +485,16 @@ namespace wovencode
             }
             
         }
+        
+        // -------------------------------------------------------------------------------
+		// OnServerPlayerListMessage
+		// @Server -> @Client
+		// -------------------------------------------------------------------------------
+        void OnServerPlayerListMessage(NetworkConnection conn, ServerPlayerListMessage msg)
+        {
+        
+        }
+        
        
         // -------------------------------------------------------------------------------
                

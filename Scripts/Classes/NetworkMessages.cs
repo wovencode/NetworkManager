@@ -140,6 +140,7 @@ namespace wovencode
 	
 	// -----------------------------------------------------------------------------------
 	// ServerResponseMessage
+	// A common response message sent from the server to the client
 	// @Server -> @Client
 	// -----------------------------------------------------------------------------------
 	public partial class ServerResponseMessage : MessageBase
@@ -147,6 +148,27 @@ namespace wovencode
 		public byte code;
 		public string text;
 		public bool causesDisconnect;
+	}
+	
+	// -----------------------------------------------------------------------------------
+	// ServerPlayerListMessage
+	// 
+	// @Server -> @Client
+	// -----------------------------------------------------------------------------------
+	public partial class ServerPlayerListMessage : ServerResponseMessage
+	{
+	
+		public PlayerInfo players;
+		public int maxPlayers;
+		
+		public partial struct PlayerInfo
+		{
+			public string name;
+		}
+		
+		
+		
+		
 	}
 
 	// -------------------------------------------------------------------------------

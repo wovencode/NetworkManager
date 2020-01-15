@@ -66,18 +66,6 @@ namespace wovencode
 		}
 		
 		// -------------------------------------------------------------------------------
-		// RegisterUser
-		// Called when the NetworkAuthenticator sucessfully registers a new user
-		// @NetworkAuthenticator
-		// -------------------------------------------------------------------------------
-		public void RegisterUser(string username)
-		{
-
-			DatabaseManager.singleton.SaveDataUser(username, false);
-			
-		}
-		
-		// -------------------------------------------------------------------------------
 		// RegisterPlayer
 		// 
 		// @NetworkAuthenticator
@@ -88,7 +76,7 @@ namespace wovencode
 			player.name = playername;
 			DatabaseManager.singleton.CreateDefaultData(player);
 			DatabaseManager.singleton.SaveDataPlayer(player, false);
-			Destroy(player);
+			Destroy(player);	
 		}
 		
 		// -------------------------------------------------------------------------------

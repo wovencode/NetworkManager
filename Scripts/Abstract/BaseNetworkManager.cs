@@ -19,8 +19,8 @@ namespace wovencode
 	public abstract partial class BaseNetworkManager : Mirror.NetworkManager
 	{
 	
-		[Header("Debug Mode")]
-		public bool debugMode;
+		[Header("Debug Helper")]
+		public DebugHelper debug;
 		public bool localHostAndPlay = true;
 		
 		// -------------------------------------------------------------------------------

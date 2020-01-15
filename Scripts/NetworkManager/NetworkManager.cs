@@ -160,16 +160,12 @@ namespace wovencode
 			{
 			
 				eventListener.onLogoutClient.Invoke(conn);
-			
-				Debug.Log("[NetworkManager] Saved player: " + conn.identity.name);
+				
+				debug.Log("[NetworkManager] Logged out player: " + conn.identity.name);
 				
 				if (conn.identity.gameObject != null)
 				{
 					string name = conn.identity.gameObject.name;
-#if wPLAYER
-					PlayerComponent playerComponent = conn.identity.gameObject.GetComponent<PlayerComponent>();
-					name = playerComponent.name;
-#endif
 					onlinePlayers.Remove(name);
 				}
 					

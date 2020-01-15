@@ -26,6 +26,7 @@ namespace wovencode
 		public UIButtonGroup buttonGroup;
 		
 		[Header("Content")]
+		public Text textMaxPlayers;
 		public Transform contentViewport;
 		
 		[Header("Buttons")]
@@ -47,19 +48,27 @@ namespace wovencode
 				Hide();
 				return;
 			}
-			
-			//createButton.interactable = 
-			
-			
-			selectButton.interactable = (index != -1);
-			
-			
-			deleteButton.interactable = (index != -1);
+			else
+			{
 			
 			
 			
-			backButton.onClick.SetListener(() => { Hide(); });
-
+				//createButton.interactable = 
+			
+			
+				selectButton.interactable = (index != -1);
+			
+			
+				deleteButton.interactable = (index != -1);
+			
+			
+			
+				backButton.onClick.SetListener(() => { Hide(); });
+			
+			
+				Show();
+			}
+			
 		}
 		
 		// -------------------------------------------------------------------------------
