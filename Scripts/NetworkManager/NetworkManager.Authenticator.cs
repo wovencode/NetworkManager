@@ -31,14 +31,8 @@ namespace wovencode
 		// -------------------------------------------------------------------------------
 		public void LoginUser(NetworkConnection conn, string name)
 		{
-			
 			onlineUsers[conn] = name;
 			state = NetworkState.Lobby;
-
-#if wDB
-			DatabaseManager.singleton.LoginUser(name);
-#endif
-
 			this.InvokeInstanceDevExtMethods(nameof(LoginUser));
 		}
 		
@@ -55,10 +49,6 @@ namespace wovencode
 				onlinePlayers[player.name] = player;
 				state = NetworkState.Game;
 				
-#if wDB		
-				DatabaseManager.singleton.LoginPlayer(conn);
-#endif
-
 				this.InvokeInstanceDevExtMethods(nameof(LoginPlayer));
 			}
 			else
@@ -76,7 +66,7 @@ namespace wovencode
 			player.name = playername;
 			DatabaseManager.singleton.CreateDefaultData(player);
 			DatabaseManager.singleton.SaveDataPlayer(player, false);
-			Destroy(player);	
+			Destroy(player);
 		}
 		
 		// -------------------------------------------------------------------------------

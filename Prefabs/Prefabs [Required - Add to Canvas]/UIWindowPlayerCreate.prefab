@@ -1314,7 +1314,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   uiLinks:
   - {fileID: 0}
-  - {fileID: 0}
 --- !u!1 &4237425704217158434
 GameObject:
   m_ObjectHideFlags: 0
