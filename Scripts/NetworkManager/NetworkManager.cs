@@ -20,6 +20,7 @@ namespace wovencode
     // ===================================================================================
 	// NetworkManager
 	// ===================================================================================
+	[RequireComponent(typeof(ConfigurationManager))]
 	[RequireComponent(typeof(wovencode.NetworkAuthenticator))]
 	[DisallowMultipleComponent]
 	public partial class NetworkManager : BaseNetworkManager

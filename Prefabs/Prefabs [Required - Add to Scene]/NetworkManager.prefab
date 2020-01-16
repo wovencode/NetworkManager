@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 3252435991396032039}
   - component: {fileID: 3252435991396032036}
   - component: {fileID: 3252435991396032038}
+  - component: {fileID: 1275635640388507688}
   m_Layer: 0
   m_Name: NetworkManager
   m_TagString: Untagged
@@ -60,9 +61,15 @@ MonoBehaviour:
     type: 3}
   autoCreatePlayer: 1
   playerSpawnMethod: 0
-  spawnPrefabs: []
+  spawnPrefabs:
+  - {fileID: 7930793167279634983, guid: 3d9a7edd4cf1e4770a927af357620f5a, type: 3}
+  - {fileID: 563306626685466763, guid: fd7eb4b6732ce43fa925f4063c3c1cd1, type: 3}
+  - {fileID: 7930793167279634983, guid: 65bddf07b790a4600ad27cee15356108, type: 3}
+  - {fileID: 7930793167279634983, guid: c2ba7e64b2a3e4380806ca5054392be5, type: 3}
+  - {fileID: 7930793167279634983, guid: 6fbf7df69c5a745d5995ad5e12def5b1, type: 3}
+  sortCategories: []
   debug:
-    debugMode: 0
+    debugMode: 1
   localHostAndPlay: 1
   serverList:
   - name: Local
@@ -237,3 +244,16 @@ MonoBehaviour:
   userPassword: 
   newPassword: 
   userAction: 0
+--- !u!114 &1275635640388507688
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3252435991396032041}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17fe70f41c05b4db0854b836b71eec77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameRulesTemplate: {fileID: 11400000, guid: 81b1bccee2cc74db09102b9c49833726, type: 2}
