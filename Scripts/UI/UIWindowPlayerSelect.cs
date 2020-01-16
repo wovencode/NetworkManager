@@ -13,14 +13,11 @@ namespace wovencode
 {
 
 	// ===================================================================================
-	// UIWindowSelectPlayer
+	// UIWindowPlayerSelect
 	// ===================================================================================
-	public partial class UIWindowSelectPlayer : UIRoot
+	public partial class UIWindowPlayerSelect : UIRoot
 	{
 	
-		[Header("Network")]
-		public wovencode.NetworkManager manager;
-		
 		[Header("Prefab")]
 		public UISelectPlayerSlot slotPrefab;
 		public UIButtonGroup buttonGroup;
@@ -43,7 +40,7 @@ namespace wovencode
 		protected override void ThrottledUpdate()
 		{
 			
-			if (manager.state != NetworkState.Lobby)
+			if (NetworkManager.singleton.state != NetworkState.Lobby)
 			{
 				Hide();
 				return;

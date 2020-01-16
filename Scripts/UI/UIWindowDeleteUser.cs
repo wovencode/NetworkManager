@@ -18,9 +18,6 @@ namespace wovencode
 	public partial class UIWindowDeleteUser : UIRoot
 	{
 	
-		[Header("Network")]
-		public wovencode.NetworkManager manager;
-		
 		[Header("Window")]
 		public Text statusText;
 		
@@ -45,21 +42,21 @@ namespace wovencode
 		protected override void ThrottledUpdate()
 		{
 						
-			if (manager.IsConnecting())
+			if (NetworkManager.singleton.IsConnecting())
 				statusText.text = "Connecting...";
 			else if (!Tools.IsAllowedName(usernameInput.text) || !Tools.IsAllowedPassword(userpassInput.text))
 				statusText.text = "Check Name/Password";
 			else
 				statusText.text = "";
 			
-			usernameInput.readOnly = !manager.CanInput();
-			userpassInput.readOnly = !manager.CanInput();
+			usernameInput.readOnly = !NetworkManager.singleton.CanInput();
+			userpassInput.readOnly = !NetworkManager.singleton.CanInput();
 			
-			deleteButton.interactable = manager.CanDeleteUser(usernameInput.text, userpassInput.text);
+			deleteButton.interactable = NetworkManager.singleton.CanDeleteUser(usernameInput.text, userpassInput.text);
 			deleteButton.onClick.SetListener(() => { InitPopupDelete(); });
 					
-			cancelButton.gameObject.SetActive(manager.CanCancel());
-			cancelButton.onClick.SetListener(() => { manager.TryCancel(); });
+			cancelButton.gameObject.SetActive(NetworkManager.singleton.CanCancel());
+			cancelButton.onClick.SetListener(() => { NetworkManager.singleton.TryCancel(); });
 			
 			backButton.onClick.SetListener(() => { Hide(); });
 				
@@ -78,7 +75,7 @@ namespace wovencode
 		// -------------------------------------------------------------------------------
 		public void onConfirmDelete()
 		{
-			manager.TryDeleteUser(usernameInput.text, userpassInput.text);
+			NetworkManager.singleton.TryDeleteUser(usernameInput.text, userpassInput.text);
 		}
 		
 		// -------------------------------------------------------------------------------

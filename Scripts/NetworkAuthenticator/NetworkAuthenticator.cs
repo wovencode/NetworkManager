@@ -22,9 +22,6 @@ namespace wovencode
     public partial class NetworkAuthenticator : BaseNetworkAuthenticator
     {
     
-        [Header("NetworkManager")]
-		public wovencode.NetworkManager networkManager;
-		
 		[Header("Security")]
     	public string userNameSalt 							= "at_least_16_byte";
     	
@@ -167,7 +164,7 @@ namespace wovencode
 			
 			if (DatabaseManager.singleton.TryLoginUser(msg.username, msg.password))
 			{
-				networkManager.LoginUser(conn, msg.username);
+				NetworkManager.singleton.LoginUser(conn, msg.username);
 				eventListener.onUserLogin.Invoke(conn);
 				message.text = systemText.userLoginSuccess;
 			}
@@ -315,7 +312,7 @@ namespace wovencode
 			
 			if (DatabaseManager.singleton.TryLoginPlayer(msg.playername, msg.username))
 			{
-				networkManager.LoginPlayer(conn, msg.playername);
+				NetworkManager.singleton.LoginPlayer(conn, msg.playername);
 				
 				message.text = systemText.playerLoginSuccess;
 				eventListener.onPlayerLogin.Invoke(conn.identity.gameObject);
@@ -346,7 +343,7 @@ namespace wovencode
         	
         	if (DatabaseManager.singleton.TryRegisterPlayer(msg.playername, msg.username))
 			{
-				networkManager.RegisterPlayer(msg.playername);
+				NetworkManager.singleton.RegisterPlayer(msg.playername);
 				message.text = systemText.playerRegisterSuccess;
 				eventListener.onPlayerRegister.Invoke(msg.playername);
 			}
@@ -481,7 +478,7 @@ namespace wovencode
             {
                 conn.isAuthenticated = false;
                 conn.Disconnect();
-                networkManager.StopClient();
+                NetworkManager.singleton.StopClient();
             }
             
         }

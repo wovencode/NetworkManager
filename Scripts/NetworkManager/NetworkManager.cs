@@ -37,6 +37,7 @@ namespace wovencode
 		[Header("Event Listeners")]
 		public NetworkManager_EventListeners eventListener;
 		
+		public static new wovencode.NetworkManager singleton;
 		
 		public static Dictionary<string, GameObject> onlinePlayers = new Dictionary<string, GameObject>();
 		protected Dictionary<NetworkConnection, string> onlineUsers = new Dictionary<NetworkConnection, string>();
@@ -46,6 +47,7 @@ namespace wovencode
 		// -------------------------------------------------------------------------------
 		public override void Awake()
 		{
+			if (singleton == null) singleton = this;
 			base.Awake();
 		}
 

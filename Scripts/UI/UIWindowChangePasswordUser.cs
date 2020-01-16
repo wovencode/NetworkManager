@@ -18,9 +18,6 @@ namespace wovencode
 	public partial class UIWindowChangePasswordUser : UIRoot
 	{
 	
-		[Header("Network")]
-		public wovencode.NetworkManager manager;
-		
 		[Header("Window")]
 		public Text statusText;
 		
@@ -40,28 +37,28 @@ namespace wovencode
 		protected override void ThrottledUpdate()
 		{
 			
-			if (manager.state == NetworkState.Game)
+			if (NetworkManager.singleton.state == NetworkState.Game)
 			{
 				Hide();
 				return;
 			}
 			
-			if (manager.IsConnecting())
+			if (NetworkManager.singleton.IsConnecting())
 				statusText.text = "Connecting...";
 			else if (!Tools.IsAllowedName(usernameInput.text) || !Tools.IsAllowedPassword(oldUserPassInput.text) || !Tools.IsAllowedPassword(newUserPassInput.text))
 				statusText.text = "Check Name/Password";
 			else
 				statusText.text = "";
 			
-			usernameInput.readOnly = !manager.CanInput();
-			oldUserPassInput.readOnly = !manager.CanInput();
-			newUserPassInput.readOnly = !manager.CanInput();
+			usernameInput.readOnly = !NetworkManager.singleton.CanInput();
+			oldUserPassInput.readOnly = !NetworkManager.singleton.CanInput();
+			newUserPassInput.readOnly = !NetworkManager.singleton.CanInput();
 			
-			changeButton.interactable = manager.CanChangePasswordUser(usernameInput.text, oldUserPassInput.text, newUserPassInput.text);
-			changeButton.onClick.SetListener(() => { manager.TryChangePasswordUser(usernameInput.text, oldUserPassInput.text, newUserPassInput.text); });
+			changeButton.interactable = NetworkManager.singleton.CanChangePasswordUser(usernameInput.text, oldUserPassInput.text, newUserPassInput.text);
+			changeButton.onClick.SetListener(() => { NetworkManager.singleton.TryChangePasswordUser(usernameInput.text, oldUserPassInput.text, newUserPassInput.text); });
 		
-			cancelButton.gameObject.SetActive(manager.CanCancel());
-			cancelButton.onClick.SetListener(() => { manager.TryCancel(); });
+			cancelButton.gameObject.SetActive(NetworkManager.singleton.CanCancel());
+			cancelButton.onClick.SetListener(() => { NetworkManager.singleton.TryCancel(); });
 		
 			backButton.onClick.SetListener(() => { Hide(); });
 

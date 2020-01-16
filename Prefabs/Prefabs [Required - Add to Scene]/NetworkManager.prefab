@@ -61,7 +61,9 @@ MonoBehaviour:
   autoCreatePlayer: 1
   playerSpawnMethod: 0
   spawnPrefabs: []
-  debugMode: 0
+  debug:
+    debugMode: 0
+  localHostAndPlay: 1
   serverList:
   - name: Local
     ip: localhost
@@ -166,8 +168,8 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Mirror.UnityEventNetworkConnection, Mirror, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
-  debugMode: 0
-  networkManager: {fileID: 3252435991396032039}
+  debug:
+    debugMode: 0
   userNameSalt: at_least_16_byte
   checkApplicationVersion: 1
   systemText:
