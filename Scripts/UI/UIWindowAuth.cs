@@ -25,7 +25,7 @@ namespace wovencode
 		// -------------------------------------------------------------------------------
 		protected override void Awake()
 		{
-			if (singleton == null) singleton = this;
+			singleton = this;
 			base.Awake();
 		}
 		

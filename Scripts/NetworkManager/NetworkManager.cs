@@ -57,7 +57,7 @@ namespace wovencode
 		// -------------------------------------------------------------------------------
 		public override void Awake()
 		{
-			if (singleton == null) singleton = this;
+			singleton = this;
 			base.Awake();
 			
 			switch (networkType)
