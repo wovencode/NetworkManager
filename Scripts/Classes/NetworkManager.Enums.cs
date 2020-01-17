@@ -9,5 +9,18 @@ using System;
 
 namespace wovencode
 {
-	public enum NetworkState 	{Offline,Lobby,Game}
+
+	public enum NetworkState 	{
+		Offline,
+		Lobby,
+		Game
+	}
+	
+	public enum NetworkType
+	{
+		Client,
+		Server,
+		HostAndPlay,
+	}
+	
 }

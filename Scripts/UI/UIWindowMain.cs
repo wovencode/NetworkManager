@@ -38,6 +38,17 @@ namespace wovencode
 		[Header("Settings")]
 		public bool rememberServer;
 		
+		public static UIWindowMain singleton;
+		
+		// -------------------------------------------------------------------------------
+		// Awake
+		// -------------------------------------------------------------------------------
+		protected override void Awake()
+		{
+			if (singleton == null) singleton = this;
+			base.Awake();
+		}
+		
 		// -------------------------------------------------------------------------------
 		// Start
 		// -------------------------------------------------------------------------------
@@ -70,7 +81,6 @@ namespace wovencode
 			
 			if (NetworkManager.singleton.state == NetworkState.Offline)
 			{
-				Show();
 				
 				loginButton.interactable = NetworkManager.singleton.CanClick();
 				loginButton.onClick.SetListener(() => { loginWindow.Show(); });

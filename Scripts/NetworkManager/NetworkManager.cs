@@ -5,6 +5,7 @@
 // =======================================================================================
 
 using wovencode;
+using wovencode.Network;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -26,6 +27,9 @@ namespace wovencode
 	public partial class NetworkManager : BaseNetworkManager
 	{
 		
+		[Header("Security")]
+    	public string userNameSalt 							= "at_least_16_byte";
+		
 		[Header("Servers")]
 		public List<ServerInfo> serverList = new List<ServerInfo>()
 		{
@@ -43,6 +47,11 @@ namespace wovencode
 		public static Dictionary<string, GameObject> onlinePlayers = new Dictionary<string, GameObject>();
 		protected Dictionary<NetworkConnection, string> onlineUsers = new Dictionary<NetworkConnection, string>();
 		
+				[HideInInspector]public string userName 			= "";
+        [HideInInspector]public string userPassword			= "";
+        [HideInInspector]public string newPassword			= "";
+
+		
 		[HideInInspector]public NetworkState state = NetworkState.Offline;
 		
 		// -------------------------------------------------------------------------------
@@ -50,6 +59,22 @@ namespace wovencode
 		{
 			if (singleton == null) singleton = this;
 			base.Awake();
+			
+			switch (networkType)
+			{
+				case NetworkType.Server:
+					StartServer();
+					break;
+				case NetworkType.HostAndPlay:
+					UIWindowAuth.singleton.Show();
+					StartHost();
+					break;
+				default:
+					UIWindowAuth.singleton.Show();
+					StartClient();
+					break;
+			}
+			
 		}
 
 		// -------------------------------------------------------------------------------
@@ -106,22 +131,6 @@ namespace wovencode
 		}
 		
 		// -------------------------------------------------------------------------------
-		public override void OnStartClient()
-		{
-			this.InvokeInstanceDevExtMethods(nameof(OnStartClient));
-		}
-		
-		// -------------------------------------------------------------------------------
-		public override void OnStartServer()
-		{
-#if wDB
-			DatabaseManager.singleton.Init();
-#endif
-			eventListener.onStartServer.Invoke();
-			this.InvokeInstanceDevExtMethods(nameof(OnStartServer));
-		}
-		
-		// -------------------------------------------------------------------------------
 		public override void OnStopServer()
 		{
 #if wDB
@@ -129,6 +138,15 @@ namespace wovencode
 #endif
 			eventListener.onStopServer.Invoke();
 			this.InvokeInstanceDevExtMethods(nameof(OnStopServer));
+		}
+		
+		// -------------------------------------------------------------------------------
+		// GenerateHash
+		// Helper function to generate a hash from the current userName, salt & account name
+		// -------------------------------------------------------------------------------
+		protected string GenerateHash(string encryptText, string saltText)
+		{
+			return Tools.PBKDF2Hash(encryptText, userNameSalt + saltText);
 		}
 		
 		// -------------------------------------------------------------------------------

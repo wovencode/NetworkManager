@@ -18,10 +18,25 @@ namespace wovencode
 	[System.Serializable]
 	public partial class NetworkManager_EventListeners
 	{
+		
+		
 		public UnityEvent onStartServer;
         public UnityEvent onStopServer;
 		public UnityEventGameObject onStartClient;
 		public UnityEventConnection onLogoutClient;
+		
+		// ---- User
+		public UnityEventString         onUserRegister;
+		public UnityEventConnection     onUserLogin;
+		public UnityEventString         onUserDelete;
+		public UnityEventString         onUserConfirm;
+		
+		// ---- Player
+		public UnityEventString         onPlayerRegister;
+		public UnityEventGameObject     onPlayerLogin;
+		public UnityEventString         onPlayerDelete;
+		public UnityEventString         onPlayerSwitchServer;
+		
 	}
 	
 }

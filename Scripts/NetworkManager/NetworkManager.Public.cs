@@ -27,13 +27,16 @@ namespace wovencode
 	public partial class NetworkManager
 	{
    
+   		// ======================= PUBLIC METHODS - USER =================================
+   		
    		// -------------------------------------------------------------------------------
    		// CanClick
    		// can any network related button be clicked at the moment?
    		// -------------------------------------------------------------------------------
 		public bool CanClick()
 		{
-			return (!isNetworkActive && !IsConnecting());
+			return true;
+			//return (!IsConnecting());
 		}
 		
 	   	// -------------------------------------------------------------------------------
@@ -42,7 +45,8 @@ namespace wovencode
    		// -------------------------------------------------------------------------------
 		public bool CanInput()
 		{
-			return (!isNetworkActive || !IsConnecting());
+			return true;
+			//return (!IsConnecting());
 		}
    		
    		// -------------------------------------------------------------------------------
@@ -60,10 +64,10 @@ namespace wovencode
    		// -------------------------------------------------------------------------------
 		public bool CanLoginUser(string name, string password)
 		{
-			return !isNetworkActive && 
+			return isNetworkActive && 
 				Tools.IsAllowedName(name) && 
 				Tools.IsAllowedPassword(password) &&
-				!IsConnecting();
+				IsConnecting();
 		}
 
 		// -------------------------------------------------------------------------------
@@ -72,10 +76,11 @@ namespace wovencode
    		// -------------------------------------------------------------------------------
 		public bool CanRegisterUser(string name, string password)
 		{
-			return !isNetworkActive &&
+		Debug.Log(isNetworkActive+"/"+IsConnecting());
+			return isNetworkActive &&
 				Tools.IsAllowedName(name) && 
 				Tools.IsAllowedPassword(password) &&
-				!IsConnecting();
+				IsConnecting();
 		}
 
 		// -------------------------------------------------------------------------------
@@ -114,6 +119,8 @@ namespace wovencode
 					!IsConnecting());
 		}
 
+		// ======================= PUBLIC METHODS - USER =================================
+
 		// -------------------------------------------------------------------------------
    		// TryLoginUser
    		// we try to login into an existing user using name and password provided
@@ -121,14 +128,10 @@ namespace wovencode
 		public void TryLoginUser(string name, string password)
 		{
 			
-			((wovencode.NetworkAuthenticator)authenticator).userName 		= name;
-			((wovencode.NetworkAuthenticator)authenticator).userPassword 	= password;
-			((wovencode.NetworkAuthenticator)authenticator).userAction 		= NetworkAction.LoginUser;
+			userName 		= name;
+			userPassword 	= password;
 			
-			if (localHostAndPlay)
-				StartHost();
-			else
-				StartClient();
+			RequestUserLogin(NetworkClient.connection, name, password);
 			
 		}
 		
@@ -139,15 +142,11 @@ namespace wovencode
 		public void TryRegisterUser(string name, string password)
 		{
 			
-			((wovencode.NetworkAuthenticator)authenticator).userName 		= name;
-			((wovencode.NetworkAuthenticator)authenticator).userPassword 	= password;
-			((wovencode.NetworkAuthenticator)authenticator).userAction 		= NetworkAction.RegisterUser;
+			userName 		= name;
+			userPassword 	= password;
 			
-			if (localHostAndPlay)
-				StartHost();
-			else
-				StartClient();
 			
+			RequestUserRegister(NetworkClient.connection, name, password);
 		}
 		
 		// -------------------------------------------------------------------------------
@@ -157,14 +156,10 @@ namespace wovencode
 		public void TryDeleteUser(string name, string password)
 		{
 			
-			((wovencode.NetworkAuthenticator)authenticator).userName 		= name;
-			((wovencode.NetworkAuthenticator)authenticator).userPassword 	= password;
-			((wovencode.NetworkAuthenticator)authenticator).userAction 		= NetworkAction.DeleteUser;
+			userName 		= name;
+			userPassword 	= password;
 			
-			if (localHostAndPlay)
-				StartHost();
-			else
-				StartClient();
+			RequestUserDelete(NetworkClient.connection, name, password);
 
 		}
 		
@@ -175,15 +170,11 @@ namespace wovencode
 		public void TryChangePasswordUser(string name, string oldpassword, string newpassword)
 		{
 			
-			((wovencode.NetworkAuthenticator)authenticator).userName 		= name;
-			((wovencode.NetworkAuthenticator)authenticator).userPassword 	= oldpassword;
-			((wovencode.NetworkAuthenticator)authenticator).newPassword 	= newpassword;
-			((wovencode.NetworkAuthenticator)authenticator).userAction 		= NetworkAction.ChangePasswordUser;
+			userName 		= name;
+			userPassword 	= oldpassword;
+			newPassword 	= newpassword;
 			
-			if (localHostAndPlay)
-				StartHost();
-			else
-				StartClient();
+			RequestUserChangePassword(NetworkClient.connection, name, oldpassword, newpassword);
 
 		}
 		
@@ -194,14 +185,10 @@ namespace wovencode
 		public void TryConfirmUser(string name, string password)
 		{
 			
-			((wovencode.NetworkAuthenticator)authenticator).userName 		= name;
-			((wovencode.NetworkAuthenticator)authenticator).userPassword 	= password;
-			((wovencode.NetworkAuthenticator)authenticator).userAction 		= NetworkAction.ConfirmUser;
+			userName 		= name;
+			userPassword 	= password;
 			
-			if (localHostAndPlay)
-				StartHost();
-			else
-				StartClient();
+			RequestUserConfirm(NetworkClient.connection, name, password);
 
 		}
 		

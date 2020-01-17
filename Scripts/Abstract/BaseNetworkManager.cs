@@ -21,7 +21,7 @@ namespace wovencode
 	// ===================================================================================
 	public abstract partial class BaseNetworkManager : Mirror.NetworkManager
 	{
-	
+
 #if wSYNCABLE
 		[Header("Spawnable Prefab Categories")]
 		[Tooltip("Only prefabs of the listed categories are included")]
@@ -30,8 +30,8 @@ namespace wovencode
 
 		[Header("Debug Helper")]
 		public DebugHelper debug;
-		public bool localHostAndPlay = true;
-		
+		public NetworkType networkType;
+				
 #if UNITY_EDITOR
 	
 		// -------------------------------------------------------------------------------
