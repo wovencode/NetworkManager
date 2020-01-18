@@ -35,8 +35,7 @@ namespace wovencode
    		// -------------------------------------------------------------------------------
 		public bool CanClick()
 		{
-			return true;
-			//return (!IsConnecting());
+			return (isNetworkActive && IsConnecting());
 		}
 		
 	   	// -------------------------------------------------------------------------------
@@ -45,8 +44,7 @@ namespace wovencode
    		// -------------------------------------------------------------------------------
 		public bool CanInput()
 		{
-			return true;
-			//return (!IsConnecting());
+			return (isNetworkActive && IsConnecting());
 		}
    		
    		// -------------------------------------------------------------------------------
@@ -76,7 +74,6 @@ namespace wovencode
    		// -------------------------------------------------------------------------------
 		public bool CanRegisterUser(string name, string password)
 		{
-		Debug.Log(isNetworkActive+"/"+IsConnecting());
 			return isNetworkActive &&
 				Tools.IsAllowedName(name) && 
 				Tools.IsAllowedPassword(password) &&
