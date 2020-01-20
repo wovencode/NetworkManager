@@ -49,9 +49,6 @@ namespace wovencode
 			else
 				statusText.text = "";
 			
-			usernameInput.readOnly = !NetworkManager.singleton.CanInput();
-			userpassInput.readOnly = !NetworkManager.singleton.CanInput();
-			
 			deleteButton.interactable = NetworkManager.singleton.CanDeleteUser(usernameInput.text, userpassInput.text);
 			deleteButton.onClick.SetListener(() => { InitPopupDelete(); });
 					

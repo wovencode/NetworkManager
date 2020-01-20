@@ -49,9 +49,6 @@ namespace wovencode
 			else
 				statusText.text = "";
 			
-			usernameInput.readOnly = !manager.CanInput();
-			userpassInput.readOnly = !manager.CanInput();
-			
 			registerButton.interactable = manager.CanRegisterUser(usernameInput.text, userpassInput.text);
 			registerButton.onClick.SetListener(() => { manager.TryRegisterUser(usernameInput.text, userpassInput.text); });
 					

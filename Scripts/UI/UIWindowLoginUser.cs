@@ -77,9 +77,6 @@ namespace wovencode
 			else
 				statusText.text = "";
 			
-			usernameInput.readOnly = !NetworkManager.singleton.CanInput();
-			userpassInput.readOnly = !NetworkManager.singleton.CanInput();
-			
 			loginButton.interactable = NetworkManager.singleton.CanLoginUser(usernameInput.text, userpassInput.text);
 			loginButton.onClick.SetListener(() => { NetworkManager.singleton.TryLoginUser(usernameInput.text, userpassInput.text); });
 				

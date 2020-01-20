@@ -113,7 +113,7 @@ namespace wovencode
 			{
 				success = true,
 				text			 	= "",
-				causesDisconnect 	= true
+				causesDisconnect 	= false
 			};
         	
         	if (DatabaseManager.singleton.TryUserRegister(msg.username, msg.password))
@@ -143,7 +143,7 @@ namespace wovencode
 			{
 				success = true,
 				text			 	= "",
-				causesDisconnect 	= true
+				causesDisconnect 	= false
 			};
         	
         	if (DatabaseManager.singleton.TryUserDelete(msg.username, msg.password))
@@ -172,7 +172,7 @@ namespace wovencode
 			{
 				success = true,
 				text			 	= "",
-				causesDisconnect 	= true
+				causesDisconnect 	= false
 			};
         	
         	if (DatabaseManager.singleton.TryUserChangePassword(msg.username, msg.oldPassword, msg.newPassword))
@@ -262,7 +262,7 @@ namespace wovencode
 			{
 				success = true,
 				text			 	= "",
-				causesDisconnect 	= true
+				causesDisconnect 	= false
 			};
         	
         	if (DatabaseManager.singleton.TryPlayerRegister(msg.playername, msg.username))
@@ -292,7 +292,7 @@ namespace wovencode
 			{
 				success = true,
 				text			 	= "",
-				causesDisconnect 	= true
+				causesDisconnect 	= false
 			};
         	
         	if (DatabaseManager.singleton.TryPlayerDeleteSoft(msg.playername, msg.username))

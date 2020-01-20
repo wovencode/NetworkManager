@@ -99,7 +99,7 @@ namespace wovencode
 			
 				quitButton.onClick.SetListener(() => { NetworkManager.Quit(); });
 
-            	serverDropdown.interactable = NetworkManager.singleton.CanInput();
+            	serverDropdown.interactable = NetworkManager.singleton.CanClick();
             	serverDropdown.options = NetworkManager.singleton.serverList.Select(x => new Dropdown.OptionData(x.name)).ToList();
             	NetworkManager.singleton.networkAddress = NetworkManager.singleton.serverList[serverDropdown.value].ip;
             

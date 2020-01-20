@@ -50,10 +50,6 @@ namespace wovencode
 			else
 				statusText.text = "";
 			
-			usernameInput.readOnly = !NetworkManager.singleton.CanInput();
-			oldUserPassInput.readOnly = !NetworkManager.singleton.CanInput();
-			newUserPassInput.readOnly = !NetworkManager.singleton.CanInput();
-			
 			changeButton.interactable = NetworkManager.singleton.CanChangePasswordUser(usernameInput.text, oldUserPassInput.text, newUserPassInput.text);
 			changeButton.onClick.SetListener(() => { NetworkManager.singleton.TryChangePasswordUser(usernameInput.text, oldUserPassInput.text, newUserPassInput.text); });
 		
