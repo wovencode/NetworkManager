@@ -5,7 +5,9 @@
 // =======================================================================================
 
 using wovencode;
+using System;
 using System.Linq;
+using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -50,8 +52,9 @@ namespace wovencode
 			
 			
 			
-				//createButton.interactable = 
-			
+				createButton.interactable = (!String.IsNullOrWhiteSpace(playernameInput.text));
+				createButton.onClick.SetListener(() => { NetworkManager.singleton.TryRegisterPlayer(playernameInput.text); });
+				
 				backButton.onClick.SetListener(() => { Hide(); });
 			
 			

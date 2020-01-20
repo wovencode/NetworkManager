@@ -47,14 +47,16 @@ namespace wovencode
         // RequestUserRegister
         // @Client
 		// -------------------------------------------------------------------------------
-		protected override bool RequestUserRegister(NetworkConnection conn, string name, string password)
+		protected override bool RequestUserRegister(NetworkConnection conn, string name, string password, string usermail)
 		{
-			if (!base.RequestUserRegister(conn, name, password)) return false;
+			if (!base.RequestUserRegister(conn, name, password, usermail)) return false;
 			
 			ClientMessageRequestUserRegister message = new ClientMessageRequestUserRegister
 			{
-				username = name,
-				password = GenerateHash(name, password)
+				username 	= name,
+				password 	= GenerateHash(name, password),
+				email 		= usermail,
+				deviceid	= Tools.GetDeviceId
 			};
 			
 			conn.Send(message);
@@ -133,13 +135,14 @@ namespace wovencode
         // RequestPlayerLogin
         // @Client
 		// -------------------------------------------------------------------------------
-		protected override bool RequestPlayerLogin(NetworkConnection conn, string name)
+		protected override bool RequestPlayerLogin(NetworkConnection conn, string name, string username)
 		{
-			if (!base.RequestPlayerLogin(conn, name)) return false;
+			if (!base.RequestPlayerLogin(conn, name, username)) return false;
 			
 			ClientMessageRequestPlayerLogin message = new ClientMessageRequestPlayerLogin
 			{
-				playername = name
+				playername = name,
+				username = userName
 			};
 			
 			ClientScene.Ready(conn);
@@ -154,13 +157,14 @@ namespace wovencode
         // RequestPlayerRegister
         // @Client
 		// -------------------------------------------------------------------------------
-		protected override bool RequestPlayerRegister(NetworkConnection conn, string name)
+		protected override bool RequestPlayerRegister(NetworkConnection conn, string name, string username)
 		{
-			if (!base.RequestPlayerRegister(conn, name)) return false;
+			if (!base.RequestPlayerRegister(conn, name, username)) return false;
 			
 			ClientMessageRequestPlayerRegister message = new ClientMessageRequestPlayerRegister
 			{
-				playername = name
+				playername = name,
+				username = userName
 			};
 			
 			conn.Send(message);
@@ -173,13 +177,14 @@ namespace wovencode
         // RequestPlayerDelete
         // @Client
 		// -------------------------------------------------------------------------------
-		protected override bool RequestPlayerDelete(NetworkConnection conn, string name, int action=1)
+		protected override bool RequestPlayerDelete(NetworkConnection conn, string name, string username, int action=1)
 		{
-			if (!base.RequestPlayerDelete(conn, name)) return false;
+			if (!base.RequestPlayerDelete(conn, name, username)) return false;
 			
 			ClientMessageRequestPlayerDelete message = new ClientMessageRequestPlayerDelete
 			{
-				playername = name
+				playername = name,
+				username = userName
 			};
 			
 			conn.Send(message);

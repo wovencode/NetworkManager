@@ -136,14 +136,14 @@ namespace wovencode
    		// TryRegisterUser
    		// we try to register a new User with name and password provided
    		// -------------------------------------------------------------------------------
-		public void TryRegisterUser(string name, string password)
+		public void TryRegisterUser(string name, string password, string email)
 		{
 			
 			userName 		= name;
 			userPassword 	= password;
 			
 			
-			RequestUserRegister(NetworkClient.connection, name, password);
+			RequestUserRegister(NetworkClient.connection, name, password, email);
 		}
 		
 		// -------------------------------------------------------------------------------
@@ -181,13 +181,39 @@ namespace wovencode
    		// -------------------------------------------------------------------------------
 		public void TryConfirmUser(string name, string password)
 		{
-			
-			userName 		= name;
-			userPassword 	= password;
-			
 			RequestUserConfirm(NetworkClient.connection, name, password);
-
 		}
+		
+		// ======================= PUBLIC METHODS - PLAYER ===============================
+
+		// -------------------------------------------------------------------------------
+   		// TryLoginPlayer
+   		// 
+   		// -------------------------------------------------------------------------------
+		public void TryLoginPlayer(string name)
+		{
+			RequestPlayerLogin(NetworkClient.connection, name, userName);
+		}
+		
+		// -------------------------------------------------------------------------------
+   		// TryRegisterPlayer
+   		// 
+   		// -------------------------------------------------------------------------------
+		public void TryRegisterPlayer(string name)
+		{
+			RequestPlayerRegister(NetworkClient.connection, name, userName);
+		}
+		
+		// -------------------------------------------------------------------------------
+   		// TryDeletePlayer
+   		// 
+   		// -------------------------------------------------------------------------------
+		public void TryDeletePlayer(string name)
+		{			
+			RequestPlayerDelete(NetworkClient.connection, name, userName);
+		}
+		
+		// ======================== PUBLIC METHODS - OTHER ===============================
 		
 		// -------------------------------------------------------------------------------
    		// TryStartServer
@@ -207,7 +233,7 @@ namespace wovencode
 		{
 			StopClient();
 		}
-	
+		
 		// -------------------------------------------------------------------------------
 	
 	}

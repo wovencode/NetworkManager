@@ -17,7 +17,10 @@ namespace wovencode
 	// ===================================================================================
 	public partial class UIWindowPlayerSelect : UIRoot
 	{
-	
+		
+		[Header("Windows")]
+		public UIWindowPlayerCreate createWindow;
+		
 		[Header("Prefab")]
 		public UISelectPlayerSlot slotPrefab;
 		public UIButtonGroup buttonGroup;
@@ -48,18 +51,15 @@ namespace wovencode
 			else
 			{
 			
-			
-			
 				//createButton.interactable = 
-			
+				createButton.onClick.SetListener(() => { createWindow.Show(); });
 			
 				selectButton.interactable = (index != -1);
 			
 			
 				deleteButton.interactable = (index != -1);
-			
-			
-			
+						
+						
 				backButton.onClick.SetListener(() => { Hide(); });
 			
 			

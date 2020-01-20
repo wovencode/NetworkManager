@@ -53,6 +53,8 @@ namespace wovencode.Network
 	{
 		public string username;
 		public string password;
+		public string email;
+		public string deviceid;
 	}
 	
 	// -----------------------------------------------------------------------------------

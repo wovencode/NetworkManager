@@ -61,7 +61,7 @@ namespace wovencode
                	UIPopupConfirm.singleton.Init(msg.text);
     		
         	// -- disconnect and un-authenticate if anything went wrong
-            if (!msg.success || msg.causesDisconnect)
+            if (msg.causesDisconnect) //!msg.success ||
             {
                 conn.isAuthenticated = false;
                 conn.Disconnect();

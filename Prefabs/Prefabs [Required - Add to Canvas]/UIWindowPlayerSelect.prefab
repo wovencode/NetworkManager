@@ -207,7 +207,7 @@ GameObject:
   - component: {fileID: 2603294622395977899}
   - component: {fileID: 758995063879249078}
   m_Layer: 5
-  m_Name: UIWindowSelectPlayer
+  m_Name: UIWindowPlayerSelect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -258,7 +258,7 @@ MonoBehaviour:
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   updateInterval: 0.25
-  manager: {fileID: 0}
+  createWindow: {fileID: 0}
   slotPrefab: {fileID: 6118895898396880698, guid: f009457fe986f4177a3badb011a7860b,
     type: 3}
   buttonGroup: {fileID: 758995063879249078}
@@ -1897,7 +1897,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 3748009414623645236}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0
+  m_Size: 0.5833333
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:

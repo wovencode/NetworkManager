@@ -29,7 +29,7 @@ namespace wovencode
 		}
 		
 		// -------------------------------------------------------------------------------
-		protected virtual bool RequestUserRegister(NetworkConnection conn, string name, string password)
+		protected virtual bool RequestUserRegister(NetworkConnection conn, string name, string password, string usermail)
 		{
 			return (Tools.IsAllowedName(name) && Tools.IsAllowedPassword(password));
 		}
@@ -55,21 +55,21 @@ namespace wovencode
 		// ======================= PUBLIC METHODS - PLAYER =================================
 		
 		// -------------------------------------------------------------------------------
-		protected virtual bool RequestPlayerLogin(NetworkConnection conn, string name)
+		protected virtual bool RequestPlayerLogin(NetworkConnection conn, string name, string username)
 		{
-			return (Tools.IsAllowedName(name));
+			return (Tools.IsAllowedName(name) && Tools.IsAllowedName(username));
 		}
 		
 		// -------------------------------------------------------------------------------
-		protected virtual bool RequestPlayerRegister(NetworkConnection conn, string name)
+		protected virtual bool RequestPlayerRegister(NetworkConnection conn, string name, string username)
 		{
-			return (Tools.IsAllowedName(name));
+			return (Tools.IsAllowedName(name) && Tools.IsAllowedName(username));
 		}
 		
 		// -------------------------------------------------------------------------------
-		protected virtual bool RequestPlayerDelete(NetworkConnection conn, string name, int _action=1)
+		protected virtual bool RequestPlayerDelete(NetworkConnection conn, string name, string username, int _action=1)
 		{
-			return (Tools.IsAllowedName(name));
+			return (Tools.IsAllowedName(name) && Tools.IsAllowedName(username));
 		}
 				
 		// -------------------------------------------------------------------------------
