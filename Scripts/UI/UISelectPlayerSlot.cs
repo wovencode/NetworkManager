@@ -44,6 +44,11 @@ namespace Wovencode.UI
 			_index = index;
 			textName.text = name;
 			
+			if (selected)
+				imageSelected.sprite = selectedImage;
+			else
+				imageSelected.sprite = unselectedImage;
+			
 		}
 		
 		// -------------------------------------------------------------------------------
@@ -55,13 +60,17 @@ namespace Wovencode.UI
 			if (selected)
 			{
 				selected = false;
-				imageSelected.sprite = unselectedImage;
+				
+				if (imageSelected)
+					imageSelected.sprite = unselectedImage;
 				
 			}
 			else
 			{
 				selected = true;
-				imageSelected.sprite = selectedImage;
+				
+				if (imageSelected)
+					imageSelected.sprite = selectedImage;
 			}
 			
 		}

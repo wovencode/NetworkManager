@@ -76,6 +76,11 @@ namespace Wovencode.Network
         // -------------------------------------------------------------------------------
         void OnServerMessageResponseUserLogin(NetworkConnection conn, ServerMessageResponseUserLogin msg)
         {
+        
+        
+			playerPreviews = new List<PlayerPreview>();
+			playerPreviews.AddRange(msg.players);
+			maxPlayers	= msg.maxPlayers;
         	
         	OnServerMessageResponse(conn, msg);
         }

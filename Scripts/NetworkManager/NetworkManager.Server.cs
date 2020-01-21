@@ -61,7 +61,7 @@ namespace Wovencode.Network
 		// --------------------------------------------------------------------------------
         void OnClientMessageRequest(NetworkConnection conn, ClientMessageRequest msg)
         {
-    	
+    		// do nothing (this message is never called directly)
         }
         
         // ========================== MESSAGE HANDLERS - USER ============================
@@ -82,14 +82,13 @@ namespace Wovencode.Network
 			
 			if (DatabaseManager.singleton.TryUserLogin(msg.username, msg.password))
 			{
-				NetworkManager.singleton.LoginUser(conn, msg.username);
+				LoginUser(conn, msg.username);
 				
-				/*
-				TODO:
-				message.players
-				message.maxPlayer
-				*/
-				
+				// TODO: Add increased maxPlayers from user data later
+				message.maxPlayers = GameRulesTemplate.singleton.maxPlayersPerUser;
+
+				message.LoadPlayerPreviews(DatabaseManager.singleton.GetPlayers(msg.username));
+								
 				eventListener.onUserLogin.Invoke(conn);
 				message.text = systemText.userLoginSuccess;
 			}
@@ -237,7 +236,7 @@ namespace Wovencode.Network
 			
 			if (DatabaseManager.singleton.TryPlayerLogin(msg.playername, msg.username))
 			{
-				NetworkManager.singleton.LoginPlayer(conn, msg.playername);
+				LoginPlayer(conn, msg.playername);
 				
 				message.text = systemText.playerLoginSuccess;
 				eventListener.onPlayerLogin.Invoke(conn.identity.gameObject);
@@ -268,7 +267,7 @@ namespace Wovencode.Network
         	
         	if (DatabaseManager.singleton.TryPlayerRegister(msg.playername, msg.username))
 			{
-				NetworkManager.singleton.RegisterPlayer(msg.playername);
+				RegisterPlayer(msg.playername);
 				message.text = systemText.playerRegisterSuccess;
 				eventListener.onPlayerRegister.Invoke(msg.playername);
 			}

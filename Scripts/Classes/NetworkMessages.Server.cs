@@ -4,6 +4,7 @@
 // MIT licensed
 // =======================================================================================
 
+using System.Collections.Generic;
 using Wovencode.Network;
 using Wovencode;
 using Mirror;
@@ -30,7 +31,7 @@ namespace Wovencode.Network
 	// -----------------------------------------------------------------------------------
 	public partial class ServerMessageResponseAuth : ServerMessageResponse
 	{
-		
+		// do nothing (this message is never called directly)
 	}
 
 	// ================================== MESSAGES USER ==================================
@@ -42,12 +43,18 @@ namespace Wovencode.Network
 	public partial class ServerMessageResponseUserLogin : ServerMessageResponse
 	{
 	
-		public PlayerInfo players;
+		public PlayerPreview[] players;
 		public int maxPlayers;
 		
-		public partial struct PlayerInfo
+		// -------------------------------------------------------------------------------
+		// LoadPlayerPreviews
+		// -------------------------------------------------------------------------------
+		public void LoadPlayerPreviews(List<PlayerPreview> _players)
 		{
-			public string name;
+			players = new PlayerPreview[_players.Count];
+			
+			players = _players.ToArray();
+			
 		}
 		
 	}

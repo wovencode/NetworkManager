@@ -52,6 +52,9 @@ namespace Wovencode.Network
 		[HideInInspector]public string userName 			= "";
         [HideInInspector]public string userPassword			= "";
         [HideInInspector]public string newPassword			= "";
+        
+        [HideInInspector]public List<PlayerPreview> playerPreviews = new List<PlayerPreview>();
+		[HideInInspector]public int maxPlayers				= 0;
 		
 		[HideInInspector]public NetworkState state = NetworkState.Offline;
 		

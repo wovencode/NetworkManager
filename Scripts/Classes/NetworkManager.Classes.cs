@@ -8,7 +8,7 @@ using System;
 using UnityEngine;
 using Wovencode;
 using Wovencode.Network;
-using Mirror;
+
 
 namespace Wovencode.Network
 {
@@ -29,6 +29,15 @@ namespace Wovencode.Network
 			public string ip;
 		}
 
+	}
+	
+	
+	// ===================================================================================
+	// PlayerPreview
+	// ===================================================================================
+	public partial struct PlayerPreview
+	{
+		public string name;
 	}
 	
 	// -------------------------------------------------------------------------------
