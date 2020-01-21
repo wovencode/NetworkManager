@@ -6,11 +6,12 @@
 
 using Wovencode;
 using Wovencode.Network;
+using Wovencode.UI;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Wovencode.Network
+namespace Wovencode.UI
 {
 
 	// ===================================================================================
@@ -44,7 +45,7 @@ namespace Wovencode.Network
 		protected override void ThrottledUpdate()
 		{
 			
-			if (NetworkManager.singleton.state != NetworkState.Lobby)
+			if (!networkManager || networkManager.state != NetworkState.Lobby)
 			{
 				Hide();
 				return;

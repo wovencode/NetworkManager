@@ -7,6 +7,7 @@
 using Wovencode;
 using Wovencode.Network;
 using Wovencode.Database;
+using Wovencode.UI;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -213,7 +214,7 @@ namespace Wovencode.Network
 		// Quit
 		// universal quit function
 		// -------------------------------------------------------------------------------
-		public static void Quit()
+		public void Quit()
 		{
 #if UNITY_EDITOR
 			EditorApplication.isPlaying = false;

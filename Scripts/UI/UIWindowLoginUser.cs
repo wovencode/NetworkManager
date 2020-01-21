@@ -6,11 +6,12 @@
 
 using Wovencode;
 using Wovencode.Network;
+using Wovencode.UI;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Wovencode.Network
+namespace Wovencode.UI
 {
 
 	// ===================================================================================
@@ -65,24 +66,24 @@ namespace Wovencode.Network
 		protected override void ThrottledUpdate()
 		{
 			
-			if (NetworkManager.singleton.state != NetworkState.Offline)
+			if (!networkManager || networkManager.state != NetworkState.Offline)
 			{
 				Hide();
 				return;
 			}
 			
-			if (NetworkManager.singleton.IsConnecting())
+			if (networkManager.IsConnecting())
 				statusText.text = "Connecting...";
 			else if (!Tools.IsAllowedName(usernameInput.text) || !Tools.IsAllowedPassword(userpassInput.text))
 				statusText.text = "Check Name/Password";
 			else
 				statusText.text = "";
 			
-			loginButton.interactable = NetworkManager.singleton.CanLoginUser(usernameInput.text, userpassInput.text);
-			loginButton.onClick.SetListener(() => { NetworkManager.singleton.TryLoginUser(usernameInput.text, userpassInput.text); });
+			loginButton.interactable = networkManager.CanLoginUser(usernameInput.text, userpassInput.text);
+			loginButton.onClick.SetListener(() => { networkManager.TryLoginUser(usernameInput.text, userpassInput.text); });
 				
-			cancelButton.gameObject.SetActive(NetworkManager.singleton.CanCancel());
-			cancelButton.onClick.SetListener(() => { NetworkManager.singleton.TryCancel(); });
+			cancelButton.gameObject.SetActive(networkManager.CanCancel());
+			cancelButton.onClick.SetListener(() => { networkManager.TryCancel(); });
 		
 			backButton.onClick.SetListener(() => { Hide(); });
 

@@ -6,11 +6,12 @@
 
 using Wovencode;
 using Wovencode.Network;
+using Wovencode.UI;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Wovencode.Network
+namespace Wovencode.UI
 {
 
 	// ===================================================================================
@@ -48,21 +49,14 @@ namespace Wovencode.Network
 		{
 			singleton = this;
 			base.Awake();
-		}
-		
-		// -------------------------------------------------------------------------------
-		// Start
-		// -------------------------------------------------------------------------------
-		void Start()
-		{
+			
 			if (!rememberServer) return;
 			
 			if (PlayerPrefs.HasKey(Constants.PlayerPrefsLastServer))
 			{
 				string lastServer = PlayerPrefs.GetString(Constants.PlayerPrefsLastServer, "");
-				serverDropdown.value = NetworkManager.singleton.serverList.FindIndex(s => s.name == lastServer);
+				serverDropdown.value = networkManager.serverList.FindIndex(s => s.name == lastServer);
 			}
-			
 		}
 		
 		// -------------------------------------------------------------------------------
@@ -79,30 +73,30 @@ namespace Wovencode.Network
 		// -------------------------------------------------------------------------------
 		protected override void ThrottledUpdate()
 		{
-			
-			if (NetworkManager.singleton.state == NetworkState.Offline)
+
+			if (networkManager && networkManager.state == NetworkState.Offline)
 			{
 				
-				loginButton.interactable = NetworkManager.singleton.CanClick();
+				loginButton.interactable = networkManager.CanClick();
 				loginButton.onClick.SetListener(() => { loginWindow.Show(); });
 				
-				registerButton.interactable = NetworkManager.singleton.CanClick();
+				registerButton.interactable = networkManager.CanClick();
 				registerButton.onClick.SetListener(() => { registerWindow.Show(); });
 				
-				changePasswordButton.interactable = NetworkManager.singleton.CanClick();
+				changePasswordButton.interactable = networkManager.CanClick();
 				changePasswordButton.onClick.SetListener(() => { changePasswordWindow.Show(); });
 				
-				deleteButton.interactable = NetworkManager.singleton.CanClick();
+				deleteButton.interactable = networkManager.CanClick();
 				deleteButton.onClick.SetListener(() => { deleteWindow.Show(); });
 			
-				serverButton.interactable = NetworkManager.singleton.CanStartServer();
-				serverButton.onClick.SetListener(() => { NetworkManager.singleton.TryStartServer(); });
+				serverButton.interactable = networkManager.CanStartServer();
+				serverButton.onClick.SetListener(() => { networkManager.TryStartServer(); });
 			
-				quitButton.onClick.SetListener(() => { NetworkManager.Quit(); });
+				quitButton.onClick.SetListener(() => { networkManager.Quit(); });
 
-            	serverDropdown.interactable = NetworkManager.singleton.CanClick();
-            	serverDropdown.options = NetworkManager.singleton.serverList.Select(x => new Dropdown.OptionData(x.name)).ToList();
-            	NetworkManager.singleton.networkAddress = NetworkManager.singleton.serverList[serverDropdown.value].ip;
+            	serverDropdown.interactable = networkManager.CanClick();
+            	serverDropdown.options = networkManager.serverList.Select(x => new Dropdown.OptionData(x.name)).ToList();
+            	networkManager.networkAddress = networkManager.serverList[serverDropdown.value].ip;
             
 			}
 			else Hide();

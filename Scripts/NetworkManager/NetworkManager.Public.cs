@@ -88,10 +88,10 @@ namespace Wovencode.Network
    		// -------------------------------------------------------------------------------
 		public bool CanDeleteUser(string name, string password)
 		{
-			return !isNetworkActive &&
+			return isNetworkActive &&
 				Tools.IsAllowedName(name) && 
 				Tools.IsAllowedPassword(password) &&
-				!IsConnecting();
+				IsConnecting();
 		}
 		
 		// -------------------------------------------------------------------------------
@@ -100,11 +100,11 @@ namespace Wovencode.Network
    		// -------------------------------------------------------------------------------
 		public bool CanChangePasswordUser(string name, string oldpassword, string newpassword)
 		{
-			return !isNetworkActive &&
+			return isNetworkActive &&
 				Tools.IsAllowedName(name) && 
 				Tools.IsAllowedPassword(oldpassword) &&
 				Tools.IsAllowedPassword(newpassword) &&
-				!IsConnecting();
+				IsConnecting();
 		}
 		
 		// -------------------------------------------------------------------------------

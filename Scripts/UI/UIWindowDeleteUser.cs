@@ -6,11 +6,12 @@
 
 using Wovencode;
 using Wovencode.Network;
+using Wovencode.UI;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Wovencode.Network
+namespace Wovencode.UI
 {
 
 	// ===================================================================================
@@ -42,19 +43,25 @@ namespace Wovencode.Network
 		// -------------------------------------------------------------------------------
 		protected override void ThrottledUpdate()
 		{
+			
+			if (!networkManager)
+			{
+				Hide();
+				return;
+			}
 						
-			if (NetworkManager.singleton.IsConnecting())
+			if (networkManager.IsConnecting())
 				statusText.text = "Connecting...";
 			else if (!Tools.IsAllowedName(usernameInput.text) || !Tools.IsAllowedPassword(userpassInput.text))
 				statusText.text = "Check Name/Password";
 			else
 				statusText.text = "";
 			
-			deleteButton.interactable = NetworkManager.singleton.CanDeleteUser(usernameInput.text, userpassInput.text);
+			deleteButton.interactable = networkManager.CanDeleteUser(usernameInput.text, userpassInput.text);
 			deleteButton.onClick.SetListener(() => { InitPopupDelete(); });
 					
-			cancelButton.gameObject.SetActive(NetworkManager.singleton.CanCancel());
-			cancelButton.onClick.SetListener(() => { NetworkManager.singleton.TryCancel(); });
+			cancelButton.gameObject.SetActive(networkManager.CanCancel());
+			cancelButton.onClick.SetListener(() => { networkManager.TryCancel(); });
 			
 			backButton.onClick.SetListener(() => { Hide(); });
 				
@@ -73,7 +80,7 @@ namespace Wovencode.Network
 		// -------------------------------------------------------------------------------
 		public void onConfirmDelete()
 		{
-			NetworkManager.singleton.TryDeleteUser(usernameInput.text, userpassInput.text);
+			networkManager.TryDeleteUser(usernameInput.text, userpassInput.text);
 		}
 		
 		// -------------------------------------------------------------------------------

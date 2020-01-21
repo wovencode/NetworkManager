@@ -6,11 +6,12 @@
 
 using Wovencode;
 using Wovencode.Network;
+using Wovencode.UI;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Wovencode.Network
+namespace Wovencode.UI
 {
 
 	// ===================================================================================
@@ -38,24 +39,24 @@ namespace Wovencode.Network
 		protected override void ThrottledUpdate()
 		{
 			
-			if (NetworkManager.singleton.state == NetworkState.Game)
+			if (!networkManager || networkManager.state == NetworkState.Game)
 			{
 				Hide();
 				return;
 			}
 			
-			if (NetworkManager.singleton.IsConnecting())
+			if (networkManager.IsConnecting())
 				statusText.text = "Connecting...";
 			else if (!Tools.IsAllowedName(usernameInput.text) || !Tools.IsAllowedPassword(oldUserPassInput.text) || !Tools.IsAllowedPassword(newUserPassInput.text))
 				statusText.text = "Check Name/Password";
 			else
 				statusText.text = "";
 			
-			changeButton.interactable = NetworkManager.singleton.CanChangePasswordUser(usernameInput.text, oldUserPassInput.text, newUserPassInput.text);
-			changeButton.onClick.SetListener(() => { NetworkManager.singleton.TryChangePasswordUser(usernameInput.text, oldUserPassInput.text, newUserPassInput.text); });
+			changeButton.interactable = networkManager.CanChangePasswordUser(usernameInput.text, oldUserPassInput.text, newUserPassInput.text);
+			changeButton.onClick.SetListener(() => { networkManager.TryChangePasswordUser(usernameInput.text, oldUserPassInput.text, newUserPassInput.text); });
 		
-			cancelButton.gameObject.SetActive(NetworkManager.singleton.CanCancel());
-			cancelButton.onClick.SetListener(() => { NetworkManager.singleton.TryCancel(); });
+			cancelButton.gameObject.SetActive(networkManager.CanCancel());
+			cancelButton.onClick.SetListener(() => { networkManager.TryCancel(); });
 		
 			backButton.onClick.SetListener(() => { Hide(); });
 

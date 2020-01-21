@@ -8,8 +8,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using Wovencode;
 using Wovencode.Network;
+using Wovencode.UI;
 
-namespace Wovencode.Network
+namespace Wovencode.UI
 {
 	
 	// ===================================================================================

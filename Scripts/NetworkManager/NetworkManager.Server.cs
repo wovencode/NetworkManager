@@ -117,7 +117,7 @@ namespace Wovencode.Network
 				causesDisconnect 	= false
 			};
         	
-        	if (DatabaseManager.singleton.TryUserRegister(msg.username, msg.password, msg.email))
+        	if (DatabaseManager.singleton.TryUserRegister(msg.username, msg.password, msg.email, msg.deviceid))
 			{
 				DatabaseManager.singleton.SaveDataUser(msg.username, false);
 				eventListener.onUserRegister.Invoke(msg.username);

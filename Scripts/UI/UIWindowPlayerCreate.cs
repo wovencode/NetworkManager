@@ -6,13 +6,14 @@
 
 using Wovencode;
 using Wovencode.Network;
+using Wovencode.UI;
 using System;
 using System.Linq;
 using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Wovencode.Network
+namespace Wovencode.UI
 {
 
 	// ===================================================================================
@@ -43,7 +44,7 @@ namespace Wovencode.Network
 		protected override void ThrottledUpdate()
 		{
 			
-			if (NetworkManager.singleton.state != NetworkState.Lobby)
+			if (!networkManager || networkManager.state != NetworkState.Lobby)
 			{
 				Hide();
 				return;
@@ -51,10 +52,8 @@ namespace Wovencode.Network
 			else if (root.activeSelf)
 			{
 			
-			
-			
 				createButton.interactable = (!String.IsNullOrWhiteSpace(playernameInput.text));
-				createButton.onClick.SetListener(() => { NetworkManager.singleton.TryRegisterPlayer(playernameInput.text); });
+				createButton.onClick.SetListener(() => { networkManager.TryRegisterPlayer(playernameInput.text); });
 				
 				backButton.onClick.SetListener(() => { Hide(); });
 			
