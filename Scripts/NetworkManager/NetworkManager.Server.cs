@@ -339,6 +339,51 @@ namespace Wovencode.Network
         	
         }
         
+        // ============================= COMMON ACTIONS ==================================
+        
+        // -------------------------------------------------------------------------------
+		// LoginUser
+		// @Server
+		// -------------------------------------------------------------------------------
+		protected void LoginUser(NetworkConnection conn, string name)
+		{
+			onlineUsers[conn] = name;
+			state = NetworkState.Lobby;
+			this.InvokeInstanceDevExtMethods(nameof(LoginUser));
+		}
+		
+		// -------------------------------------------------------------------------------
+		// LoginPlayer
+		// @Server
+		// -------------------------------------------------------------------------------
+		protected void LoginPlayer(NetworkConnection conn, string _name)
+		{
+			if (!AccountLoggedIn(_name))
+			{
+				GameObject player = DatabaseManager.singleton.LoadDataPlayer(playerPrefab, _name);
+				NetworkServer.AddPlayerForConnection(conn, player);
+				onlinePlayers[player.name] = player;
+				state = NetworkState.Game;
+				
+				this.InvokeInstanceDevExtMethods(nameof(LoginPlayer));
+			}
+			else
+				ServerSendError(conn, systemText.userAlreadyOnline, true);
+		}
+		
+		// -------------------------------------------------------------------------------
+		// RegisterPlayer
+		// @Server
+		// -------------------------------------------------------------------------------
+		protected void RegisterPlayer(string playername)
+		{
+			GameObject player = Instantiate(playerPrefab);
+			player.name = playername;
+			DatabaseManager.singleton.CreateDefaultDataPlayer(player);
+			DatabaseManager.singleton.SaveDataPlayer(player, false);
+			Destroy(player);
+		}
+		
         // -------------------------------------------------------------------------------
                
     }
