@@ -4,8 +4,9 @@
 // MIT licensed
 // =======================================================================================
 
-using wovencode;
-using wovencode.Network;
+using Wovencode;
+using Wovencode.Network;
+using Wovencode.Database;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -15,20 +16,20 @@ using Mirror;
 using UnityEditor;
 #endif
 
-namespace wovencode
+namespace Wovencode.Network
 {
 
     // ===================================================================================
 	// NetworkManager
 	// ===================================================================================
 	[RequireComponent(typeof(ConfigurationManager))]
-	[RequireComponent(typeof(wovencode.NetworkAuthenticator))]
+	[RequireComponent(typeof(Wovencode.Network.NetworkAuthenticator))]
 	[DisallowMultipleComponent]
 	public partial class NetworkManager : BaseNetworkManager
 	{
 		
 		[Header("Security")]
-    	public string userNameSalt 							= "at_least_16_byte";
+    	public string userNameSalt = "at_least_16_byte";
 		
 		[Header("Servers")]
 		public List<ServerInfo> serverList = new List<ServerInfo>()
@@ -42,15 +43,14 @@ namespace wovencode
 		[Header("Event Listeners")]
 		public NetworkManager_EventListeners eventListener;
 		
-		public static new wovencode.NetworkManager singleton;
+		public static new Wovencode.Network.NetworkManager singleton;
 		
 		public static Dictionary<string, GameObject> onlinePlayers = new Dictionary<string, GameObject>();
 		protected Dictionary<NetworkConnection, string> onlineUsers = new Dictionary<NetworkConnection, string>();
 		
-				[HideInInspector]public string userName 			= "";
+		[HideInInspector]public string userName 			= "";
         [HideInInspector]public string userPassword			= "";
         [HideInInspector]public string newPassword			= "";
-
 		
 		[HideInInspector]public NetworkState state = NetworkState.Offline;
 		

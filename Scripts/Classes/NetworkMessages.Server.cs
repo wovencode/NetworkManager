@@ -4,11 +4,11 @@
 // MIT licensed
 // =======================================================================================
 
-using wovencode.Network;
-using wovencode;
+using Wovencode.Network;
+using Wovencode;
 using Mirror;
 
-namespace wovencode.Network
+namespace Wovencode.Network
 {
 
 	// -----------------------------------------------------------------------------------

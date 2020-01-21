@@ -7,9 +7,10 @@
 using UnityEngine;
 using System.Collections;
 using UnityEditor;
-using wovencode;
+using Wovencode;
+using Wovencode.Network;
 
-namespace wovencode
+namespace Wovencode.Network
 {
 
 #if UNITY_EDITOR

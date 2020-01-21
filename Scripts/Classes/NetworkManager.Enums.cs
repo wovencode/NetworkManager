@@ -4,10 +4,11 @@
 // MIT licensed
 // =======================================================================================
 
-using wovencode;
+using Wovencode.Network;
+using Wovencode;
 using System;
 
-namespace wovencode
+namespace Wovencode.Network
 {
 
 	public enum NetworkState 	{

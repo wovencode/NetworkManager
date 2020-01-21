@@ -5,10 +5,11 @@
 // =======================================================================================
 
 using UnityEngine;
-using wovencode;
+using Wovencode;
+using Wovencode.Network;
 using System;
 
-namespace wovencode
+namespace Wovencode.Network
 {
 	
 	// -----------------------------------------------------------------------------------

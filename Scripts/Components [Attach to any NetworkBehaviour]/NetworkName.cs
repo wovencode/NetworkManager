@@ -8,22 +8,29 @@
 //
 // =======================================================================================
 
+using Wovencode;
+using Wovencode.Network;
 using Mirror;
 
-public class NetworkName : NetworkBehaviour
+namespace Wovencode.Network
 {
-   
-    public override bool OnSerialize(NetworkWriter writer, bool initialState)
-    {
-        writer.WriteString(name);
-        return true;
-    }
 
-    public override void OnDeserialize(NetworkReader reader, bool initialState)
-    {
-        name = reader.ReadString();
-    }
-    
+	public class NetworkName : NetworkBehaviour
+	{
+   
+		public override bool OnSerialize(NetworkWriter writer, bool initialState)
+		{
+			writer.WriteString(name);
+			return true;
+		}
+
+		public override void OnDeserialize(NetworkReader reader, bool initialState)
+		{
+			name = reader.ReadString();
+		}
+	
+	}
+
 }
 
 // =======================================================================================

@@ -7,9 +7,9 @@
 using System;
 using UnityEngine;
 using System.Linq;
-using wovencode;
+using Wovencode;
 
-namespace wovencode
+namespace Wovencode
 {
 	
 	// ===================================================================================

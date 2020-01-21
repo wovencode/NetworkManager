@@ -4,13 +4,13 @@
 // MIT licensed
 // =======================================================================================
 
-using wovencode;
+using Wovencode;
 using UnityEngine;
 using System;
 using Mirror;
 using System.Collections.Generic;
 
-namespace wovencode
+namespace Wovencode
 {
 
 	// ===================================================================================

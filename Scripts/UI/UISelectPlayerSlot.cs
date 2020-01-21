@@ -6,9 +6,10 @@
 
 using UnityEngine;
 using UnityEngine.UI;
-using wovencode;
+using Wovencode;
+using Wovencode.Network;
 
-namespace wovencode
+namespace Wovencode.Network
 {
 	
 	// ===================================================================================

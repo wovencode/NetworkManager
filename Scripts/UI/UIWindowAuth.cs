@@ -4,12 +4,12 @@
 // MIT licensed
 // =======================================================================================
 
-using wovencode;
-using System.Linq;
+using Wovencode;
+using Wovencode.Network;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace wovencode
+namespace Wovencode.Network
 {
 
 	// ===================================================================================

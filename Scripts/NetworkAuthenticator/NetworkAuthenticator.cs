@@ -4,21 +4,21 @@
 // MIT licensed
 // =======================================================================================
 
-using wovencode;
-using wovencode.Network;
+using Wovencode;
+using Wovencode.Network;
 using UnityEngine;
 using UnityEngine.Events;
 using System;
 using System.Collections.Generic;
 using Mirror;
 
-namespace wovencode
+namespace Wovencode.Network
 {
 
     // ===================================================================================
 	// NetworkAuthenticator
 	// ===================================================================================
-	[RequireComponent(typeof(wovencode.NetworkManager))]
+	[RequireComponent(typeof(Wovencode.Network.NetworkManager))]
     [DisallowMultipleComponent]
     public partial class NetworkAuthenticator : BaseNetworkAuthenticator
     {
@@ -32,25 +32,13 @@ namespace wovencode
 		[Header("Event Listeners")]
 		public NetworkAuthenticator_EventListeners 			eventListener;
 		
-		
-		public static wovencode.NetworkAuthenticator singleton;
-		
-		
+		public static Wovencode.Network.NetworkAuthenticator singleton;
 		
 		// -------------------------------------------------------------------------------
 		public void Awake()
 		{
 			singleton = this;
 		}
-		
-		// -------------------------------------------------------------------------------
-		// GenerateHash
-		// Helper function to generate a hash from the current userName, salt & account name
-		// -------------------------------------------------------------------------------
-		/*protected string GenerateHash(string encryptText, string saltText)
-		{
-			return Tools.PBKDF2Hash(encryptText, userNameSalt + saltText);
-		}*/
 		
         // -------------------------------------------------------------------------------
                

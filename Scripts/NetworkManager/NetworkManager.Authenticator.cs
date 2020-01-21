@@ -4,7 +4,9 @@
 // MIT licensed
 // =======================================================================================
 
-using wovencode;
+using Wovencode;
+using Wovencode.Database;
+using Wovencode.Network;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,7 +16,7 @@ using Mirror;
 using UnityEditor;
 #endif
 
-namespace wovencode
+namespace Wovencode.Network
 {
 
     // ===================================================================================

@@ -8,12 +8,13 @@ using UnityEngine;
 using System;
 using Mirror;
 using System.Collections.Generic;
-using wovencode;
+using Wovencode;
+using Wovencode.Network;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
 
-namespace wovencode
+namespace Wovencode.Network
 {
 	
 	// ===================================================================================

@@ -6,10 +6,11 @@
 
 using System;
 using UnityEngine;
-using wovencode;
+using Wovencode;
+using Wovencode.Network;
 using Mirror;
 
-namespace wovencode
+namespace Wovencode.Network
 {
 	
 	// ===================================================================================
