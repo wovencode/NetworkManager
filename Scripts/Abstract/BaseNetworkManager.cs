@@ -10,6 +10,7 @@ using Mirror;
 using System.Collections.Generic;
 using Wovencode;
 using Wovencode.Network;
+using Wovencode.Debug;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
