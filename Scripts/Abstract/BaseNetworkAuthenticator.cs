@@ -6,7 +6,7 @@
 
 using Wovencode;
 using Wovencode.Network;
-using Wovencode.Debug;
+using Wovencode.Debugging;
 using UnityEngine;
 using System;
 using Mirror;

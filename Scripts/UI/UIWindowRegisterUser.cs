@@ -7,6 +7,7 @@
 using Wovencode;
 using Wovencode.Network;
 using Wovencode.UI;
+using Wovencode.Debugging;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
@@ -33,8 +34,16 @@ namespace Wovencode.UI
 		public Button cancelButton;
 		public Button backButton;
 		
-		protected const string _accountName = "AccountName";
-		protected const string _accountPass = "AccountPass";
+		// -------------------------------------------------------------------------------
+		// Show
+		// -------------------------------------------------------------------------------
+		public override void Show()
+		{
+			usernameInput.text = "";
+			userpassInput.text = "";
+			usermailInput.text = "";
+			base.Show();
+		}
 		
 		// -------------------------------------------------------------------------------
 		// ThrottledUpdate
@@ -56,13 +65,21 @@ namespace Wovencode.UI
 				statusText.text = "";
 			
 			registerButton.interactable = networkManager.CanRegisterUser(usernameInput.text, userpassInput.text);
-			registerButton.onClick.SetListener(() => { networkManager.TryRegisterUser(usernameInput.text, userpassInput.text, usermailInput.text); });
-					
+			registerButton.onClick.SetListener(() => { OnClickRegister(); });
+			
 			cancelButton.gameObject.SetActive(networkManager.CanCancel());
 			cancelButton.onClick.SetListener(() => { networkManager.TryCancel(); });
 		
 			backButton.onClick.SetListener(() => { Hide(); });
 
+		}
+		
+		// -------------------------------------------------------------------------------
+		// OnClickRegister
+		// -------------------------------------------------------------------------------
+		public void OnClickRegister()
+		{
+			networkManager.TryRegisterUser(usernameInput.text, userpassInput.text, usermailInput.text);
 		}
 		
 		// -------------------------------------------------------------------------------
