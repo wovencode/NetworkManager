@@ -62,7 +62,7 @@ namespace Wovencode.Network
                	UIPopupConfirm.singleton.Init(msg.text);
     		
         	// -- disconnect and un-authenticate if anything went wrong
-            if (msg.causesDisconnect) //!msg.success ||
+            if (msg.causesDisconnect)
             {
                 conn.isAuthenticated = false;
                 conn.Disconnect();
@@ -76,11 +76,14 @@ namespace Wovencode.Network
         // -------------------------------------------------------------------------------
         void OnServerMessageResponseUserLogin(NetworkConnection conn, ServerMessageResponseUserLogin msg)
         {
-        
-        
-			playerPreviews = new List<PlayerPreview>();
-			playerPreviews.AddRange(msg.players);
-			maxPlayers	= msg.maxPlayers;
+        	
+        	if (msg.success)
+        	{
+				playerPreviews = new List<PlayerPreview>();
+				playerPreviews.AddRange(msg.players);
+				maxPlayers	= msg.maxPlayers;
+				UIWindowPlayerSelect.singleton.Show();
+        	}
         	
         	OnServerMessageResponse(conn, msg);
         }

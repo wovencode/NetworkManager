@@ -7,7 +7,6 @@
 using Wovencode;
 using Wovencode.Network;
 using Wovencode.UI;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -26,9 +25,6 @@ namespace Wovencode.UI
 		public UIWindowChangePasswordUser 	changePasswordWindow;
 		public UIWindowDeleteUser 			deleteWindow;
 		
-		[Header("Dropdown")]
-		public Dropdown serverDropdown;
-		
 		[Header("Buttons")]
 		public Button loginButton;
 		public Button registerButton;
@@ -36,9 +32,6 @@ namespace Wovencode.UI
 		public Button deleteButton;
 		public Button serverButton;
 		public Button quitButton;
-		
-		[Header("Settings")]
-		public bool rememberServer;
 		
 		public static UIWindowMain singleton;
 		
@@ -49,23 +42,6 @@ namespace Wovencode.UI
 		{
 			singleton = this;
 			base.Awake();
-			
-			if (!rememberServer) return;
-			
-			if (PlayerPrefs.HasKey(Constants.PlayerPrefsLastServer))
-			{
-				string lastServer = PlayerPrefs.GetString(Constants.PlayerPrefsLastServer, "");
-				serverDropdown.value = networkManager.serverList.FindIndex(s => s.name == lastServer);
-			}
-		}
-		
-		// -------------------------------------------------------------------------------
-		// OnDestroy
-		// -------------------------------------------------------------------------------
-		void OnDestroy()
-		{
-			if (!rememberServer) return;
-			PlayerPrefs.SetString(Constants.PlayerPrefsLastServer, serverDropdown.captionText.text);
 		}
 		
 		// -------------------------------------------------------------------------------
@@ -74,7 +50,7 @@ namespace Wovencode.UI
 		protected override void ThrottledUpdate()
 		{
 
-			if (networkManager && networkManager.state == NetworkState.Offline)
+			if (networkManager && networkManager.isNetworkActive && networkManager.state == NetworkState.Offline)
 			{
 				
 				loginButton.interactable = networkManager.CanClick();
@@ -94,10 +70,6 @@ namespace Wovencode.UI
 			
 				quitButton.onClick.SetListener(() => { networkManager.Quit(); });
 
-            	serverDropdown.interactable = networkManager.CanClick();
-            	serverDropdown.options = networkManager.serverList.Select(x => new Dropdown.OptionData(x.name)).ToList();
-            	networkManager.networkAddress = networkManager.serverList[serverDropdown.value].ip;
-            
 			}
 			else Hide();
 		}

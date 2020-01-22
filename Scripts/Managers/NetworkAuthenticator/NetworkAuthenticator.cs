@@ -6,6 +6,7 @@
 
 using Wovencode;
 using Wovencode.Network;
+using Wovencode.UI;
 using UnityEngine;
 using UnityEngine.Events;
 using System;
@@ -23,9 +24,6 @@ namespace Wovencode.Network
     public partial class NetworkAuthenticator : BaseNetworkAuthenticator
     {
 
-    	[Header("Settings")]
-		public bool checkApplicationVersion 				= true;
-		
 		[Header("System Texts")]
 		public NetworkAuthenticator_Lang 					systemText;
 		
@@ -38,6 +36,9 @@ namespace Wovencode.Network
 		public void Awake()
 		{
 			singleton = this;
+			
+			connectDelay = UnityEngine.Random.Range(connectDelayMin,connectDelayMax);
+    		
 		}
 		
         // -------------------------------------------------------------------------------

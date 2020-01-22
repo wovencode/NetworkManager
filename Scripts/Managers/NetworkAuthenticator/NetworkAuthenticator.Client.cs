@@ -21,38 +21,57 @@ namespace Wovencode.Network
 	// ===================================================================================
     public partial class NetworkAuthenticator
     {
-    
+    	
+    	[Header("Client Settings")]
+    	public bool checkApplicationVersion = true;
+    	[Range(0,99)]
+    	public int connectDelayMin = 4;
+    	[Range(0,99)]
+    	public int connectDelayMax = 8;
+    	[Range(1,999)]
+    	public int connectTimeout = 60;
+    	
+    	[HideInInspector] public int connectDelay;
+    	
         // -------------------------------------------------------------------------------
         // OnStartClient
         // @Client
 		// -------------------------------------------------------------------------------
         public override void OnStartClient()
         {
-        	
             // ---- Auth
-            NetworkClient.RegisterHandler<ServerMessageResponseAuth>(OnServerMessageResponseAuth, false);
-                        
+            NetworkClient.RegisterHandler<ServerMessageResponseAuth>(OnServerMessageResponseAuth, false);      
         }
         
         // -------------------------------------------------------------------------------
         // OnClientAuthenticate
-        // @Client -> @Server
+        // @Client
 		// -------------------------------------------------------------------------------
         public override void OnClientAuthenticate(NetworkConnection conn)
         {
-
+        	
+        	Invoke(nameof(ClientAuthenticate), connectDelay);
+        	
+        	
+        		
+        }
+        
+		// -------------------------------------------------------------------------------
+        // ClientAuthenticate
+        // @Client -> @Server
+		// -------------------------------------------------------------------------------
+		public void ClientAuthenticate()
+		{
+       
             ClientMessageRequestAuth authRequestMessage = new ClientMessageRequestAuth
             {
                 clientVersion = Application.version
             };
 
             NetworkClient.Send(authRequestMessage);
-        }
-        
-        // ===============================================================================
-        // ============================= MESSAGE HANDLERS ================================
-        // ===============================================================================
-       
+            
+		}
+
         // ========================== MESSAGE HANDLERS - AUTH ============================
         
         // -------------------------------------------------------------------------------

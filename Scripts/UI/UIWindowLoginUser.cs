@@ -19,7 +19,7 @@ namespace Wovencode.UI
 	// ===================================================================================
 	public partial class UIWindowLoginUser : UIRoot
 	{
-	
+		
 		[Header("Window")]
 		public Text statusText;
 		

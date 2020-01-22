@@ -54,7 +54,7 @@ namespace Wovencode.UI
 		// -------------------------------------------------------------------------------
 		// OnPressed
 		// -------------------------------------------------------------------------------
-		public override void OnPressed()
+		public override void OnPressed(bool deselect=false)
 		{
 		
 			if (selected)
@@ -65,13 +65,15 @@ namespace Wovencode.UI
 					imageSelected.sprite = unselectedImage;
 				
 			}
-			else
+			else if (!deselect)
 			{
 				selected = true;
 				
 				if (imageSelected)
 					imageSelected.sprite = selectedImage;
 			}
+			
+			base.OnPressed(deselect);
 			
 		}
 		

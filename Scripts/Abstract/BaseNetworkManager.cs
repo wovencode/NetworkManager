@@ -32,7 +32,7 @@ namespace Wovencode.Network
 		[Header("Debug Helper")]
 		public DebugHelper debug;
 		public NetworkType networkType;
-				
+		
 #if UNITY_EDITOR
 	
 		// -------------------------------------------------------------------------------

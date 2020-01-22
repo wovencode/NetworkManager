@@ -46,6 +46,10 @@ namespace Wovencode.Network
 		
 		public static new Wovencode.Network.NetworkManager singleton;
 		
+#if wPLAYER
+		public List<GameObject> playerPrefabs;
+#endif
+
 		public static Dictionary<string, GameObject> onlinePlayers = new Dictionary<string, GameObject>();
 		protected Dictionary<NetworkConnection, string> onlineUsers = new Dictionary<NetworkConnection, string>();
 		
@@ -70,15 +74,19 @@ namespace Wovencode.Network
 					StartServer();
 					break;
 				case NetworkType.HostAndPlay:
-					UIWindowAuth.singleton.Show();
 					StartHost();
 					break;
 				default:
-					UIWindowAuth.singleton.Show();
 					StartClient();
 					break;
 			}
-			
+
+#if wPLAYER
+			FilterPlayerPrefabs();
+#else
+			debug.LogWarning("[NetworkManager] No players added to playerPrefabs list (Define #wPLAYER missing)");
+#endif
+
 		}
 
 		// -------------------------------------------------------------------------------
@@ -225,6 +233,25 @@ namespace Wovencode.Network
 			Application.Quit();
 #endif
 		}
+
+		// -------------------------------------------------------------------------------
+		// FilterPlayerPrefabs
+		// -------------------------------------------------------------------------------
+#if wPLAYER
+		protected void FilterPlayerPrefabs()
+    	{
+       		
+       		playerPrefabs = new List<GameObject>();
+        	
+        	foreach (GameObject prefab in spawnPrefabs)
+        	{
+            	PlayerComponent player = prefab.GetComponent<PlayerComponent>();
+            	if (player != null)
+               		playerPrefabs.Add(prefab);
+        	}
+        	
+    	}
+#endif
 
 		// -------------------------------------------------------------------------------
 

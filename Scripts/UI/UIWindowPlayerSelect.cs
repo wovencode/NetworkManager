@@ -21,8 +21,9 @@ namespace Wovencode.UI
 	{
 		
 		[Header("Windows")]
+		public UIWindowMain mainWindow;
 		public UIWindowPlayerCreate createWindow;
-		
+		 
 		[Header("Prefab")]
 		public UISelectPlayerSlot slotPrefab;
 		public UIButtonGroup buttonGroup;
@@ -35,9 +36,20 @@ namespace Wovencode.UI
 		public Button createButton;
 		public Button selectButton;
 		public Button deleteButton;
-		//public Button backButton;
+		public Button backButton;
+		
+		public static UIWindowPlayerSelect singleton;
 		
 		protected int index = -1;
+		
+		// -------------------------------------------------------------------------------
+		// Awake
+		// -------------------------------------------------------------------------------
+		protected override void Awake()
+		{
+			singleton = this;
+			base.Awake();
+		}
 		
 		// -------------------------------------------------------------------------------
 		// ThrottledUpdate
@@ -50,7 +62,7 @@ namespace Wovencode.UI
 				Hide();
 				return;
 			}
-			else
+			else if (root.activeSelf)
 			{
 				
 				// -- Max Players Test
@@ -63,7 +75,7 @@ namespace Wovencode.UI
 				// -- Buttons
 				
 				createButton.interactable = networkManager.playerPreviews.Count < networkManager.maxPlayers;
-				createButton.onClick.SetListener(() => { createWindow.Show(); });
+				createButton.onClick.SetListener(() => { OnClickCreate(); });
 			
 				selectButton.interactable = (index != -1);
 			
@@ -71,10 +83,8 @@ namespace Wovencode.UI
 				deleteButton.interactable = (index != -1);
 						
 						
-				//backButton.onClick.SetListener(() => { Hide(); });
+				backButton.onClick.SetListener(() => { OnClickHide(); });
 			
-			
-				Show();
 			}
 			
 		}
@@ -126,7 +136,37 @@ namespace Wovencode.UI
 			index = -1;
 			
 		}
-				
+		
+		// -------------------------------------------------------------------------------
+		// OnClickSelect
+		// -------------------------------------------------------------------------------
+		
+		
+		
+		// -------------------------------------------------------------------------------
+		// OnClickDelete
+		// -------------------------------------------------------------------------------
+		
+		
+		
+		// -------------------------------------------------------------------------------
+		// OnClickCreate
+		// -------------------------------------------------------------------------------
+		public void OnClickCreate()
+		{	
+			createWindow.Show();
+			Hide();
+		}
+		
+		// -------------------------------------------------------------------------------
+		// OnClickHide
+		// -------------------------------------------------------------------------------
+		public void OnClickHide()
+		{	
+			mainWindow.Show();
+			Hide();
+		}
+		
 		// -------------------------------------------------------------------------------
 		
 	}
