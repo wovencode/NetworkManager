@@ -6,7 +6,7 @@
 
 using Wovencode;
 using Wovencode.Network;
-using Wovencode.Debugging;
+using Wovencode.DebugManager;
 using UnityEngine;
 using System;
 using Mirror;
@@ -23,6 +23,15 @@ namespace Wovencode.Network
 		
 		[Header("Debug Helper")]
 		public DebugHelper debug;
+		
+		// -------------------------------------------------------------------------------
+		// Awake (Base)
+		// -------------------------------------------------------------------------------
+		public virtual void Awake()
+		{
+			debug = new DebugHelper();
+			debug.Init();
+		}
 		
 	}
 

@@ -45,6 +45,11 @@ namespace Wovencode.UI
 			singleton = this;
 			base.Awake();
 			
+#if !_SERVER
+				Hide();
+				return;
+#endif
+			
 			serverDropdown.options = networkManager.serverList.Select(x => new Dropdown.OptionData(x.name)).ToList();
 			
 			if (rememberServer && PlayerPrefs.HasKey(Constants.PlayerPrefsLastServer))
@@ -113,15 +118,27 @@ namespace Wovencode.UI
 		// -------------------------------------------------------------------------------
 		protected void Timeout()
 		{
-			UIPopupConfirm.singleton.Init(systemTexts.serverOffline, "", onClickConfirm);
+			UIPopupConfirm.singleton.Init(systemTexts.serverOffline, "", OnClickQuit);
+		}
+		
+		// =============================== BUTTON HANDLERS ===============================
+		
+		// -------------------------------------------------------------------------------
+		// onClickQuit
+		// -------------------------------------------------------------------------------
+		protected void OnClickQuit()
+		{
+			networkManager.StopClient();
+			networkManager.Quit();
 		}
 		
 		// -------------------------------------------------------------------------------
-		// onClickConfirm
+		// OnClickConnect
 		// -------------------------------------------------------------------------------
-		protected void onClickConfirm()
+		public void OnClickConnect()
 		{
-			networkManager.Quit();
+			CancelInvoke();
+			networkAuthenticator.ClientAuthenticate();
 		}
 		
 		// -------------------------------------------------------------------------------
@@ -133,15 +150,6 @@ namespace Wovencode.UI
 				PlayerPrefs.SetString(Constants.PlayerPrefsLastServer, serverDropdown.captionText.text);
 			
             networkManager.networkAddress = networkManager.serverList[serverDropdown.value].ip;
-		}
-		
-		// -------------------------------------------------------------------------------
-		// OnClickConnect
-		// -------------------------------------------------------------------------------
-		public void OnClickConnect()
-		{
-			CancelInvoke();
-			networkAuthenticator.ClientAuthenticate();
 		}
 		
 		// -------------------------------------------------------------------------------

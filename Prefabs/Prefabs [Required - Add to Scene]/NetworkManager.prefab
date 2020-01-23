@@ -57,8 +57,7 @@ MonoBehaviour:
   networkAddress: localhost
   maxConnections: 500
   authenticator: {fileID: 3252435991396032038}
-  playerPrefab: {fileID: 7930793167279634983, guid: 6fbf7df69c5a745d5995ad5e12def5b1,
-    type: 3}
+  playerPrefab: {fileID: 0}
   autoCreatePlayer: 1
   playerSpawnMethod: 0
   spawnPrefabs:
@@ -70,13 +69,31 @@ MonoBehaviour:
   sortCategories: []
   debug:
     debugMode: 1
-  localHostAndPlay: 1
+  userNameSalt: at_least_16_byte
   serverList:
   - name: Local
     ip: localhost
   systemText:
     clientDisconnected: Disconnected.
     userAlreadyOnline: User is already online!
+    userLoginSuccess: 
+    userLoginFailure: Account Login failed!
+    userRegisterSuccess: Account Registration successful!
+    userRegisterFailure: Account Registration failed!
+    userChangePasswordSuccess: Change Password successful!
+    userChangePasswordFailure: Change Password failed!
+    userDeleteSuccess: Delete Account successful!
+    userDeleteFailure: Delete Account failed!
+    userConfirmSuccess: Account confirmed!
+    userConfirmFailure: Confirm failed!
+    playerLoginSuccess: 
+    playerLoginFailure: Player Login failed!
+    playerRegisterSuccess: Create player successful!
+    playerRegisterFailure: Create player failed!
+    playerDeleteSuccess: Delete player successful!
+    playerDeleteFailure: Delete player failed!
+    playerSwitchServerSuccess: Server switch successful!
+    playerSwitchServerFailure: Server switch failed!
   eventListener:
     onStartServer:
       m_PersistentCalls:
@@ -91,13 +108,58 @@ MonoBehaviour:
     onStartClient:
       m_PersistentCalls:
         m_Calls: []
-      m_TypeName: wovencode.UnityEventGameObject, Assembly-CSharp, Version=0.0.0.0,
+      m_TypeName: Wovencode.UnityEventGameObject, Assembly-CSharp, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
     onLogoutClient:
       m_PersistentCalls:
         m_Calls: []
-      m_TypeName: wovencode.UnityEventConnection, Assembly-CSharp, Version=0.0.0.0,
+      m_TypeName: Wovencode.UnityEventConnection, Assembly-CSharp, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
+    onUserRegister:
+      m_PersistentCalls:
+        m_Calls: []
+      m_TypeName: Wovencode.UnityEventString, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+    onUserLogin:
+      m_PersistentCalls:
+        m_Calls: []
+      m_TypeName: Wovencode.UnityEventConnection, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+    onUserDelete:
+      m_PersistentCalls:
+        m_Calls: []
+      m_TypeName: Wovencode.UnityEventString, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+    onUserConfirm:
+      m_PersistentCalls:
+        m_Calls: []
+      m_TypeName: Wovencode.UnityEventString, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+    onPlayerRegister:
+      m_PersistentCalls:
+        m_Calls: []
+      m_TypeName: Wovencode.UnityEventString, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+    onPlayerLogin:
+      m_PersistentCalls:
+        m_Calls: []
+      m_TypeName: Wovencode.UnityEventGameObject, Assembly-CSharp, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+    onPlayerDelete:
+      m_PersistentCalls:
+        m_Calls: []
+      m_TypeName: Wovencode.UnityEventString, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+    onPlayerSwitchServer:
+      m_PersistentCalls:
+        m_Calls: []
+      m_TypeName: Wovencode.UnityEventString, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+  playerPrefabs: []
+  userName: 
+  userPassword: 
+  newPassword: 
+  maxPlayers: 0
   state: 0
 --- !u!114 &3252435991396032036
 MonoBehaviour:
@@ -177,73 +239,13 @@ MonoBehaviour:
       PublicKeyToken=null
   debug:
     debugMode: 0
-  userNameSalt: at_least_16_byte
   checkApplicationVersion: 1
+  connectDelayMin: 4
+  connectDelayMax: 8
+  connectTimeout: 60
+  connectDelay: 0
   systemText:
     versionMismatch: Client out of date!
-    userLoginSuccess: 
-    userLoginFailure: Account Login failed!
-    userRegisterSuccess: Account Registration successful!
-    userRegisterFailure: Account Registration failed!
-    userChangePasswordSuccess: Change Password successful!
-    userChangePasswordFailure: Change Password failed!
-    userDeleteSuccess: Delete Account successful!
-    userDeleteFailure: Delete Account failed!
-    userConfirmSuccess: Account confirmed!
-    userConfirmFailure: Confirm failed!
-    playerLoginSuccess: 
-    playerLoginFailure: Player Login failed!
-    playerRegisterSuccess: Create player successful!
-    playerRegisterFailure: Create player failed!
-    playerDeleteSuccess: Delete player successful!
-    playerDeleteFailure: Delete player failed!
-    playerSwitchServerSuccess: Server switch successful!
-    playerSwitchServerFailure: Server switch failed!
-  eventListener:
-    onUserRegister:
-      m_PersistentCalls:
-        m_Calls: []
-      m_TypeName: wovencode.UnityEventString, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
-    onUserLogin:
-      m_PersistentCalls:
-        m_Calls: []
-      m_TypeName: wovencode.UnityEventConnection, Assembly-CSharp, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-    onUserDelete:
-      m_PersistentCalls:
-        m_Calls: []
-      m_TypeName: wovencode.UnityEventString, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
-    onUserConfirm:
-      m_PersistentCalls:
-        m_Calls: []
-      m_TypeName: wovencode.UnityEventString, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
-    onPlayerRegister:
-      m_PersistentCalls:
-        m_Calls: []
-      m_TypeName: wovencode.UnityEventString, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
-    onPlayerLogin:
-      m_PersistentCalls:
-        m_Calls: []
-      m_TypeName: wovencode.UnityEventGameObject, Assembly-CSharp, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-    onPlayerDelete:
-      m_PersistentCalls:
-        m_Calls: []
-      m_TypeName: wovencode.UnityEventString, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
-    onPlayerSwitchServer:
-      m_PersistentCalls:
-        m_Calls: []
-      m_TypeName: wovencode.UnityEventString, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
-  userName: 
-  userPassword: 
-  newPassword: 
-  userAction: 0
 --- !u!114 &1275635640388507688
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -256,4 +258,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17fe70f41c05b4db0854b836b71eec77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  projectConfigTemplate: {fileID: 11400000, guid: 7f1030086e7bb45ad82c97342a5ade49,
+    type: 2}
   gameRulesTemplate: {fileID: 11400000, guid: 81b1bccee2cc74db09102b9c49833726, type: 2}

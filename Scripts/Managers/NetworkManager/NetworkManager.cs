@@ -68,18 +68,13 @@ namespace Wovencode.Network
 			singleton = this;
 			base.Awake();
 			
-			switch (networkType)
-			{
-				case NetworkType.Server:
-					StartServer();
-					break;
-				case NetworkType.HostAndPlay:
-					StartHost();
-					break;
-				default:
-					StartClient();
-					break;
-			}
+#if _SERVER && _CLIENT
+			StartHost();
+#elif _SERVER
+			StartServer();
+#else
+			StartClient();
+#endif
 
 #if wPLAYER
 			FilterPlayerPrefabs();

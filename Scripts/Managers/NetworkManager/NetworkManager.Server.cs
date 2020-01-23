@@ -29,10 +29,6 @@ namespace Wovencode.Network
         public override void OnStartServer()
         {
         
-#if wDB
-			DatabaseManager.singleton.Init();
-#endif
-
             // ---- User
             NetworkServer.RegisterHandler<ClientMessageRequestUserLogin>(OnClientMessageRequestUserLogin);
             NetworkServer.RegisterHandler<ClientMessageRequestUserRegister>(OnClientMessageRequestUserRegister);

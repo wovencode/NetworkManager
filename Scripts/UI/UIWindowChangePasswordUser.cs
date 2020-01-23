@@ -30,7 +30,6 @@ namespace Wovencode.UI
 		
 		[Header("Buttons")]
 		public Button changeButton;
-		public Button cancelButton;
 		public Button backButton;
 		
 		// -------------------------------------------------------------------------------
@@ -39,27 +38,35 @@ namespace Wovencode.UI
 		protected override void ThrottledUpdate()
 		{
 			
-			if (!networkManager || networkManager.state == NetworkState.Game)
-			{
-				Hide();
-				return;
-			}
-			
-			if (networkManager.IsConnecting())
-				statusText.text = "Connecting...";
-			else if (!Tools.IsAllowedName(usernameInput.text) || !Tools.IsAllowedPassword(oldUserPassInput.text) || !Tools.IsAllowedPassword(newUserPassInput.text))
+			if (!Tools.IsAllowedName(usernameInput.text) || !Tools.IsAllowedPassword(oldUserPassInput.text) || !Tools.IsAllowedPassword(newUserPassInput.text))
 				statusText.text = "Check Name/Password";
 			else
 				statusText.text = "";
 			
 			changeButton.interactable = networkManager.CanChangePasswordUser(usernameInput.text, oldUserPassInput.text, newUserPassInput.text);
-			changeButton.onClick.SetListener(() => { networkManager.TryChangePasswordUser(usernameInput.text, oldUserPassInput.text, newUserPassInput.text); });
+			changeButton.onClick.SetListener(() => { OnClickChangePassword(); });
 		
-			cancelButton.gameObject.SetActive(networkManager.CanCancel());
-			cancelButton.onClick.SetListener(() => { networkManager.TryCancel(); });
-		
-			backButton.onClick.SetListener(() => { Hide(); });
+			backButton.onClick.SetListener(() => { OnClickBack(); });
 
+		}
+		
+		// =============================== BUTTON HANDLERS ===============================
+		
+		// -------------------------------------------------------------------------------
+		// OnClickChangePassword
+		// -------------------------------------------------------------------------------
+		protected void OnClickChangePassword()
+		{
+			networkManager.TryChangePasswordUser(usernameInput.text, oldUserPassInput.text, newUserPassInput.text);
+		}
+		
+		// -------------------------------------------------------------------------------
+		// OnClickBack
+		// -------------------------------------------------------------------------------
+		public void OnClickBack()
+		{
+			Hide();
+			UIWindowMain.singleton.Show();
 		}
 		
 		// -------------------------------------------------------------------------------

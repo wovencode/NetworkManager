@@ -33,10 +33,12 @@ namespace Wovencode.Network
 		public static Wovencode.Network.NetworkAuthenticator singleton;
 		
 		// -------------------------------------------------------------------------------
-		public void Awake()
+		public override void Awake()
 		{
+			base.Awake(); // required
+		
 			singleton = this;
-			
+
 			connectDelay = UnityEngine.Random.Range(connectDelayMin,connectDelayMax);
     		
 		}

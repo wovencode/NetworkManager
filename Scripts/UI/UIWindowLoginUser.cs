@@ -29,11 +29,12 @@ namespace Wovencode.UI
 		
 		[Header("Buttons")]
 		public Button loginButton;
-		public Button cancelButton;
 		public Button backButton;
 		
 		[Header("Settings")]
 		public bool rememberCredentials;
+		
+		public static UIWindowLoginUser singleton;
 		
 		// -------------------------------------------------------------------------------
 		// Start
@@ -46,6 +47,15 @@ namespace Wovencode.UI
 				usernameInput.text = PlayerPrefs.GetString(Constants.PlayerPrefsUserName, "");
 			if (PlayerPrefs.HasKey(Constants.PlayerPrefsPassword))
 				userpassInput.text = PlayerPrefs.GetString(Constants.PlayerPrefsPassword, "");
+		}
+		
+		// -------------------------------------------------------------------------------
+		// Awake
+		// -------------------------------------------------------------------------------
+		protected override void Awake()
+		{
+			singleton = this;
+			base.Awake();
 		}
 		
 		// -------------------------------------------------------------------------------
@@ -66,27 +76,35 @@ namespace Wovencode.UI
 		protected override void ThrottledUpdate()
 		{
 			
-			if (!networkManager || networkManager.state != NetworkState.Offline)
-			{
-				Hide();
-				return;
-			}
-			
-			if (networkManager.IsConnecting())
-				statusText.text = "Connecting...";
-			else if (!Tools.IsAllowedName(usernameInput.text) || !Tools.IsAllowedPassword(userpassInput.text))
+			if (!Tools.IsAllowedName(usernameInput.text) || !Tools.IsAllowedPassword(userpassInput.text))
 				statusText.text = "Check Name/Password";
 			else
 				statusText.text = "";
 			
 			loginButton.interactable = networkManager.CanLoginUser(usernameInput.text, userpassInput.text);
-			loginButton.onClick.SetListener(() => { networkManager.TryLoginUser(usernameInput.text, userpassInput.text); });
-				
-			cancelButton.gameObject.SetActive(networkManager.CanCancel());
-			cancelButton.onClick.SetListener(() => { networkManager.TryCancel(); });
-		
-			backButton.onClick.SetListener(() => { Hide(); });
+			loginButton.onClick.SetListener(() => { OnClickLogin(); });
+			
+			backButton.onClick.SetListener(() => { OnClickBack();  });
 
+		}
+		
+		// =============================== BUTTON HANDLERS ===============================
+		
+		// -------------------------------------------------------------------------------
+		// OnClickLogin
+		// -------------------------------------------------------------------------------
+		public void OnClickLogin()
+		{
+			networkManager.TryLoginUser(usernameInput.text, userpassInput.text);
+		}
+		
+		// -------------------------------------------------------------------------------
+		// OnClickBack
+		// -------------------------------------------------------------------------------
+		public void OnClickBack()
+		{
+			Hide();
+			UIWindowMain.singleton.Show();
 		}
 		
 		// -------------------------------------------------------------------------------

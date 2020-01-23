@@ -46,27 +46,17 @@ namespace Wovencode.UI
 		// -------------------------------------------------------------------------------
 		protected override void ThrottledUpdate()
 		{
+		
+			// -- Available Players
+			UpdatePlayerPrefabs();
+			UpdatePlayerIndex();
 			
-			if (!networkManager || networkManager.state != NetworkState.Lobby)
-			{
-				Hide();
-				return;
-			}
-			else if (root.activeSelf)
-			{
-				
-				// -- Available Players
-				UpdatePlayerPrefabs();
-				UpdatePlayerIndex();
-				
-				// -- Buttons
-				createButton.interactable = (index != -1 && !String.IsNullOrWhiteSpace(playernameInput.text));
-				createButton.onClick.SetListener(() => { networkManager.TryRegisterPlayer(playernameInput.text); });
-				
-				backButton.onClick.SetListener(() => { OnClickHide(); });
+			// -- Buttons
+			createButton.interactable = (index != -1 && !String.IsNullOrWhiteSpace(playernameInput.text));
+			createButton.onClick.SetListener(() => { OnClickCreate(); });
 			
-			}
-			
+			backButton.onClick.SetListener(() => { OnClickBack(); });
+		
 		}
 		
 		// -------------------------------------------------------------------------------
@@ -74,7 +64,7 @@ namespace Wovencode.UI
 		// -------------------------------------------------------------------------------
 		protected void UpdatePlayerPrefabs(bool forced=false)
 		{
-			
+#if wPLAYER
 			if (!forced && contentViewport.childCount > 0)
 				return;
 				
@@ -94,7 +84,7 @@ namespace Wovencode.UI
 			}
 			
 			index = 0;
-		
+#endif
 		}
 		
 		// -------------------------------------------------------------------------------
@@ -117,10 +107,21 @@ namespace Wovencode.UI
 			
 		}
 		
+		// =============================== BUTTON HANDLERS ===============================
+		
 		// -------------------------------------------------------------------------------
-		// OnClickHide
+		// OnClickCreate
 		// -------------------------------------------------------------------------------
-		public void OnClickHide()
+		public void OnClickCreate()
+		{	
+			networkManager.TryRegisterPlayer(playernameInput.text);
+			//Hide();
+		}
+		
+		// -------------------------------------------------------------------------------
+		// OnClickBack
+		// -------------------------------------------------------------------------------
+		public void OnClickBack()
 		{	
 			selectWindow.Show();
 			Hide();

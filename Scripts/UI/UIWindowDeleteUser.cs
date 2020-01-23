@@ -29,7 +29,6 @@ namespace Wovencode.UI
 		
 		[Header("Buttons")]
 		public Button deleteButton;
-		public Button cancelButton;
 		public Button backButton;
 		
 		[Header("System Texts")]
@@ -44,41 +43,43 @@ namespace Wovencode.UI
 		protected override void ThrottledUpdate()
 		{
 			
-			if (!networkManager)
-			{
-				Hide();
-				return;
-			}
-						
-			if (networkManager.IsConnecting())
-				statusText.text = "Connecting...";
-			else if (!Tools.IsAllowedName(usernameInput.text) || !Tools.IsAllowedPassword(userpassInput.text))
+			if (!Tools.IsAllowedName(usernameInput.text) || !Tools.IsAllowedPassword(userpassInput.text))
 				statusText.text = "Check Name/Password";
 			else
 				statusText.text = "";
 			
 			deleteButton.interactable = networkManager.CanDeleteUser(usernameInput.text, userpassInput.text);
-			deleteButton.onClick.SetListener(() => { InitPopupDelete(); });
-					
-			cancelButton.gameObject.SetActive(networkManager.CanCancel());
-			cancelButton.onClick.SetListener(() => { networkManager.TryCancel(); });
+			deleteButton.onClick.SetListener(() => { OnClickDelete(); });
 			
-			backButton.onClick.SetListener(() => { Hide(); });
+			backButton.onClick.SetListener(() => { OnClickBack(); });
 				
 		}
 		
+		// =============================== BUTTON HANDLERS ===============================
+		
 		// -------------------------------------------------------------------------------
-		// InitPopupDelete
+		// OnClickDelete
 		// -------------------------------------------------------------------------------
-		protected void InitPopupDelete()
+		protected void OnClickDelete()
 		{
-			UIPopupPrompt.singleton.Init(popupDescription, "", "", onConfirmDelete);
+			UIPopupPrompt.singleton.Init(popupDescription, "", "", OnClickConfirmDelete);
 		}
 		
 		// -------------------------------------------------------------------------------
-		// onConfirmDelete
+		// OnClickBack
 		// -------------------------------------------------------------------------------
-		public void onConfirmDelete()
+		public void OnClickBack()
+		{
+			Hide();
+			UIWindowMain.singleton.Show();
+		}
+		
+		// ================================ EVENT HANDLERS ===============================
+		
+		// -------------------------------------------------------------------------------
+		// OnClickConfirmDelete
+		// -------------------------------------------------------------------------------
+		public void OnClickConfirmDelete()
 		{
 			networkManager.TryDeleteUser(usernameInput.text, userpassInput.text);
 		}

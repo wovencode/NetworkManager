@@ -40,22 +40,10 @@ namespace Wovencode.Network
 	// ServerMessageResponseUserLogin
 	// @Server -> @Client
 	// -----------------------------------------------------------------------------------
-	public partial class ServerMessageResponseUserLogin : ServerMessageResponse
+	public partial class ServerMessageResponseUserLogin : ServerMessageResponseUserPlayerPreviews
 	{
 	
-		public PlayerPreview[] players;
-		public int maxPlayers;
-		
-		// -------------------------------------------------------------------------------
-		// LoadPlayerPreviews
-		// -------------------------------------------------------------------------------
-		public void LoadPlayerPreviews(List<PlayerPreview> _players)
-		{
-			players = new PlayerPreview[_players.Count];
-			
-			players = _players.ToArray();
-			
-		}
+		// based on: ServerMessageResponseUserPlayerPreviews
 		
 	}
 	
@@ -92,6 +80,29 @@ namespace Wovencode.Network
 	// -----------------------------------------------------------------------------------
 	public partial class ServerMessageResponseUserConfirm : ServerMessageResponse
 	{
+		
+	}
+	
+	// -----------------------------------------------------------------------------------
+	// ServerMessageResponseUserPlayerPreviews
+	// @Server -> @Client
+	// -----------------------------------------------------------------------------------
+	public partial class ServerMessageResponseUserPlayerPreviews : ServerMessageResponse
+	{
+	
+		public PlayerPreview[] players;
+		public int maxPlayers;
+		
+		// -------------------------------------------------------------------------------
+		// LoadPlayerPreviews
+		// -------------------------------------------------------------------------------
+		public void LoadPlayerPreviews(List<PlayerPreview> _players)
+		{
+			players = new PlayerPreview[_players.Count];
+			
+			players = _players.ToArray();
+			
+		}
 		
 	}
 	

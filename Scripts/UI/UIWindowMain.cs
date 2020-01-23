@@ -50,28 +50,79 @@ namespace Wovencode.UI
 		protected override void ThrottledUpdate()
 		{
 
-			if (networkManager && networkManager.isNetworkActive && networkManager.state == NetworkState.Offline)
-			{
-				
-				loginButton.interactable = networkManager.CanClick();
-				loginButton.onClick.SetListener(() => { loginWindow.Show(); });
-				
-				registerButton.interactable = networkManager.CanClick();
-				registerButton.onClick.SetListener(() => { registerWindow.Show(); });
-				
-				changePasswordButton.interactable = networkManager.CanClick();
-				changePasswordButton.onClick.SetListener(() => { changePasswordWindow.Show(); });
-				
-				deleteButton.interactable = networkManager.CanClick();
-				deleteButton.onClick.SetListener(() => { deleteWindow.Show(); });
+			loginButton.interactable = networkManager.CanClick();
+			loginButton.onClick.SetListener(() => { OnClickLogin(); });
 			
-				serverButton.interactable = networkManager.CanStartServer();
-				serverButton.onClick.SetListener(() => { networkManager.TryStartServer(); });
+			registerButton.interactable = networkManager.CanClick();
+			registerButton.onClick.SetListener(() => { OnClickRegister(); });
 			
-				quitButton.onClick.SetListener(() => { networkManager.Quit(); });
+			changePasswordButton.interactable = networkManager.CanClick();
+			changePasswordButton.onClick.SetListener(() => { OnClickChangePassword(); });
+			
+			deleteButton.interactable = networkManager.CanClick();
+			deleteButton.onClick.SetListener(() => { OnClickDeleteUser(); });
+		
+			serverButton.interactable = networkManager.CanStartServer();
+			serverButton.onClick.SetListener(() => { OnClickStartServer(); });
+		
+			quitButton.onClick.SetListener(() => { OnClickQuit(); });
 
-			}
-			else Hide();
+		}
+		
+		// =============================== BUTTON HANDLERS ===============================
+		
+		// -------------------------------------------------------------------------------
+		// OnClickLogin
+		// -------------------------------------------------------------------------------
+		public void OnClickLogin()
+		{
+			Hide();
+			loginWindow.Show();
+		}
+		
+		// -------------------------------------------------------------------------------
+		// OnClickRegister
+		// -------------------------------------------------------------------------------
+		public void OnClickRegister()
+		{
+			Hide();
+			registerWindow.Show();
+		}
+		
+		// -------------------------------------------------------------------------------
+		// OnClickChangePassword
+		// -------------------------------------------------------------------------------
+		public void OnClickChangePassword()
+		{
+			Hide();
+			changePasswordWindow.Show();
+		}
+		
+		// -------------------------------------------------------------------------------
+		// OnClickDeleteUser
+		// -------------------------------------------------------------------------------
+		public void OnClickDeleteUser()
+		{
+			Hide();
+			deleteWindow.Show();
+		}
+		
+		// -------------------------------------------------------------------------------
+		// OnClickStartServer
+		// -------------------------------------------------------------------------------
+		public void OnClickStartServer()
+		{
+			Hide();
+			networkManager.TryStartServer();
+		}
+		
+		// -------------------------------------------------------------------------------
+		// OnClickQuit
+		// -------------------------------------------------------------------------------
+		public void OnClickQuit()
+		{
+			Hide();
+			networkManager.Quit();
 		}
 		
 		// -------------------------------------------------------------------------------

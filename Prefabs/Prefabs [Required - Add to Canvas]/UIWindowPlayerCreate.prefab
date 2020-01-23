@@ -1242,7 +1242,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17ad9c1de9a67481db7d1939b76f5440, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 0}
+  animator: {fileID: 4237425703979506343}
   fadeInTriggerName: fadeIn
   fadeOutTriggerName: fadeOut
 --- !u!222 &4237425703979506337
@@ -1414,6 +1414,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  requiresActiveRoot: 1
   updateInterval: 0.25
   selectWindow: {fileID: 0}
   slotPrefab: {fileID: 6118895898396880698, guid: f009457fe986f4177a3badb011a7860b,

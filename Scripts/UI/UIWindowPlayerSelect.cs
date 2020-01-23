@@ -38,6 +38,9 @@ namespace Wovencode.UI
 		public Button deleteButton;
 		public Button backButton;
 		
+		[Header("System Texts")]
+		public string popupDescription = "Do you really want to delete this character?";
+		
 		public static UIWindowPlayerSelect singleton;
 		
 		protected int index = -1;
@@ -57,36 +60,26 @@ namespace Wovencode.UI
 		protected override void ThrottledUpdate()
 		{
 			
-			if (!networkManager || networkManager.state != NetworkState.Lobby)
-			{
-				Hide();
-				return;
-			}
-			else if (root.activeSelf)
-			{
-				
-				// -- Max Players Test
-				textMaxPlayers.text = networkManager.playerPreviews.Count.ToString() + " / " + networkManager.maxPlayers.ToString();
-				
-				// -- Available Players
-				UpdatePlayerPreviews();
-				UpdatePlayerIndex();
-				
-				// -- Buttons
-				
-				createButton.interactable = networkManager.playerPreviews.Count < networkManager.maxPlayers;
-				createButton.onClick.SetListener(() => { OnClickCreate(); });
+			// -- Max Players Test
+			textMaxPlayers.text = networkManager.playerPreviews.Count.ToString() + " / " + networkManager.maxPlayers.ToString();
 			
-				selectButton.interactable = (index != -1);
+			// -- Available Players
+			UpdatePlayerPreviews();
+			UpdatePlayerIndex();
 			
+			// -- Buttons
 			
-				deleteButton.interactable = (index != -1);
-						
-						
-				backButton.onClick.SetListener(() => { OnClickHide(); });
-			
-			}
-			
+			createButton.interactable = networkManager.playerPreviews.Count < networkManager.maxPlayers;
+			createButton.onClick.SetListener(() => { OnClickCreate(); });
+		
+			selectButton.interactable = (index != -1);
+			selectButton.onClick.SetListener(() => { OnClickSelect(); });
+		
+			deleteButton.interactable = (index != -1);
+			deleteButton.onClick.SetListener(() => { OnClickDelete(); });
+					
+			backButton.onClick.SetListener(() => { OnClickBack(); });
+		
 		}
 		
 		// -------------------------------------------------------------------------------
@@ -136,18 +129,25 @@ namespace Wovencode.UI
 			index = -1;
 			
 		}
+				
+		// =============================== BUTTON HANDLERS ===============================
 		
 		// -------------------------------------------------------------------------------
 		// OnClickSelect
 		// -------------------------------------------------------------------------------
-		
-		
-		
+		public void OnClickSelect()
+		{	
+			
+			//Hide();
+		}
+				
 		// -------------------------------------------------------------------------------
 		// OnClickDelete
 		// -------------------------------------------------------------------------------
-		
-		
+		public void OnClickDelete()
+		{	
+			UIPopupPrompt.singleton.Init(popupDescription, "", "", OnClickConfirmDelete);
+		}
 		
 		// -------------------------------------------------------------------------------
 		// OnClickCreate
@@ -159,12 +159,22 @@ namespace Wovencode.UI
 		}
 		
 		// -------------------------------------------------------------------------------
-		// OnClickHide
+		// OnClickBack
 		// -------------------------------------------------------------------------------
-		public void OnClickHide()
+		public void OnClickBack()
 		{	
 			mainWindow.Show();
 			Hide();
+		}
+		
+		// ========================== EVENT CONFIRM HANDLERS =============================
+		
+		// -------------------------------------------------------------------------------
+		// OnClickConfirmDelete
+		// -------------------------------------------------------------------------------
+		public void OnClickConfirmDelete()
+		{
+			networkManager.TryDeletePlayer(networkManager.playerPreviews[index].name);
 		}
 		
 		// -------------------------------------------------------------------------------

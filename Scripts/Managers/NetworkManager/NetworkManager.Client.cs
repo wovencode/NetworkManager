@@ -35,6 +35,7 @@ namespace Wovencode.Network
             NetworkClient.RegisterHandler<ServerMessageResponseUserDelete>(OnServerMessageResponseUserDelete);
             NetworkClient.RegisterHandler<ServerMessageResponseUserChangePassword>(OnServerMessageResponseUserChangePassword);
             NetworkClient.RegisterHandler<ServerMessageResponseUserConfirm>(OnServerMessageResponseUserConfirm);
+            NetworkClient.RegisterHandler<ServerMessageResponseUserPlayerPreviews>(OnServerMessageResponseUserPlayerPreviews);
             
             // ---- Player
             NetworkClient.RegisterHandler<ServerMessageResponsePlayerLogin>(OnServerMessageResponsePlayerLogin);
@@ -82,6 +83,7 @@ namespace Wovencode.Network
 				playerPreviews = new List<PlayerPreview>();
 				playerPreviews.AddRange(msg.players);
 				maxPlayers	= msg.maxPlayers;
+				UIWindowLoginUser.singleton.Hide();
 				UIWindowPlayerSelect.singleton.Show();
         	}
         	
@@ -113,6 +115,23 @@ namespace Wovencode.Network
         void OnServerMessageResponseUserConfirm(NetworkConnection conn, ServerMessageResponseUserConfirm msg)
         {
         	
+        	OnServerMessageResponse(conn, msg);
+        }
+        
+        // -------------------------------------------------------------------------------
+        // OnServerMessageResponseUserPlayerPreviews
+        // updates the clients player previews list
+        // -------------------------------------------------------------------------------
+        void OnServerMessageResponseUserPlayerPreviews(NetworkConnection conn, ServerMessageResponseUserPlayerPreviews msg)
+        {
+        
+        	if (msg.success)
+        	{
+				playerPreviews = new List<PlayerPreview>();
+				playerPreviews.AddRange(msg.players);
+				maxPlayers	= msg.maxPlayers;
+			}
+			
         	OnServerMessageResponse(conn, msg);
         }
         
