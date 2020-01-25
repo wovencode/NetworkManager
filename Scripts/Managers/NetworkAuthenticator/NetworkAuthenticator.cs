@@ -27,9 +27,6 @@ namespace Wovencode.Network
 		[Header("System Texts")]
 		public NetworkAuthenticator_Lang 					systemText;
 		
-		[Header("Event Listeners")]
-		public NetworkAuthenticator_EventListeners 			eventListener;
-		
 		public static Wovencode.Network.NetworkAuthenticator singleton;
 		
 		// -------------------------------------------------------------------------------

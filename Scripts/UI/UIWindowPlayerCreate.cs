@@ -19,6 +19,7 @@ namespace Wovencode.UI
 	// ===================================================================================
 	// UIWindowPlayerCreate
 	// ===================================================================================
+	[DisallowMultipleComponent]
 	public partial class UIWindowPlayerCreate : UIRoot
 	{
 		
@@ -47,8 +48,9 @@ namespace Wovencode.UI
 		protected override void ThrottledUpdate()
 		{
 		
+			this.InvokeInstanceDevExtMethods(nameof(ThrottledUpdate));
+			
 			// -- Available Players
-			UpdatePlayerPrefabs();
 			UpdatePlayerIndex();
 			
 			// -- Buttons
@@ -57,34 +59,6 @@ namespace Wovencode.UI
 			
 			backButton.onClick.SetListener(() => { OnClickBack(); });
 		
-		}
-		
-		// -------------------------------------------------------------------------------
-		// UpdatePlayerPrefabs
-		// -------------------------------------------------------------------------------
-		protected void UpdatePlayerPrefabs(bool forced=false)
-		{
-#if wPLAYER
-			if (!forced && contentViewport.childCount > 0)
-				return;
-				
-			for (int i = 0; i < contentViewport.childCount; i++)
-				GameObject.Destroy(contentViewport.GetChild(i).gameObject);
-			
-			int _index = 0;
-			
-			foreach (GameObject player in networkManager.playerPrefabs)
-			{
-
-				GameObject go = GameObject.Instantiate(slotPrefab.gameObject);
-				go.transform.SetParent(contentViewport.transform, false);
-
-				go.GetComponent<UISelectPlayerSlot>().Init(buttonGroup, _index, player.name, (_index == 0) ? true : false);
-				_index++;
-			}
-			
-			index = 0;
-#endif
 		}
 		
 		// -------------------------------------------------------------------------------
@@ -114,7 +88,8 @@ namespace Wovencode.UI
 		// -------------------------------------------------------------------------------
 		public void OnClickCreate()
 		{	
-			networkManager.TryRegisterPlayer(playernameInput.text);
+			string prefabName = networkManager.playerPrefabs[index].name;
+			networkManager.TryRegisterPlayer(playernameInput.text, prefabName);
 			//Hide();
 		}
 		

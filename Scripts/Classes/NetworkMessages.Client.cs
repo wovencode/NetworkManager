@@ -108,6 +108,7 @@ namespace Wovencode.Network
 	{
 		public string username;
 		public string playername;
+		public string prefabname; // represents the character class
 	}
 	
 	// -----------------------------------------------------------------------------------

@@ -49,11 +49,7 @@ namespace Wovencode.Network
 		// -------------------------------------------------------------------------------
         public override void OnClientAuthenticate(NetworkConnection conn)
         {
-        	
-        	Invoke(nameof(ClientAuthenticate), connectDelay);
-        	
-        	
-        		
+        	Invoke(nameof(ClientAuthenticate), connectDelay);		
         }
         
 		// -------------------------------------------------------------------------------
@@ -62,7 +58,7 @@ namespace Wovencode.Network
 		// -------------------------------------------------------------------------------
 		public void ClientAuthenticate()
 		{
-       
+       Debug.Log("???????????????????????");
             ClientMessageRequestAuth authRequestMessage = new ClientMessageRequestAuth
             {
                 clientVersion = Application.version
@@ -92,10 +88,12 @@ namespace Wovencode.Network
             
             // -- ready client
             if (msg.success && !msg.causesDisconnect)
-            {  	
+            {
+            	CancelInvoke();
                	base.OnClientAuthenticated.Invoke(conn);
                	UIWindowAuth.singleton.Hide();
                	UIWindowMain.singleton.Show();
+               	Debug.Log("-------------------------------------");
             }
         	
         }

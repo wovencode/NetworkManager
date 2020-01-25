@@ -17,6 +17,7 @@ namespace Wovencode.UI
 	// ===================================================================================
 	// UIWindowPlayerSelect
 	// ===================================================================================
+	[DisallowMultipleComponent]
 	public partial class UIWindowPlayerSelect : UIRoot
 	{
 		
@@ -137,8 +138,8 @@ namespace Wovencode.UI
 		// -------------------------------------------------------------------------------
 		public void OnClickSelect()
 		{	
-			
-			//Hide();
+			networkManager.TryLoginPlayer(networkManager.playerPreviews[index].name);
+			Hide();
 		}
 				
 		// -------------------------------------------------------------------------------

@@ -18,6 +18,7 @@ namespace Wovencode.UI
 	// ===================================================================================
 	// UIWindowRegisterUser
 	// ===================================================================================
+	[DisallowMultipleComponent]
 	public partial class UIWindowRegisterUser : UIRoot
 	{
 	
@@ -77,8 +78,8 @@ namespace Wovencode.UI
 		// -------------------------------------------------------------------------------
 		public void OnClickBack()
 		{
-			Hide();
 			UIWindowMain.singleton.Show();
+			Hide();
 		}
 		
 		// -------------------------------------------------------------------------------

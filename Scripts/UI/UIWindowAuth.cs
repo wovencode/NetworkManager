@@ -17,6 +17,7 @@ namespace Wovencode.UI
 	// ===================================================================================
 	// UIWindowAuth
 	// ===================================================================================
+	[DisallowMultipleComponent]
 	public partial class UIWindowAuth : UIRoot
 	{
 		
@@ -43,12 +44,13 @@ namespace Wovencode.UI
 		protected override void Awake()
 		{
 			singleton = this;
-			base.Awake();
 			
-#if !_SERVER
-				Hide();
-				return;
+#if _SERVER && !_CLIENT
+			Hide();
+			return;
 #endif
+			
+			base.Awake();
 			
 			serverDropdown.options = networkManager.serverList.Select(x => new Dropdown.OptionData(x.name)).ToList();
 			
@@ -128,7 +130,6 @@ namespace Wovencode.UI
 		// -------------------------------------------------------------------------------
 		protected void OnClickQuit()
 		{
-			networkManager.StopClient();
 			networkManager.Quit();
 		}
 		

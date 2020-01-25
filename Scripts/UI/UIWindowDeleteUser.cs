@@ -17,6 +17,7 @@ namespace Wovencode.UI
 	// ===================================================================================
 	// UIWindowDeleteUser
 	// ===================================================================================
+	[DisallowMultipleComponent]
 	public partial class UIWindowDeleteUser : UIRoot
 	{
 	

@@ -12,6 +12,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 using Mirror;
 #if UNITY_EDITOR
 using UnityEditor;
@@ -40,34 +41,34 @@ namespace Wovencode.Network
 		
 		[Header("System Texts")]
 		public NetworkManager_Lang systemText;
-		
-		[Header("Event Listeners")]
-		public NetworkManager_EventListeners eventListener;
+				
+		// -------------------------------------------------------------------------------
 		
 		public static new Wovencode.Network.NetworkManager singleton;
-		
-#if wPLAYER
-		public List<GameObject> playerPrefabs;
-#endif
 
 		public static Dictionary<string, GameObject> onlinePlayers = new Dictionary<string, GameObject>();
 		protected Dictionary<NetworkConnection, string> onlineUsers = new Dictionary<NetworkConnection, string>();
 		
-		[HideInInspector]public string userName 			= "";
-        [HideInInspector]public string userPassword			= "";
-        [HideInInspector]public string newPassword			= "";
-        
+		[HideInInspector]public string userName 	= "";
+        [HideInInspector]public string userPassword	= "";
+        [HideInInspector]public string newPassword	= "";
         [HideInInspector]public List<PlayerPreview> playerPreviews = new List<PlayerPreview>();
 		[HideInInspector]public int maxPlayers				= 0;
 		
+		// You can use this to show/hide UI elements based on the network state (state == NetworkState.Game)
 		[HideInInspector]public NetworkState state = NetworkState.Offline;
 		
+		// -------------------------------------------------------------------------------
+		// Awake
 		// -------------------------------------------------------------------------------
 		public override void Awake()
 		{
 			singleton = this;
-			base.Awake();
+			base.Awake(); // required
 			
+			this.InvokeInstanceDevExtMethods("AwakePriority"); // must be first
+			
+			// -- decide how to start
 #if _SERVER && _CLIENT
 			StartHost();
 #elif _SERVER
@@ -75,20 +76,16 @@ namespace Wovencode.Network
 #else
 			StartClient();
 #endif
-
-#if wPLAYER
-			FilterPlayerPrefabs();
-#else
-			debug.LogWarning("[NetworkManager] No players added to playerPrefabs list (Define #wPLAYER missing)");
-#endif
-
+			
+			this.InvokeInstanceDevExtMethods(nameof(Awake)); // must be last
+			
 		}
 
 		// -------------------------------------------------------------------------------
 		public override void Start()
 		{
-			base.Start();
-			this.InvokeInstanceDevExtMethods("Start");
+			base.Start(); // required
+			this.InvokeInstanceDevExtMethods(nameof(Start));
 		}
 		
 		// -------------------------------------------------------------------------------
@@ -108,13 +105,12 @@ namespace Wovencode.Network
 		}
 		
 		// -------------------------------------------------------------------------------
-		public string UserName(NetworkConnection conn)
+		public string GetUserName(NetworkConnection conn)
 		{
 			foreach (KeyValuePair<NetworkConnection, string> user in onlineUsers)
 				if (user.Key == conn) return user.Value;
 			
 			return "";
-
 		}
 		
 		// -------------------------------------------------------------------------------
@@ -141,9 +137,10 @@ namespace Wovencode.Network
 		public override void OnStopServer()
 		{
 #if wDB
+			// -- this closes the database connection
 			DatabaseManager.singleton.Destruct();
 #endif
-			eventListener.onStopServer.Invoke();
+			
 			this.InvokeInstanceDevExtMethods(nameof(OnStopServer));
 		}
 		
@@ -182,13 +179,12 @@ namespace Wovencode.Network
 		{
 
 #if wDB
-			DatabaseManager.singleton.LogoutUser(UserName(conn));
+			// -- this logs out the user on the database
+			DatabaseManager.singleton.LogoutUser(GetUserName(conn));
 #endif
 			if (conn.identity != null)
 			{
 			
-				eventListener.onLogoutClient.Invoke(conn);
-				
 				debug.Log("[NetworkManager] Logged out player: " + conn.identity.name);
 				
 				if (conn.identity.gameObject != null)
@@ -228,25 +224,6 @@ namespace Wovencode.Network
 			Application.Quit();
 #endif
 		}
-
-		// -------------------------------------------------------------------------------
-		// FilterPlayerPrefabs
-		// -------------------------------------------------------------------------------
-#if wPLAYER
-		protected void FilterPlayerPrefabs()
-    	{
-       		
-       		playerPrefabs = new List<GameObject>();
-        	
-        	foreach (GameObject prefab in spawnPrefabs)
-        	{
-            	PlayerComponent player = prefab.GetComponent<PlayerComponent>();
-            	if (player != null)
-               		playerPrefabs.Add(prefab);
-        	}
-        	
-    	}
-#endif
 
 		// -------------------------------------------------------------------------------
 

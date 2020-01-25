@@ -16,9 +16,6 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
 
 namespace Wovencode.Network
 {
@@ -40,15 +37,6 @@ namespace Wovencode.Network
 			return (isNetworkActive && IsConnecting());
 		}
 		
-	   	// -------------------------------------------------------------------------------
-   		// CanInput
-   		// can the user input data into any network related input field right now?
-   		// -------------------------------------------------------------------------------
-		public bool CanInput()
-		{
-			return (isNetworkActive && IsConnecting());
-		}
-   		
    		// -------------------------------------------------------------------------------
    		// CanCancel
    		// can we cancel what we are currently doing?
@@ -201,9 +189,9 @@ namespace Wovencode.Network
    		// TryRegisterPlayer
    		// 
    		// -------------------------------------------------------------------------------
-		public void TryRegisterPlayer(string name)
+		public void TryRegisterPlayer(string name, string prefabName)
 		{
-			RequestPlayerRegister(NetworkClient.connection, name, userName);
+			RequestPlayerRegister(NetworkClient.connection, name, userName, prefabName);
 		}
 		
 		// -------------------------------------------------------------------------------

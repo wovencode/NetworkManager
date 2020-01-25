@@ -17,6 +17,7 @@ namespace Wovencode.UI
 	// ===================================================================================
 	// UIWindowLoginUser
 	// ===================================================================================
+	[DisallowMultipleComponent]
 	public partial class UIWindowLoginUser : UIRoot
 	{
 		
@@ -59,18 +60,6 @@ namespace Wovencode.UI
 		}
 		
 		// -------------------------------------------------------------------------------
-		// OnDestroy
-		// -------------------------------------------------------------------------------
-		void OnDestroy()
-		{
-			
-			if (!rememberCredentials) return;
-			
-			PlayerPrefs.SetString(Constants.PlayerPrefsUserName, usernameInput.text);
-			PlayerPrefs.SetString(Constants.PlayerPrefsPassword, userpassInput.text);
-		}
-		
-		// -------------------------------------------------------------------------------
 		// ThrottledUpdate
 		// -------------------------------------------------------------------------------
 		protected override void ThrottledUpdate()
@@ -84,7 +73,7 @@ namespace Wovencode.UI
 			loginButton.interactable = networkManager.CanLoginUser(usernameInput.text, userpassInput.text);
 			loginButton.onClick.SetListener(() => { OnClickLogin(); });
 			
-			backButton.onClick.SetListener(() => { OnClickBack();  });
+			backButton.onClick.SetListener(() => { OnClickBack(); });
 
 		}
 		
@@ -95,7 +84,15 @@ namespace Wovencode.UI
 		// -------------------------------------------------------------------------------
 		public void OnClickLogin()
 		{
+		
+			if (rememberCredentials)
+			{
+				PlayerPrefs.SetString(Constants.PlayerPrefsUserName, usernameInput.text);
+				PlayerPrefs.SetString(Constants.PlayerPrefsPassword, userpassInput.text);
+			}
+			
 			networkManager.TryLoginUser(usernameInput.text, userpassInput.text);
+			Hide();
 		}
 		
 		// -------------------------------------------------------------------------------
@@ -103,8 +100,8 @@ namespace Wovencode.UI
 		// -------------------------------------------------------------------------------
 		public void OnClickBack()
 		{
-			Hide();
 			UIWindowMain.singleton.Show();
+			Hide();
 		}
 		
 		// -------------------------------------------------------------------------------

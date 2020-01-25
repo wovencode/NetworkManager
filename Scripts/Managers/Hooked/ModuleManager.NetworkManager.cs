@@ -31,7 +31,7 @@ namespace Wovencode.Modules
 			
 			module.name				= "NetworkManager";
 			module.define			= "wNETWORK";
-			module.version       	= "1.0";
+			module.version       	= "PreAlpha1";
 			module.unity3dVersion 	= "2018.x-2019.x";
 			module.nameSpace		= "Wovencode.Network";
         	module.package         	= "Wovencore";

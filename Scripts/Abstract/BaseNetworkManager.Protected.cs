@@ -62,9 +62,9 @@ namespace Wovencode.Network
 		}
 		
 		// -------------------------------------------------------------------------------
-		protected virtual bool RequestPlayerRegister(NetworkConnection conn, string name, string username)
+		protected virtual bool RequestPlayerRegister(NetworkConnection conn, string name, string username, string prefabname)
 		{
-			return (Tools.IsAllowedName(name) && Tools.IsAllowedName(username));
+			return (Tools.IsAllowedName(name) && Tools.IsAllowedName(username) && !String.IsNullOrWhiteSpace(prefabname));
 		}
 		
 		// -------------------------------------------------------------------------------

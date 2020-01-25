@@ -4,41 +4,39 @@
 // MIT licensed
 // =======================================================================================
 
+using Wovencode;
+using Wovencode.Database;
+using Wovencode.Network;
 using UnityEngine;
 using System;
-using Mirror;
 using System.Collections.Generic;
-using Wovencode;
-using Wovencode.Network;
-using Wovencode.DebugManager;
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
 
-namespace Wovencode.Network
+namespace Wovencode.Database
 {
-	
+
 	// ===================================================================================
-	// BaseNetworkManager
+	// DatabaseManager
 	// ===================================================================================
-	public abstract partial class BaseNetworkManager : Mirror.NetworkManager
+	public partial class DatabaseManager
 	{
 
-		[Header("Debug Helper")]
-		public DebugHelper debug;
-		
 		// -------------------------------------------------------------------------------
-		// Awake (Base)
+		// GetPlayers
 		// -------------------------------------------------------------------------------
-		public override void Awake()
+		public List<PlayerPreview> GetPlayers(string username)
 		{
-			debug = new DebugHelper();
-			debug.Init();
-			base.Awake(); // required
+			List<TablePlayer> results = Query<TablePlayer>("SELECT * FROM "+nameof(TablePlayer)+" WHERE username=? AND deleted=0 AND banned=0", username);
+			
+			List<PlayerPreview> players = new List<PlayerPreview>();
+			
+			foreach (TablePlayer result in results)
+				players.Add(new PlayerPreview { name = result.name} );
+			
+			return players;
 		}
-		
-		// -------------------------------------------------------------------------------
 
+		// -------------------------------------------------------------------------------
+		
 	}
 
 }

@@ -157,14 +157,15 @@ namespace Wovencode.Network
         // RequestPlayerRegister
         // @Client
 		// -------------------------------------------------------------------------------
-		protected override bool RequestPlayerRegister(NetworkConnection conn, string name, string username)
+		protected override bool RequestPlayerRegister(NetworkConnection conn, string playerName, string userName, string prefabName)
 		{
-			if (!base.RequestPlayerRegister(conn, name, username)) return false;
+			if (!base.RequestPlayerRegister(conn, playerName, userName, prefabName)) return false;
 			
 			ClientMessageRequestPlayerRegister message = new ClientMessageRequestPlayerRegister
 			{
-				playername = name,
-				username = userName
+				playername 	= playerName,
+				username 	= userName,
+				prefabname 	= prefabName
 			};
 			
 			conn.Send(message);
@@ -177,13 +178,13 @@ namespace Wovencode.Network
         // RequestPlayerDelete
         // @Client
 		// -------------------------------------------------------------------------------
-		protected override bool RequestPlayerDelete(NetworkConnection conn, string name, string username, int action=1)
+		protected override bool RequestPlayerDelete(NetworkConnection conn, string playerName, string userName, int action=1)
 		{
-			if (!base.RequestPlayerDelete(conn, name, username)) return false;
+			if (!base.RequestPlayerDelete(conn, playerName, userName)) return false;
 			
 			ClientMessageRequestPlayerDelete message = new ClientMessageRequestPlayerDelete
 			{
-				playername = name,
+				playername = playerName,
 				username = userName
 			};
 			
@@ -197,16 +198,16 @@ namespace Wovencode.Network
         // RequestPlayerSwitchServer
         // @Client
 		// -------------------------------------------------------------------------------
-		protected override bool RequestPlayerSwitchServer(NetworkConnection conn, string name, int _token=0)
+		protected override bool RequestPlayerSwitchServer(NetworkConnection conn, string playerName, int _token=0)
 		{
 			
 			_token = Tools.GenerateToken();
 			
-			if (!base.RequestPlayerSwitchServer(conn, name, _token)) return false;
+			if (!base.RequestPlayerSwitchServer(conn, playerName, _token)) return false;
 			
 			ClientMessageRequestPlayerSwitchServer message = new ClientMessageRequestPlayerSwitchServer
 			{
-				username = name,
+				username = playerName,
 				token = _token
 			};
 			

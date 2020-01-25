@@ -17,6 +17,7 @@ namespace Wovencode.UI
 	// ===================================================================================
 	// UIWindowChangePasswordUser
 	// ===================================================================================
+	[DisallowMultipleComponent]
 	public partial class UIWindowChangePasswordUser : UIRoot
 	{
 	

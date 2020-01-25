@@ -4,39 +4,45 @@
 // MIT licensed
 // =======================================================================================
 
+using Wovencode;
+using Wovencode.Database;
 using UnityEngine;
 using System;
-using Mirror;
+using System.IO;
 using System.Collections.Generic;
-using Wovencode;
-using Wovencode.Network;
-using Wovencode.DebugManager;
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
+using SQLite;
 
-namespace Wovencode.Network
+namespace Wovencode.Database
 {
 	
 	// ===================================================================================
-	// BaseNetworkManager
+	// Database
 	// ===================================================================================
-	public abstract partial class BaseNetworkManager : Mirror.NetworkManager
+	public partial class DatabaseManager
 	{
+		
+		// -------------------------------------------------------------------------------
+		// SavePlayers
+		// -------------------------------------------------------------------------------
+		[DevExtMethods("SavePlayers")]
+		void SavePlayers_Network(bool online = true)
+    	{
 
-		[Header("Debug Helper")]
-		public DebugHelper debug;
-		
-		// -------------------------------------------------------------------------------
-		// Awake (Base)
-		// -------------------------------------------------------------------------------
-		public override void Awake()
-		{
-			debug = new DebugHelper();
-			debug.Init();
-			base.Awake(); // required
-		}
-		
+    		if (Wovencode.Network.NetworkManager.onlinePlayers.Count == 0)
+    			return; 
+    		
+        	databaseLayer.BeginTransaction();
+        	
+        	foreach (GameObject player in Wovencode.Network.NetworkManager.onlinePlayers.Values)
+            	SaveDataPlayer(player, online, false);
+            
+        	databaseLayer.Commit();
+        	
+        	if (Wovencode.Network.NetworkManager.onlinePlayers.Count > 0)
+        		debug.Log("[Database] Saved " + Wovencode.Network.NetworkManager.onlinePlayers.Count + " player(s)");
+
+    	}
+    	
 		// -------------------------------------------------------------------------------
 
 	}
