@@ -44,24 +44,7 @@ namespace Wovencode.UI
 		protected override void Awake()
 		{
 			singleton = this;
-			
-#if _SERVER && !_CLIENT
-			Hide();
-			return;
-#endif
-			
 			base.Awake();
-			
-			serverDropdown.options = networkManager.serverList.Select(x => new Dropdown.OptionData(x.name)).ToList();
-			
-			if (rememberServer && PlayerPrefs.HasKey(Constants.PlayerPrefsLastServer))
-			{
-				string lastServer = PlayerPrefs.GetString(Constants.PlayerPrefsLastServer, "");
-				serverDropdown.value = networkManager.serverList.FindIndex(s => s.name == lastServer);
-			}
-			
-			networkManager.networkAddress = networkManager.serverList[serverDropdown.value].ip;
-			
 		}
 		
 		// -------------------------------------------------------------------------------
@@ -72,6 +55,16 @@ namespace Wovencode.UI
 			base.Show();
 			
 			connectTimer = -1;
+			
+			serverDropdown.options = networkManager.serverList.Select(x => new Dropdown.OptionData(x.name)).ToList();
+			
+			if (rememberServer && PlayerPrefs.HasKey(Constants.PlayerPrefsLastServer))
+			{
+				string lastServer = PlayerPrefs.GetString(Constants.PlayerPrefsLastServer, "");
+				serverDropdown.value = networkManager.serverList.FindIndex(s => s.name == lastServer);
+			}
+			
+			networkManager.networkAddress = networkManager.serverList[serverDropdown.value].ip;
 			
 			if (networkAuthenticator.connectTimeout > 0)
 				Invoke(nameof(Timeout), networkAuthenticator.connectTimeout);

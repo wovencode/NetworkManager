@@ -8,7 +8,7 @@ using System;
 using UnityEngine;
 using Wovencode;
 using Wovencode.Network;
-using MIrror;
+using Mirror;
 
 namespace Wovencode.Network
 {
@@ -16,14 +16,13 @@ namespace Wovencode.Network
 	// ===================================================================================
 	// NetworkStartPosition
 	// ===================================================================================
-	[DisallowMultipleComponents]
+	[DisallowMultipleComponent]
 	public partial class NetworkStartPosition : Mirror.NetworkStartPosition
 	{
-		
-		public GameObject[] playerPrefab;
-		public ArchetypeTemplate[] archeType;
-		
-
+		[Tooltip("Add any number of archetypes")]
+		public ArchetypeTemplate[] archeTypes;
 	}
-		
+	
+	// -----------------------------------------------------------------------------------
+	
 }

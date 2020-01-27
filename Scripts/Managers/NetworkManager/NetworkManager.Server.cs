@@ -351,7 +351,7 @@ namespace Wovencode.Network
 				this.InvokeInstanceDevExtMethods(nameof(LoginPlayer), prefab, username);
 
 				GameObject player = DatabaseManager.singleton.LoadDataPlayer(prefab, playername);
-				
+				ValidatePlayerPosition(player);
 				NetworkServer.AddPlayerForConnection(conn, player);
 				onlinePlayers[player.name] = player;
 				state = NetworkState.Game;
