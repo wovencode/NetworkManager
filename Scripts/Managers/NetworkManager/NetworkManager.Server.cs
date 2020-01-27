@@ -225,7 +225,7 @@ namespace Wovencode.Network
 			
 			if (DatabaseManager.singleton.TryPlayerLogin(msg.playername, msg.username))
 			{
-				LoginPlayer(conn, msg.playername);
+				LoginPlayer(conn, msg.username, msg.playername);
 				message.text = systemText.playerLoginSuccess;
 			}
 			else
@@ -254,7 +254,7 @@ namespace Wovencode.Network
         	
         	if (DatabaseManager.singleton.TryPlayerRegister(msg.playername, msg.username, msg.prefabname))
 			{
-				RegisterPlayer(msg.playername, msg.prefabname);
+				RegisterPlayer(msg.username, msg.playername, msg.prefabname);
 				message.text = systemText.playerRegisterSuccess;
 			}
 			else
@@ -340,23 +340,22 @@ namespace Wovencode.Network
 		// LoginPlayer
 		// @Server
 		// -------------------------------------------------------------------------------
-		protected void LoginPlayer(NetworkConnection conn, string name)
+		protected void LoginPlayer(NetworkConnection conn, string username, string playername)
 		{
-			if (!AccountLoggedIn(name))
+			if (!AccountLoggedIn(playername))
 			{
-				GameObject prefab;
-#if wDB && wNETWORK
-				string prefabname = DatabaseManager.singleton.GetPlayerPrefabName(name);
-				prefab = playerPrefabs.Find(p => p.name == prefabname);
-#else
-				prefab = playerPrefab;
-#endif
-				GameObject player = DatabaseManager.singleton.LoadDataPlayer(prefab, name);
+			
+				string prefabname = DatabaseManager.singleton.GetPlayerPrefabName(playername);
+				GameObject prefab = GetPlayerPrefab(prefabname);
+				
+				this.InvokeInstanceDevExtMethods(nameof(LoginPlayer), prefab, username);
+
+				GameObject player = DatabaseManager.singleton.LoadDataPlayer(prefab, playername);
+				
 				NetworkServer.AddPlayerForConnection(conn, player);
 				onlinePlayers[player.name] = player;
 				state = NetworkState.Game;
 				
-				this.InvokeInstanceDevExtMethods(nameof(LoginPlayer));
 			}
 			else
 				ServerSendError(conn, systemText.userAlreadyOnline, true);
@@ -366,18 +365,18 @@ namespace Wovencode.Network
 		// RegisterPlayer
 		// @Server
 		// -------------------------------------------------------------------------------
-		protected void RegisterPlayer(string playername, string prefabname)
+		protected void RegisterPlayer(string username, string playername, string prefabname)
 		{
-			GameObject prefab;
-#if wNETWORK
-			prefab = playerPrefabs.Find(p => p.name == prefabname);
-#else
-			prefab = playerPrefab;
-#endif
+
+			GameObject prefab = GetPlayerPrefab(prefabname);
 			GameObject player = Instantiate(prefab);
 			player.name = playername;
+			
+			this.InvokeInstanceDevExtMethods(nameof(RegisterPlayer), player, username, prefabname);
+		
 			DatabaseManager.singleton.CreateDefaultDataPlayer(player);
 			DatabaseManager.singleton.SaveDataPlayer(player, false);
+			
 			Destroy(player);
 		}
 		

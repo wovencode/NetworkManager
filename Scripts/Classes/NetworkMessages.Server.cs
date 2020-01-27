@@ -99,9 +99,7 @@ namespace Wovencode.Network
 		public void LoadPlayerPreviews(List<PlayerPreview> _players)
 		{
 			players = new PlayerPreview[_players.Count];
-			
 			players = _players.ToArray();
-			
 		}
 		
 	}
@@ -123,7 +121,7 @@ namespace Wovencode.Network
 	// -----------------------------------------------------------------------------------
 	public partial class ServerMessageResponsePlayerRegister : ServerMessageResponse
 	{
-		
+
 	}	
 	
 	// -----------------------------------------------------------------------------------
@@ -132,7 +130,7 @@ namespace Wovencode.Network
 	// -----------------------------------------------------------------------------------
 	public partial class ServerMessageResponsePlayerDelete : ServerMessageResponse
 	{
-		
+
 	}
 	
 	// -----------------------------------------------------------------------------------

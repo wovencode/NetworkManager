@@ -56,6 +56,15 @@ namespace Wovencode.UI
 		}
 		
 		// -------------------------------------------------------------------------------
+		// Show
+		// -------------------------------------------------------------------------------
+		public override void Show()
+		{
+			UpdatePlayerPreviews(true);
+			base.Show();
+		}
+		
+		// -------------------------------------------------------------------------------
 		// ThrottledUpdate
 		// -------------------------------------------------------------------------------
 		protected override void ThrottledUpdate()
@@ -96,6 +105,7 @@ namespace Wovencode.UI
 				GameObject.Destroy(contentViewport.GetChild(i).gameObject);
 			
 			int _index = 0;
+			buttonGroup.buttons.Clear();
 			
 			foreach (PlayerPreview player in networkManager.playerPreviews)
 			{
@@ -148,6 +158,7 @@ namespace Wovencode.UI
 		public void OnClickDelete()
 		{	
 			UIPopupPrompt.singleton.Init(popupDescription, "", "", OnClickConfirmDelete);
+			Hide();
 		}
 		
 		// -------------------------------------------------------------------------------
@@ -176,6 +187,7 @@ namespace Wovencode.UI
 		public void OnClickConfirmDelete()
 		{
 			networkManager.TryDeletePlayer(networkManager.playerPreviews[index].name);
+			Show();
 		}
 		
 		// -------------------------------------------------------------------------------

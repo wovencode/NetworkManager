@@ -92,7 +92,7 @@ namespace Wovencode.UI
 			}
 			
 			networkManager.TryLoginUser(usernameInput.text, userpassInput.text);
-			Hide();
+
 		}
 		
 		// -------------------------------------------------------------------------------

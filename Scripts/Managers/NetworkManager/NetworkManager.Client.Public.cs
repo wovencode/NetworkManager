@@ -30,6 +30,7 @@ namespace Wovencode.Network
    		
    		// -------------------------------------------------------------------------------
    		// CanClick
+   		// @Client
    		// can any network related button be clicked at the moment?
    		// -------------------------------------------------------------------------------
 		public bool CanClick()
@@ -39,6 +40,7 @@ namespace Wovencode.Network
 		
    		// -------------------------------------------------------------------------------
    		// CanCancel
+   		// @Client
    		// can we cancel what we are currently doing?
    		// -------------------------------------------------------------------------------
 		public bool CanCancel()
@@ -48,6 +50,7 @@ namespace Wovencode.Network
    		
 		// -------------------------------------------------------------------------------
    		// CanLoginUser
+   		// @Client
    		// can we login into an existing user with the provided name and password?
    		// -------------------------------------------------------------------------------
 		public bool CanLoginUser(string name, string password)
@@ -60,6 +63,7 @@ namespace Wovencode.Network
 
 		// -------------------------------------------------------------------------------
    		// CanRegisterUser
+   		// @Client
    		// can we register a new user with the provided name and password?
    		// -------------------------------------------------------------------------------
 		public bool CanRegisterUser(string name, string password)
@@ -72,6 +76,7 @@ namespace Wovencode.Network
 
 		// -------------------------------------------------------------------------------
    		// CanDeleteUser
+   		// @Client
    		// can we delete an user with the provided name and password?
    		// -------------------------------------------------------------------------------
 		public bool CanDeleteUser(string name, string password)
@@ -84,6 +89,7 @@ namespace Wovencode.Network
 		
 		// -------------------------------------------------------------------------------
    		// CanChangePasswordUser
+   		// @Client
    		// can we change the provided users password?
    		// -------------------------------------------------------------------------------
 		public bool CanChangePasswordUser(string name, string oldpassword, string newpassword)
@@ -97,6 +103,7 @@ namespace Wovencode.Network
 		
 		// -------------------------------------------------------------------------------
    		// CanStartServer
+   		// @Client
    		// can we start a server (host only) right now?
    		// -------------------------------------------------------------------------------
 		public bool CanStartServer()
@@ -110,6 +117,7 @@ namespace Wovencode.Network
 
 		// -------------------------------------------------------------------------------
    		// TryLoginUser
+   		// @Client
    		// we try to login into an existing user using name and password provided
    		// -------------------------------------------------------------------------------
 		public void TryLoginUser(string name, string password)
@@ -124,6 +132,7 @@ namespace Wovencode.Network
 		
 		// -------------------------------------------------------------------------------
    		// TryRegisterUser
+   		// @Client
    		// we try to register a new User with name and password provided
    		// -------------------------------------------------------------------------------
 		public void TryRegisterUser(string name, string password, string email)
@@ -138,6 +147,7 @@ namespace Wovencode.Network
 		
 		// -------------------------------------------------------------------------------
    		// TryDeleteUser
+   		// @Client
    		// we try to delete an existing User according to its name and password
    		// -------------------------------------------------------------------------------
 		public void TryDeleteUser(string name, string password)
@@ -152,6 +162,7 @@ namespace Wovencode.Network
 		
 		// -------------------------------------------------------------------------------
    		// TryChangePasswordUser
+   		// @Client
    		// we try to delete an existing User according to its name and password
    		// -------------------------------------------------------------------------------
 		public void TryChangePasswordUser(string name, string oldpassword, string newpassword)
@@ -167,6 +178,7 @@ namespace Wovencode.Network
 		
 		// -------------------------------------------------------------------------------
    		// TryConfirmUser
+   		// @Client
    		// we try to confirm an existing User according to its name and password
    		// -------------------------------------------------------------------------------
 		public void TryConfirmUser(string name, string password)
@@ -178,7 +190,7 @@ namespace Wovencode.Network
 
 		// -------------------------------------------------------------------------------
    		// TryLoginPlayer
-   		// 
+   		// @Client
    		// -------------------------------------------------------------------------------
 		public void TryLoginPlayer(string name)
 		{
@@ -187,26 +199,35 @@ namespace Wovencode.Network
 		
 		// -------------------------------------------------------------------------------
    		// TryRegisterPlayer
-   		// 
+   		// @Client
    		// -------------------------------------------------------------------------------
-		public void TryRegisterPlayer(string name, string prefabName)
+		public void TryRegisterPlayer(string playerName, string prefabName)
 		{
-			RequestPlayerRegister(NetworkClient.connection, name, userName, prefabName);
+			if (RequestPlayerRegister(NetworkClient.connection, playerName, userName, prefabName))
+			{
+				playerPreviews.Add(new PlayerPreview{name=playerName});
+			}
 		}
 		
 		// -------------------------------------------------------------------------------
    		// TryDeletePlayer
-   		// 
+   		// @Client
    		// -------------------------------------------------------------------------------
-		public void TryDeletePlayer(string name)
+		public void TryDeletePlayer(string playerName)
 		{			
-			RequestPlayerDelete(NetworkClient.connection, name, userName);
+			if (RequestPlayerDelete(NetworkClient.connection, playerName, userName))
+			{
+				for (int i = 0; i < playerPreviews.Count; i++)
+					if (playerPreviews[i].name == playerName)
+						playerPreviews.RemoveAt(i);
+			}
 		}
 		
 		// ======================== PUBLIC METHODS - OTHER ===============================
 		
 		// -------------------------------------------------------------------------------
    		// TryStartServer
+   		// @Client
    		// we try to start a server (host only) if possible
    		// -------------------------------------------------------------------------------
 		public void TryStartServer()
@@ -217,6 +238,7 @@ namespace Wovencode.Network
 	
 		// -------------------------------------------------------------------------------
    		// TryCancel
+   		// @Client
    		// we try to cancel whatever we are doing right now
    		// -------------------------------------------------------------------------------
 		public void TryCancel()

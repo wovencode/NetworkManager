@@ -58,7 +58,7 @@ namespace Wovencode.Network
 		// -------------------------------------------------------------------------------
 		public void ClientAuthenticate()
 		{
-       Debug.Log("???????????????????????");
+
             ClientMessageRequestAuth authRequestMessage = new ClientMessageRequestAuth
             {
                 clientVersion = Application.version
@@ -93,7 +93,6 @@ namespace Wovencode.Network
                	base.OnClientAuthenticated.Invoke(conn);
                	UIWindowAuth.singleton.Hide();
                	UIWindowMain.singleton.Show();
-               	Debug.Log("-------------------------------------");
             }
         	
         }

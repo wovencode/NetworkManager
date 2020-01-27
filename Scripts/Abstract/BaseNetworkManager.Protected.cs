@@ -20,6 +20,9 @@ namespace Wovencode.Network
 	public abstract partial class BaseNetworkManager
 	{
 		
+		// ====================== PUBLIC METHODS - GENERAL ===============================
+		
+		protected abstract GameObject GetPlayerPrefab(string playerName);
 		
     	// ======================= PUBLIC METHODS - USER =================================
     	
