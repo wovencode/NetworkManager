@@ -31,8 +31,8 @@ namespace Wovencode.Network
 	{
 		
 		[Header("Security")]
-    	public string userNameSalt = "at_least_16_byte";
-		
+    	public string userNameSalt = "16_or_more_bytes";
+
 		[Header("Servers")]
 		public List<ServerInfo> serverList = new List<ServerInfo>()
 		{

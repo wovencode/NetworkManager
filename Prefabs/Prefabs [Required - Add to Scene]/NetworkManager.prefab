@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 3252435991396032036}
   - component: {fileID: 3252435991396032038}
   - component: {fileID: 1275635640388507688}
+  - component: {fileID: 3252435990677973888}
   m_Layer: 0
   m_Name: NetworkManager
   m_TagString: Untagged
@@ -49,7 +50,7 @@ MonoBehaviour:
   dontDestroyOnLoad: 1
   runInBackground: 1
   startOnHeadless: 1
-  serverTickRate: 30
+  serverTickRate: 60
   showDebugMessages: 0
   offlineScene: 
   onlineScene: 
@@ -58,7 +59,7 @@ MonoBehaviour:
   maxConnections: 500
   authenticator: {fileID: 3252435991396032038}
   playerPrefab: {fileID: 0}
-  autoCreatePlayer: 1
+  autoCreatePlayer: 0
   playerSpawnMethod: 0
   spawnPrefabs:
   - {fileID: 7930793167279634983, guid: 3d9a7edd4cf1e4770a927af357620f5a, type: 3}
@@ -66,10 +67,10 @@ MonoBehaviour:
   - {fileID: 7930793167279634983, guid: 65bddf07b790a4600ad27cee15356108, type: 3}
   - {fileID: 7930793167279634983, guid: c2ba7e64b2a3e4380806ca5054392be5, type: 3}
   - {fileID: 7930793167279634983, guid: 6fbf7df69c5a745d5995ad5e12def5b1, type: 3}
-  sortCategories: []
   debug:
     debugMode: 1
-  userNameSalt: at_least_16_byte
+  sortCategories: []
+  userNameSalt: 16_or_more_bytes
   serverList:
   - name: Local
     ip: localhost
@@ -94,73 +95,14 @@ MonoBehaviour:
     playerDeleteFailure: Delete player failed!
     playerSwitchServerSuccess: Server switch successful!
     playerSwitchServerFailure: Server switch failed!
-  eventListener:
-    onStartServer:
-      m_PersistentCalls:
-        m_Calls: []
-      m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-    onStopServer:
-      m_PersistentCalls:
-        m_Calls: []
-      m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-    onStartClient:
-      m_PersistentCalls:
-        m_Calls: []
-      m_TypeName: Wovencode.UnityEventGameObject, Assembly-CSharp, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-    onLogoutClient:
-      m_PersistentCalls:
-        m_Calls: []
-      m_TypeName: Wovencode.UnityEventConnection, Assembly-CSharp, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-    onUserRegister:
-      m_PersistentCalls:
-        m_Calls: []
-      m_TypeName: Wovencode.UnityEventString, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
-    onUserLogin:
-      m_PersistentCalls:
-        m_Calls: []
-      m_TypeName: Wovencode.UnityEventConnection, Assembly-CSharp, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-    onUserDelete:
-      m_PersistentCalls:
-        m_Calls: []
-      m_TypeName: Wovencode.UnityEventString, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
-    onUserConfirm:
-      m_PersistentCalls:
-        m_Calls: []
-      m_TypeName: Wovencode.UnityEventString, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
-    onPlayerRegister:
-      m_PersistentCalls:
-        m_Calls: []
-      m_TypeName: Wovencode.UnityEventString, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
-    onPlayerLogin:
-      m_PersistentCalls:
-        m_Calls: []
-      m_TypeName: Wovencode.UnityEventGameObject, Assembly-CSharp, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
-    onPlayerDelete:
-      m_PersistentCalls:
-        m_Calls: []
-      m_TypeName: Wovencode.UnityEventString, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
-    onPlayerSwitchServer:
-      m_PersistentCalls:
-        m_Calls: []
-      m_TypeName: Wovencode.UnityEventString, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-        PublicKeyToken=null
-  playerPrefabs: []
   userName: 
   userPassword: 
   newPassword: 
   maxPlayers: 0
   state: 0
+  guiScene:
+    sceneAsset: {fileID: 102900000, guid: 4a25c1de28bc2489d9c68ea564410fc7, type: 3}
+    sceneName: UI Scene
 --- !u!114 &3252435991396032036
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -258,6 +200,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17fe70f41c05b4db0854b836b71eec77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  modulesConfigTemplate: {fileID: 11400000, guid: b4eb59463bc2f413b99af9cb46655f0d,
+    type: 2}
   projectConfigTemplate: {fileID: 11400000, guid: 7f1030086e7bb45ad82c97342a5ade49,
     type: 2}
   gameRulesTemplate: {fileID: 11400000, guid: 81b1bccee2cc74db09102b9c49833726, type: 2}
+--- !u!114 &3252435990677973888
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3252435991396032041}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 797c1269bcab047d18ac3dde2df41d51, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  preloadTemplates:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  preloadOnAwake: 0
