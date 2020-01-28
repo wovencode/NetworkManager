@@ -46,8 +46,14 @@ namespace Wovencode.UI
 			
 			if (PlayerPrefs.HasKey(Constants.PlayerPrefsUserName))
 				usernameInput.text = PlayerPrefs.GetString(Constants.PlayerPrefsUserName, "");
+			else
+				usernameInput.text = "";
+				
 			if (PlayerPrefs.HasKey(Constants.PlayerPrefsPassword))
 				userpassInput.text = PlayerPrefs.GetString(Constants.PlayerPrefsPassword, "");
+			else
+				userpassInput.text = "";
+				
 		}
 		
 		// -------------------------------------------------------------------------------

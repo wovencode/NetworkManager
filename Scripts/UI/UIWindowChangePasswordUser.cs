@@ -59,6 +59,13 @@ namespace Wovencode.UI
 		protected void OnClickChangePassword()
 		{
 			networkManager.TryChangePasswordUser(usernameInput.text, oldUserPassInput.text, newUserPassInput.text);
+			
+			Tools.PlayerPrefsSetString(Constants.PlayerPrefsPassword, newUserPassInput.text, oldUserPassInput.text);
+			
+			usernameInput.text = "";
+			oldUserPassInput.text = "";
+			newUserPassInput.text = "";
+			
 		}
 		
 		// -------------------------------------------------------------------------------

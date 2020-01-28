@@ -83,6 +83,13 @@ namespace Wovencode.UI
 		public void OnClickConfirmDelete()
 		{
 			networkManager.TryDeleteUser(usernameInput.text, userpassInput.text);
+			
+			Tools.PlayerPrefsSetString(Constants.PlayerPrefsUserName, "", usernameInput.text);
+			Tools.PlayerPrefsSetString(Constants.PlayerPrefsPassword, "", userpassInput.text);
+			
+			usernameInput.text = "";
+			userpassInput.text = "";
+			
 		}
 		
 		// -------------------------------------------------------------------------------
