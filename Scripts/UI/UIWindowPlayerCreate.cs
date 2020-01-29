@@ -94,7 +94,8 @@ namespace Wovencode.UI
 		{	
 			string prefabName = networkManager.playerPrefabs[index].name;
 			networkManager.TryRegisterPlayer(playernameInput.text, prefabName);
-			//Hide();
+			selectWindow.Show();
+			Hide();
 		}
 		
 		// -------------------------------------------------------------------------------

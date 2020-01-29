@@ -75,7 +75,7 @@ namespace Wovencode.Network
         	
         	if (msg.success)
         	{
-				playerPreviews = new List<PlayerPreview>();
+				playerPreviews.Clear();
 				playerPreviews.AddRange(msg.players);
 				maxPlayers	= msg.maxPlayers;
 				UIWindowLoginUser.singleton.Hide();
@@ -122,7 +122,7 @@ namespace Wovencode.Network
         
         	if (msg.success)
         	{
-				playerPreviews = new List<PlayerPreview>();
+				playerPreviews.Clear();
 				playerPreviews.AddRange(msg.players);
 				maxPlayers	= msg.maxPlayers;
 			}
