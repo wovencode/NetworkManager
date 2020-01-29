@@ -56,15 +56,24 @@ namespace Wovencode.UI
 			
 			connectTimer = -1;
 			
-			serverDropdown.options = networkManager.serverList.Select(x => new Dropdown.OptionData(x.name)).ToList();
+			serverDropdown.options.Clear();
+			
+			foreach (ServerInfoTemplate template in ProjectConfigTemplate.singleton.serverList)
+			{
+				if (template.visible)
+					serverDropdown.options.Add(new Dropdown.OptionData(template.title));
+			}
 			
 			if (rememberServer && PlayerPrefs.HasKey(Constants.PlayerPrefsLastServer))
 			{
 				string lastServer = PlayerPrefs.GetString(Constants.PlayerPrefsLastServer, "");
-				serverDropdown.value = networkManager.serverList.FindIndex(s => s.name == lastServer);
+				
+				for (int i = 0; i < ProjectConfigTemplate.singleton.serverList.Length; i++)
+					if (ProjectConfigTemplate.singleton.serverList[i].visible && ProjectConfigTemplate.singleton.serverList[i].title == lastServer)
+						serverDropdown.value = i;
 			}
 			
-			networkManager.networkAddress = networkManager.serverList[serverDropdown.value].ip;
+			networkManager.networkAddress = ProjectConfigTemplate.singleton.serverList[serverDropdown.value].ip;
 			
 			if (networkAuthenticator.connectTimeout > 0)
 				Invoke(nameof(Timeout), networkAuthenticator.connectTimeout);
@@ -143,7 +152,7 @@ namespace Wovencode.UI
 			if (rememberServer)
 				PlayerPrefs.SetString(Constants.PlayerPrefsLastServer, serverDropdown.captionText.text);
 			
-            networkManager.networkAddress = networkManager.serverList[serverDropdown.value].ip;
+            networkManager.networkAddress = ProjectConfigTemplate.singleton.serverList[serverDropdown.value].ip;
 		}
 		
 		// -------------------------------------------------------------------------------
