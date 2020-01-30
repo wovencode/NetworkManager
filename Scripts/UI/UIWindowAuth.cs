@@ -117,7 +117,7 @@ namespace Wovencode.UI
 		// -------------------------------------------------------------------------------
 		protected void Timeout()
 		{
-			UIPopupConfirm.singleton.Init(systemTexts.serverOffline, "", OnClickQuit);
+			UIPopupConfirm.singleton.Init(systemTexts.serverOffline, OnClickQuit);
 		}
 		
 		// =============================== BUTTON HANDLERS ===============================

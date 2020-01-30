@@ -130,7 +130,6 @@ namespace Wovencode.Network
 			DatabaseManager.singleton.Destruct();
 #endif
 			
-			this.InvokeInstanceDevExtMethods(nameof(OnStopServer));
 		}
 		
 		// -------------------------------------------------------------------------------

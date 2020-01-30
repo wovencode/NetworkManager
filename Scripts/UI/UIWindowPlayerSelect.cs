@@ -152,7 +152,7 @@ namespace Wovencode.UI
 		// -------------------------------------------------------------------------------
 		public void OnClickDelete()
 		{	
-			UIPopupPrompt.singleton.Init(popupDescription, "", "", OnClickConfirmDelete);
+			UIPopupPrompt.singleton.Init(popupDescription, OnClickConfirmDelete);
 			Hide();
 		}
 		

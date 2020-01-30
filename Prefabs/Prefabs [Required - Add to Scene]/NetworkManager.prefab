@@ -62,8 +62,6 @@ MonoBehaviour:
   autoCreatePlayer: 0
   playerSpawnMethod: 0
   spawnPrefabs:
-  - {fileID: 7930793167279634983, guid: 3d9a7edd4cf1e4770a927af357620f5a, type: 3}
-  - {fileID: 563306626685466763, guid: fd7eb4b6732ce43fa925f4063c3c1cd1, type: 3}
   - {fileID: 7930793167279634983, guid: 65bddf07b790a4600ad27cee15356108, type: 3}
   - {fileID: 7930793167279634983, guid: c2ba7e64b2a3e4380806ca5054392be5, type: 3}
   - {fileID: 7930793167279634983, guid: 6fbf7df69c5a745d5995ad5e12def5b1, type: 3}
@@ -71,9 +69,6 @@ MonoBehaviour:
     debugMode: 1
   sortCategories: []
   userNameSalt: 16_or_more_bytes
-  serverList:
-  - name: Local
-    ip: localhost
   systemText:
     clientDisconnected: Disconnected.
     userAlreadyOnline: User is already online!

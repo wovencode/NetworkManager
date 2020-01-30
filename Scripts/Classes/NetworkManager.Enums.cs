@@ -17,6 +17,7 @@ namespace Wovencode.Network
 		Client,
 		Server,
 		HostAndPlay,
+		Development
 	}
 	
 }
